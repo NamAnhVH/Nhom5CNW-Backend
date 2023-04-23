@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký</title>
+    <link rel="stylesheet" href="/css/register.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<div id="header">
+    <a class="logo-head" title="Trang chủ" href="/homepage.html">
+        <img class="logo-header" src="/image/Hust-logo.jpg" alt="">
+    </a>
+    <ul class="action-tool">
+        <li class="login-btn">
+            <a href="/login/loginForm"  title="Đăng nhập">Đăng nhập</a>
+        </li>
+        <li class="login-btn">
+            <a href="/login/registerForm" title="Đăng ký tài khoản">Đăng ký</a>
+        </li>
+    </ul>
+</div>
+<div id="main">
+    <div class="sign-up__header" th:unless="${param.success}">
+        <h3 class="sign-up__heading">Tạo tài khoản của bạn</h3>
+        <form class="form-sign-up" action="#" th:action="@{/login/registerForm}" th:object="${newUser}" method="post">
+
+            <div class="sign-up__box">
+                <input type="text" id="hoten" th:field="*{hoTen}" class="sign-up__input" name="hoten" placeholder="Họ và tên" required>
+                <input type="text" id="username" th:field="*{username}" class="sign-up__input" name="username" placeholder="Tên tài khoản" required>
+                <!-- <input type="text" id="sdt" class="sign-up__input" placeholder="Số điện thoại"> -->
+                <input type="password" id="password" th:field="*{password}" class="sign-up__input" name="password" placeholder="Mật khẩu" required>
+                <!-- <input type="password" class="sign-up__input" placeholder="Xác nhận mật khẩu"> -->
+                <select name="role" id="role" th:field="*{role}">
+                    <option value="hoc-sinh">Học Sinh</option>
+                    <option value="giao-vien">Giáo Viên</option>
+                </select>
+            </div>
+
+            <!-- <div class="sign-up__facebook">
+                <a href="" class="btn">
+                    <i class="fa-brands fa-facebook-f logo-btn" style="color: #ffffff;"></i>
+                    <div class="social-text">Đăng ký qua Facebook</div>
+                </a>
+            </div>
+            <div class="sign-up__google">
+                <a href="" class="btn">
+                    <i class="fa-brands fa-google logo-btn" style="color: #ffffff;"></i>
+                    <div>Đăng ký qua Google</div>
+                </a>
+            </div> -->
+            <div class="sign-up__aside">
+                <p class="sign-up__policy-text">
+                    (*) Khi bấm vào đăng ký tài khoản, bạn chắc chắn đã đọc và đồng ý với
+                    <a href="" class="sign-up__policy-link">Chính sách bảo mật, Điều khoản dịch vụ và chính sách tư vấn</a>
+                </p>
+            </div>
+            <div class="sign-up__button">
+                <input type="submit" value="Đăng ký" class="sign-up-button">
+            </div>
+            <div th:if="${param.existAccount}" class="labelThongBao">
+                <p>Tài khoản đã tồn tại, xin mời đăng ký lại</p>
+            </div>
+            <div class="sign-up__haveaccount">
+                <p><a href="/login/loginForm">Đã có tài khoản</a></p>
+            </div>
+        </form>
+
+    </div>
+    <div th:if="${param.success}" class="labelThongBao">
+        <p>Đăng ký thành công</p>
+        <p><a href="/login/loginForm">Xin chuyển sang trang Đăng nhập</a></p>
+    </div>
+</div>
+<div id="contact">
+    <h1>Thông tin liên hệ</h1>
+</div>
+</body>
+</html>
