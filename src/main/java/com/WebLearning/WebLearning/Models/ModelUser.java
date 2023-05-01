@@ -1,16 +1,13 @@
 package com.WebLearning.WebLearning.Models;
 
-import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
-import java.util.List;
+import javax.persistence.*;
 
 @Data
 @Entity
 @Table(name = "users")
-public class User {
+public class ModelUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false)
@@ -22,7 +19,7 @@ public class User {
     private String password;
 
     @Column
-    private String hoTen;
+    private String fullname;
     @Column
     private String role;
 

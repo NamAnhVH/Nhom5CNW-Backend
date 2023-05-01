@@ -1,9 +1,11 @@
 package com.WebLearning.WebLearning.Service;
 
-import com.WebLearning.WebLearning.Models.User;
+import com.WebLearning.WebLearning.Models.ModelUser;
 import com.WebLearning.WebLearning.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -11,8 +13,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User findByUsernameAndPassword(String username, String password) {
-        User user = userRepository.findByUsernameAndPassword(username, password);
+    public ModelUser findByUsernameAndPassword(String username, String password) {
+        ModelUser user = userRepository.findByUsernameAndPassword(username, password);
         if(user != null) {
             return user;
         }
@@ -20,18 +22,23 @@ public class UserService {
     }
 
     public boolean isExistedAccount(String username){
-        User user = userRepository.findByUsername(username);
+        ModelUser user = userRepository.findByUsername(username);
         if(user != null){
             return true;
         }
         return false;
     }
 
-    public User findById(Long id) {
+    public ModelUser findById(Long id) {
         return userRepository.findById(id).get();
     }
 
-    public User save(User user) {
+    public ModelUser save(ModelUser user) {
         return userRepository.saveAndFlush(user);
+    }
+
+    public List<ModelUser> findAll(){
+        List<ModelUser> listUser = userRepository.findAll();
+        return listUser;
     }
 }

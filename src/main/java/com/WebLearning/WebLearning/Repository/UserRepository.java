@@ -1,12 +1,13 @@
 package com.WebLearning.WebLearning.Repository;
 
-import com.WebLearning.WebLearning.Models.User;
+import com.WebLearning.WebLearning.Models.ModelUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    User findByUsernameAndPassword(String username, String password);
+public interface UserRepository extends JpaRepository<ModelUser, Long> {
+    ModelUser findByUsernameAndPassword(String username, String password);
 
-    User findByUsername(String username);
+    ModelUser findByUsername(String username);
+
 }
