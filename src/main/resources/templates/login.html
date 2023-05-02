@@ -10,7 +10,7 @@
 </head>
 <body>
     <div id="header">
-            <a class="logo-head" title="Trang chủ" href="/homepage.html">
+            <a class="logo-head" title="Trang chủ" href="/homepage">
                 <img class="logo-header" src="/image/Hust-logo.jpg" alt="">
             </a>
             <ul class="action-tool">
@@ -48,7 +48,7 @@
             <div class="sign-in__button">
                 <input type="submit" value="Đăng nhập" class="sign-in-button">
             </div>
-            <div class="sign-in__alert" th:if="${param.invalid}">
+            <div class="sign-in__alert" th:if="${error}">
                 <p>Tài khoản không hợp lệ, vui lòng đăng nhập lại</p>
             </div>
             <div class="sign-in__forgot">

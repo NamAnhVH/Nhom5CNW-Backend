@@ -5,6 +5,7 @@ import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import com.WebLearning.WebLearning.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,14 +41,20 @@ public class LoginController {
 
     @PostMapping("loginForm")
     // action http://localhost:8080/login/loginForm
-    public String loginSubmit(@ModelAttribute("user") ModelUser user) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        user.getUsername(),
-                        user.getPassword()
-                )
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+    public String loginSubmit(@ModelAttribute("user") ModelUser user, Model model) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            user.getUsername(),
+                            user.getPassword()
+                    )
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (BadCredentialsException e) {
+            model.addAttribute("error", "Sai tài khoản");
+            model.addAttribute("newUser", user);
+            return "login";
+        }
         return "redirect:/homepage";
     }
 }

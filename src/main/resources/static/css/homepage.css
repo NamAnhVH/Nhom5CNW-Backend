@@ -108,9 +108,30 @@ body {
     background-color: rgb(73, 73, 73);
 }
 
-.username-label {
-    margin-right: 3%;
+#isLogin{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
+
+.username-login {
+    margin: 0 50px;
+    color: blue;
+}
+
+#logout-button {
+    margin-right: 50px;
+    font-size: 20px;
+}
+
+#logout-button a {
+    background-color: gray;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: black;
+    border-radius: 40px;
+}
+
 
 #welcome-section {
     display: flex;
