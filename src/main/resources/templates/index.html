@@ -1,10 +1,21 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+<!--    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>-->
+
 </head>
 <body>
-    <p>hello</p>
+    <div id="content" th:utext="${news.detail}">
+<!--        [[th:utext="${news.detail}"]]-->
+    </div>
+<!--    <div>-->
+<!--        hello-->
+<!--    </div>-->
 </body>
+<!--    <script>-->
+<!--        CKEDITOR.inline('content');-->
+<!--    </script>-->
 </html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${news.title}"></title>
+    <link rel="stylesheet" href="/css/news-detail-page.css">
+
+</head>
+<body>
+    <section id="header-section">
+        <div id="left-top-header">
+            <a href="/homepage.html" target="_self">
+                <img src="/image/Hust-logo.jpg" alt="Logo" id="logo-header" title="Quay về trang chủ">
+            </a>
+            <form>
+                <img src="/image/search-button.png" id="search-button">
+                <input type="text" placeholder="Tìm kiếm khoá học" id="search-text">
+            </form>
+        </div>
+        <ul id="header-link">
+            <li><a href="/homepage.html">Trang chủ</a></li>
+            <li><a href="/html/mainpage/news-page.html">Tin tức</a></li>
+            <li><a href="">Khoá học</a></li>
+            <li><a href="">Giảng viên</a></li>
+            <li><a href="">Thư viện</a></li>
+            <li><a href="">Hỗ trợ</a></li>
+        </ul>
+        <div id="login-button">
+            <a href="">Đăng nhập</a>
+        </div>
+    </section>
+    <section id="information-news">
+        <h1 th:text="${news.title}"></h1>
+        <p id="date" th:text="${news.time}">Thứ 5, 21/01/2021, 18:00</p>
+<!--        <img src="/image/news/Ky-Ket-Hop-Tac-3.jpg" alt="Ký kết hợp tác 3" class="information-image">-->
+        <p><strong th:text="${news.description}"></strong></p>
+        <div id="content" th:utext="${news.detail}"></div>
+    </section>
+    <section id="contact-section">
+        <h1>Thông tin liên hệ</h1>
+    </section>
+</body>
+</html>
