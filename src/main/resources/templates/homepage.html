@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <link href="/css/homepage.css" rel="stylesheet">
+</head>
+<body>
+    <section id="header-section">
+        <div id="left-top-header">
+            <a href="homepage.html">
+                <img src="/image/Hust-logo.jpg" alt="Logo" id="logo-header" title="Quay về trang chủ">
+            </a>
+            <form>
+                <img src="/image/search-button.png" id="search-button">
+                <input type="text" placeholder="Tìm kiếm khoá học" id="search-text">
+
+            </form>
+        </div>
+        <ul id="header-link">
+            <li><a href="/homepage">Trang chủ</a></li>
+            <li><a href="html/mainpage/news-page.html">Tin tức</a></li>
+            <li><a href="html/mainpage/courses-page.html">Khoá học</a></li>
+            <li><a href="">Giảng viên</a></li>
+            <li><a href="">Thư viện</a></li>
+            <li><a href="">Hỗ trợ</a></li>
+        </ul>
+        <div id="login-button" sec:authorize="!isAuthenticated()">
+            <a th:href="@{/login/loginForm}">Đăng nhập</a>
+        </div>
+        <div sec:authorize="isAuthenticated()" id="isLogin">
+<!--            <div>-->
+<!--                <span sec:authentication="principal.user.fullname" class="username-login"></span>-->
+<!--            </div>-->
+            <div sec:authorize="hasRole('ROLE_admin')">
+                <a th:href="@{/admin}" sec:authentication="principal.user.fullname" class="username-login"></a>
+            </div>
+            <div id="logout-button">
+                <a th:href="@{/logout}">Đăng xuất</a>
+            </div>
+        </div>
+<!--        <div><span th:text="${#authentication.principal.username}"></span></div>-->
+    </section>
+    <section id="welcome-section">
+        <div id="welcome-lable">
+            <h1>Website Học tập trực tuyến online</h1>
+            <ul>
+                <li>Tiện lợi và linh hoạt</li>
+                <li>Tiết kiệm chi phí</li>
+                <li>Học tập theo tốc độ của mình</li>
+                <li>Lựa chọn đa dạng</li>
+                <li>Học tập hiệu quả</li>
+            </ul>
+        </div>
+    </section>
+    <section id="course-section">
+        <h1>Những khoá học phổ biến</h1>
+        <p>Bạn muốn học tập hay tìm hiểu nội dung kiến thức gì?</p>
+        <p>Rất nhiều khóa học, trình độ từ phổ cập đến chuyên ngành, với học liệu phong phú và giảng viên
+            giỏi đến từ các cơ sở đào tạo hàng đầu Việt Nam, đang được mở cửa tự do chắc chắn sẽ giúp bạn
+            thỏa mãn khát khao học tập.</p>
+        <div>
+            <a href="" target="_blank">
+                <img src="" class="course-tile-image" alt="Khoá học 1">
+                <p>Khoá học 1</p>
+                <p>Mô tả khoá học</p>
+            </a>
+            <a href="" target="_blank">
+                <img src="" class="course-tile-image" alt="Khoá học 2">
+                <p>Khoá học 2</p>
+                <p>Mô tả khoá học</p>
+            </a>
+            <a href="" target="_blank">
+                <img src="" class="course-tile-image" alt="Khoá học 3">
+                <p>Khoá học 3</p>
+                <p>Mô tả khoá học</p>
+            </a>
+            <a href="" target="_blank">
+                <img src="" class="course-tile-image" alt="Khoá học 4">
+                <p>Khoá học 4</p>
+                <p>Mô tả khoá học</p>
+            </a>
+            <a href="" target="_blank">
+                <img src="" class="course-tile-image" alt="Khoá học 5">
+                <p>Khoá học 5</p>
+                <p>Mô tả khoá học</p>
+            </a>
+            <a href="" target="_blank">
+                <img src="" class="course-tile-image" alt="Khoá học 6">
+                <p>Khoá học 6</p>
+                <p>Mô tả khoá học</p>
+            </a>
+        </div>
+        <a href="html/mainpage/courses-page.html" id="course-link">Khám phá các khoá học phù hợp với nhu cầu của bạn</a>
+    </section>
+    <section id="news-section">
+        <h1>Thông tin mới nhất</h1>
+        <div id="listNews">
+            <div th:each="news: ${listNews}">
+                <a th:href="${'/news/' + news.id}" target="_self">
+                    <div th:utext="${news.imagePage}" class="news-tile-image"></div>
+                    <span th:text="${news.time}"></span>
+                    <h1 th:text="${news.title}"></h1>
+                    <p th:text="${news.description}"></p>
+                </a>
+            </div>
+        </div>
+
+        <a href="html/mainpage/news-page.html" id="news-link" target="_self">Các tin tức khác</a>
+    </section>
+    <section id="teacher-section">
+        <h1>Giảng viên</h1>
+        <div>
+            <a href="" target="_blank">
+                <img src="" class="teacher-tile-image" alt="Giảng viên 1">
+                <p>Giảng viên 1</p>
+                <p>Mô tả Giảng viên</p>
+            </a>
+            <a href="" target="_blank">
+                <img src="" class="teacher-tile-image" alt="Giảng viên 2">
+                <p>Giảng viên 2</p>
+                <p>Mô tả Giảng viên</p>
+            </a>
+            <a href="" target="_blank">
+                <img src="" class="teacher-tile-image" alt="Giảng viên 3">
+                <p>Giảng viên 3</p>
+                <p>Mô tả Giảng viên</p>
+            </a>
+            <a href="" target="_blank">
+                <img src="" class="teacher-tile-image" alt="Giảng viên 4">
+                <p>Giảng viên 4</p>
+                <p>Mô tả Giảng viên</p>
+            </a>
+            <a href="" target="_blank">
+                <img src="" class="teacher-tile-image" alt="Giảng viên 5">
+                <p>Giảng viên 5</p>
+                <p>Mô tả Giảng viên</p>
+            </a>
+            <a href="" target="_blank">
+                <img src="" class="teacher-tile-image" alt="Giảng viên 6">
+                <p>Giảng viên 6</p>
+                <p>Mô tả Giảng viên</p>
+            </a>
+        </div>
+        <a href="" id="teacher-link">Tất cả giảng viên</a>
+    </section>
+    <section id="reference-section">
+        <h1>Tài liệu tham khảo</h1>
+        <div>
+            <a href="" target="_blank">
+                <img src="" class="reference-tile-image" alt="Tài liệu 1">
+                <p>Tài liệu 1</p>
+                <p>Mô tả Tài liệu</p>
+            </a>
+            <a href="" target="_blank">
+                <img src="" class="reference-tile-image" alt="Tài liệu 2">
+                <p>Tài liệu 2</p>
+                <p>Mô tả Tài liệu</p>
+            </a>
+            <a href="" target="_blank">
+                <img src="" class="reference-tile-image" alt="Tài liệu 3">
+                <p>Tài liệu 3</p>
+                <p>Mô tả Giảng viên</p>
+            </a>
+            <a href="" target="_blank">
+                <img src="" class="reference-tile-image" alt="Tài liệu 4">
+                <p>Tài liệu 4</p>
+                <p>Mô tả Tài liệu</p>
+            </a>
+            <a href="" target="_blank">
+                <img src="" class="reference-tile-image" alt="Tài liệu 5">
+                <p>Tài liệu 5</p>
+                <p>Mô tả Tài liệu</p>
+            </a>
+            <a href="" target="_blank">
+                <img src="" class="reference-tile-image" alt="Tài liệu 6">
+                <p>Tài liệu 6</p>
+                <p>Mô tả Tài liệu</p>
+            </a>
+        </div>
+        <a href="" id="reference-link">Tất cả Tài liệu</a>
+    </section>
+    <section id="contact-section">
+        <h1>Thông tin liên hệ</h1>
+    </section>
+</body>
+
+</html>
