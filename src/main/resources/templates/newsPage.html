@@ -4,33 +4,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${news.title}"></title>
-    <link rel="stylesheet" href="/css/news-detail-page.css">
-
+    <title>Tin tức sự kiện</title>
+    <link rel="stylesheet" href="/css/homepage.css">
 </head>
 <body>
     <section id="header-section">
         <div id="left-top-header">
-            <a href="/homepage.html" target="_self">
+            <a href="/homepage.html">
                 <img src="/image/Hust-logo.jpg" alt="Logo" id="logo-header" title="Quay về trang chủ">
             </a>
             <form>
                 <img src="/image/search-button.png" id="search-button">
                 <input type="text" placeholder="Tìm kiếm khoá học" id="search-text">
+
             </form>
         </div>
         <ul id="header-link">
-            <li><a href="/homepage">Trang chủ</a></li>
+            <li><a href="/homepage.html">Trang chủ</a></li>
             <li><a href="/html/mainpage/news-page.html">Tin tức</a></li>
-            <li><a href="">Khoá học</a></li>
+            <li><a href="/html/mainpage/courses-page.html">Khoá học</a></li>
             <li><a href="">Giảng viên</a></li>
             <li><a href="">Thư viện</a></li>
             <li><a href="">Hỗ trợ</a></li>
+            <li></li>
         </ul>
         <div id="login-button" sec:authorize="!isAuthenticated()">
             <a th:href="@{/login/loginForm}">Đăng nhập</a>
         </div>
         <div sec:authorize="isAuthenticated()" id="isLogin">
+            <!--            <div>-->
+            <!--                <span sec:authentication="principal.user.fullname" class="username-login"></span>-->
+            <!--            </div>-->
             <div sec:authorize="hasRole('ROLE_admin')">
                 <a th:href="@{/admin}" sec:authentication="principal.user.fullname" class="username-login"></a>
             </div>
@@ -39,13 +43,29 @@
             </div>
         </div>
     </section>
-    <section id="information-news">
-        <h1 th:text="${news.title}"></h1>
-        <p id="date" th:text="${news.time}"></p>
-        <div th:utext="${news.imagePage}" class="image-page"></div>
-        <h2 th:text="${news.description}" class="description"></h2>
-        <div id="content" th:utext="${news.detail}"></div>
+    <section id="mainpage-title">
+        <div class="news-top">
+            <a href="/homepage"><p>Trang chủ</p></a><p>/</p><p>Tin tức</p>
+        </div>
+        <div>
+            <h1>Tin tức sự kiện</h1>
+        </div>
     </section>
+    <section id="news-section">
+        <h1>Thông tin mới nhất</h1>
+        <div id="listNews">
+            <div th:each="news: ${listNews}">
+                <a th:href="${'/news/' + news.id}" target="_self">
+                    <div th:utext="${news.imagePage}" class="news-tile-image"></div>
+                    <span th:text="${news.time}"></span>
+                    <h1 th:text="${news.title}"></h1>
+                    <p th:text="${news.description}"></p>
+                </a>
+            </div>
+        </div>
+
+    </section>
+
     <section id="contact-section">
         <h1>Thông tin liên hệ</h1>
     </section>

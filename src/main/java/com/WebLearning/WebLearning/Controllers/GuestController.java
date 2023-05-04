@@ -22,13 +22,25 @@ public class GuestController {
     //http://localhost:8080/homepage
     //http://localhost:8080/homepage/null
     public String homepageGuest(Model model){
+
+        model.addAttribute("listNews", newsService.findTopSixNews());
         return "homepage";
     }
 
+    @GetMapping("/news")
+    //http://localhost:8080/news
+    public String newsPage(Model model){
+
+        model.addAttribute("listNews", newsService.findAll());
+        return "newsPage";
+    }
+
     @GetMapping("/news/{id}")
+    //http://localhost:8080/news/{id}
     public String newsDetailPage(@PathVariable Long id, Model model) {
         ModelNews news = newsService.findById(id);
         model.addAttribute("news", news);
         return "newsDetailPage";
     }
+
 }

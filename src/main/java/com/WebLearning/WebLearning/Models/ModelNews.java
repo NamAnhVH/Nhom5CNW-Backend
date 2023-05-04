@@ -18,7 +18,9 @@ public class ModelNews {
     @Column
     private String time;
     @Column
+    private String imagePage;
+    @Column(columnDefinition = "TEXT")
     private String description;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String detail;
 }

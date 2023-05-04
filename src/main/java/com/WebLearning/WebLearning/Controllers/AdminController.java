@@ -21,7 +21,12 @@ public class AdminController {
     private NewsService newsService;
 
     @GetMapping
-    //http://localhost:8080/admin
+    public String adminPage(){
+        return "adminPage";
+    }
+
+    @GetMapping("/addNews")
+    //http://localhost:8080/admin/addNews
     public String addNewsPage(Model model){
 
         model.addAttribute("news", new ModelNews());
@@ -34,10 +39,18 @@ public class AdminController {
         ModelNews news = new ModelNews();;
         news.setTitle(modelNews.getTitle());
         news.setTime(modelNews.getTime());
+        news.setImagePage(modelNews.getImagePage());
         news.setDescription(modelNews.getDescription());
         news.setDetail(modelNews.getDetail());
         newsService.save(news);
         return "redirect:/admin";
     }
+
+    @GetMapping("/listNews")
+    public String listNewsPage(Model model){
+        model.addAttribute("listNews", newsService.findAll());
+        return "listNewsPage";
+    }
+
 
 }

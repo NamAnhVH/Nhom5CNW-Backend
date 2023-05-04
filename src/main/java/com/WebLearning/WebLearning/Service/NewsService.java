@@ -5,6 +5,8 @@ import com.WebLearning.WebLearning.Repository.NewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class NewsService {
 
@@ -15,4 +17,7 @@ public class NewsService {
 
     public ModelNews save(ModelNews news) { return newsRepository.saveAndFlush(news); }
 
+    public List<ModelNews> findAll()  { return newsRepository.findAll(); }
+
+    public List<ModelNews> findTopSixNews() { return newsRepository.findTop6ByOrderByIdDesc(); }
 }

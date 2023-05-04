@@ -7,8 +7,14 @@ body {
     position: relative;
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Be Vietnam Pro', sans-serif;
     scroll-padding-top: 1000px;
+    line-height: 1.4;
+
+}
+
+a {
+    text-decoration: none;
 }
 
 #header-section {
@@ -132,6 +138,9 @@ body {
     border-radius: 40px;
 }
 
+#logout-button a:hover {
+    background-color: rgb(73, 73, 73);
+}
 
 #welcome-section {
     display: flex;
@@ -242,7 +251,6 @@ body {
     flex-direction: column;
     margin: 5vh 0;
     padding: 0 30vh 10vh 30vh;
-    ;
 }
 
 #news-section h1 {
@@ -254,19 +262,18 @@ body {
     font-size: 20px;
 }
 
-#news-section div {
+#listNews{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     grid-gap: 3rem;
     width: 100%;
     margin: 40px auto;
+    text-align: left;
 }
 
-#news-section a {
-    text-decoration: none;
-}
 
-#news-section a h1 {
+
+#listNews a h1 {
     font-size: 20px;
     text-align: left;
     display: -webkit-box;
@@ -275,7 +282,7 @@ body {
     -webkit-box-orient: vertical;
 }
 
-#news-section a p {
+#listNews a p {
     text-align: left;
     display: -webkit-box;
     overflow: hidden;
@@ -284,7 +291,7 @@ body {
 
 }
 
-.news-tile-image {
+.news-tile-image img{
     height: 228px;
     width: 100%;
     flex-grow: 1;
@@ -415,4 +422,34 @@ body {
     flex-direction: column;
     margin: 0;
     padding: 150px 200px;
+}
+
+#mainpage-title{
+    background-color: blue;
+    color:white;
+    height: 20vh;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 100px 30vh 0 30vh;
+    font-size: 35px;
+}
+
+.news-top{
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 15px;
+}
+.news-top a{
+    text-decoration: none;
+    color: white;
+}
+
+.news-top a:hover{
+    text-decoration: underline;
+}
+
+.news-top p{
+    padding: 0 10px 0 0;
 }
