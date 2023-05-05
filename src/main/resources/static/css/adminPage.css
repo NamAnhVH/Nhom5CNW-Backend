@@ -18,6 +18,20 @@ a {
     color:black;
 }
 
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th{
+    line-height: 1.6;
+    font-size: 20px;
+}
+
+p{
+    line-height: 1.4;
+}
+
 #header {
     height: auto;
     top: 0;
@@ -124,6 +138,22 @@ a {
     max-width: 1000px; /* giới hạn chiều rộng của khối */
     margin: 10px;
 
+}
+
+#right-side-main a:hover{
+    text-decoration: underline;
+}
+
+#btn{
+    display:flex;
+    flex-direction: row;
+}
+
+#btn button{
+    width: 100px;
+    height: 30px;
+    padding: 5px;
+    margin: 5px;
 }
 
 .text-field-content {

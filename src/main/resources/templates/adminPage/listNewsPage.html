@@ -19,7 +19,7 @@
                 <li class="btn"><a href="/homepage">Trang chủ</a></li>
                 <li class="btn"><a href="">Quản lý khoá học</a></li>
                 <li class="btn"><a href="">Quản lý tài khoản</a></li>
-                <li class="btn"><a href="/admin/addNews">Tin tức</a></li>
+                <li class="btn"><a href="/admin/addNews">Quản lý tin tức</a></li>
             </ul>
         </div>
         <div>
@@ -39,11 +39,19 @@
             </div>
         </div>
         <div id="right-side-main">
-            <ul th:each="news: ${listNews}">
-                <li>
-                    <p><a th:href="${'/news/' + news.id}" th:text="${news.title}"></a></p>
-                </li>
-            </ul>
+            <table>
+                <tr>
+                    <th>Tiêu đề</th>
+                </tr>
+                <tr th:each="news: ${listNews}">
+                    <td>
+                        <p><a th:href="${'/news/' + news.id}" th:text="${news.title}"></a></p>
+                    </td>
+                    <td>
+                        <p><a th:href="${'/admin/editNews/' + news.id}">Chỉnh sửa</a></p>
+                    </td>
+                </tr>
+            </table>
         </div>
     </section>
 </body>
