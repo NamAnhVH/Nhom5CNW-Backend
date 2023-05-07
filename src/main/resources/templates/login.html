@@ -48,8 +48,8 @@
             <div class="sign-in__button">
                 <input type="submit" value="Đăng nhập" class="sign-in-button">
             </div>
-            <div class="sign-in__alert" th:if="${error}">
-                <p>Tài khoản không hợp lệ, vui lòng đăng nhập lại</p>
+            <div class="sign-in__alert">
+                <p th:text="${error}"></p>
             </div>
             <div class="sign-in__forgot">
                 <a href="" class="forgot-password">Quên mật khẩu?</a>

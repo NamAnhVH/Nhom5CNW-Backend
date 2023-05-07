@@ -22,6 +22,10 @@ public class ModelUser {
     private String fullname;
     @Column
     private String role;
+    @Column
+    private boolean approved;
+    @Column
+    private boolean locked;
 
 //    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
 //    @EqualsAndHashCode.Exclude

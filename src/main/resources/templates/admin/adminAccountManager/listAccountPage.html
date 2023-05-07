@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách tài khoản</title>
+    <link rel="stylesheet" href="/css/adminPage.css">
+</head>
+<body>
+<header id="header">
+    <div>
+        <a class="logo-head" title="Trang chủ" href="/homepage">
+            <img class="logo-header" src="/image/Hust-logo.jpg" alt="">
+        </a>
+    </div>
+    <div>
+        <ul class="action-tool">
+            <li class="btn"><a href="/homepage">Trang chủ</a></li>
+            <li class="btn"><a href="">Quản lý khoá học</a></li>
+            <li class="btn"><a href="/admin/listAccount">Quản lý tài khoản</a></li>
+            <li class="btn"><a href="/admin/addNews">Quản lý tin tức</a></li>
+        </ul>
+    </div>
+    <div>
+        <ul class="action-tool">
+            <li class="btn"><a th:href="@{/logout}" title="Đăng xuất">Đăng xuất</a></li>
+        </ul>
+    </div>
+</header>
+<section id="main">
+    <div id="left-side-main">
+        <div id="left-side-content">
+            <ul>
+                <li><a href="/admin/listAccount">Danh sách tài khoản</a></li>
+                <li><a href="/admin/listAccount/teacherAccount">Danh sách tài khoản giáo viên</a></li>
+                <li><a href="/admin/listAccount/studentAccount">Danh sách tài khoản học sinh</a></li>
+                <li><a href="/admin/listAccount/unapprovedAccount">Danh sách tài khoản chưa được cấp quyền</a></li>
+                <li><a href="/admin/listAccount/lockedAccount">Danh sách tài khoản đang bị khoá</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="right-side-main">
+        <table>
+            <tr>
+                <th style="width:10%;">AccountID</th>
+                <th style="width:15%;">Username</th>
+                <th style="width:15%;">Fullname</th>
+                <th style="width:10%;">Role</th>
+                <th style="width:20%;">Approved</th>
+                <th style="width:10%;">Locked</th>
+                <th style="width:20%;"></th>
+            </tr>
+            <tr th:each="account: ${listAccount}">
+                <td>
+                    <p th:text="${account.id}"></p>
+                </td>
+                <td>
+                    <p th:text="${account.username}"></p>
+                </td>
+                <td>
+                    <p th:text="${account.fullname}"></p>
+                </td>
+                <td>
+                    <p th:if="${account.role} == 'hoc-sinh'">Học sinh</p>
+                    <p th:if="${account.role} == 'giao-vien'">Giáo viên</p>
+                </td>
+                <td>
+                    <p th:if="${account.approved}">Đã được cấp quyền</p>
+                    <p th:unless="${account.approved}">Chưa được cấp quyền</p>
+                </td>
+                <td>
+                    <p th:if="${account.locked}">Đã bị khoá</p>
+                </td>
+                <td th:unless="${account.approved}">
+                    <form method="post">
+                        <button th:formaction="${'/admin/listAccount/approveAccount/' + account.id + '?path=' + listOption}" class="action-btn">Cấp quyền</button>
+                    </form>
+                </td>
+                <td th:if="${account.approved}">
+                    <form method="post">
+                        <button th:if="${account.locked}" th:formaction="${'/admin/listAccount/unlockAccount/' + account.id + '?path=' + listOption}" class="action-btn">Mở khoá tài khoản</button>
+                        <button th:unless="${account.locked}" th:formaction="${'/admin/listAccount/lockAccount/' + account.id + '?path=' + listOption}" class="action-btn">Khoá tài khoản</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</section>
+</body>
+</html>

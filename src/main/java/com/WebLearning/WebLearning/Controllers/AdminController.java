@@ -17,23 +17,23 @@ import java.io.IOException;
 public class AdminController {
     @Autowired
     private NewsService newsService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping
     public String adminPage(){
-        return "adminPage/adminPage";
+        return "admin/adminPage";
     }
 
     @GetMapping("/addNews")
     //http://localhost:8080/admin/addNews
     public String addNewsPage(Model model){
-
         model.addAttribute("news", new ModelNews());
-        return "adminPage/addNews";
+        return "admin/adminNewsManager/addNews";
     }
 
     @PostMapping("/addNews")
     public String addNewsAction(@ModelAttribute ModelNews modelNews) throws IOException {
-
         newsService.add(modelNews);
         return "redirect:/admin";
     }
@@ -41,14 +41,14 @@ public class AdminController {
     @GetMapping("/listNews")
     public String listNewsPage(Model model){
         model.addAttribute("listNews", newsService.findAll());
-        return "adminPage/listNewsPage";
+        return "admin/adminNewsManager/listNewsPage";
     }
 
     @GetMapping("/editNews/{id}")
     public String editNewsPage(@PathVariable Long id, Model model){
         ModelNews news = newsService.findById(id);
         model.addAttribute("news", news);
-        return "adminPage/editNews";
+        return "admin/adminNewsManager/editNews";
     }
 
     @PostMapping("/editNews/{id}")
@@ -63,4 +63,43 @@ public class AdminController {
         return "redirect:/admin/listNews";
     }
 
+    @GetMapping("/listAccount")
+    public String listAllAccountPage(Model model){
+        model.addAttribute("listAccount", userService.findByRoleNot("admin"));
+        return "admin/adminAccountManager/listAccountPage";
+    }
+
+    @GetMapping("/listAccount/{path}")
+    public String listAccountPage(@PathVariable String path, Model model){
+        model.addAttribute("listOption", path);
+        model.addAttribute("listAccount", userService.findAccountByOption(path));
+        return "admin/adminAccountManager/listAccountPage";
+    }
+
+    @PostMapping("/listAccount/approveAccount/{id}")
+    public String approveAccount(@PathVariable Long id, @RequestParam("path") String path){
+        userService.approveAccount(id);
+        if("null".equals(path)){
+            return "redirect:/admin/listAccount";
+        }
+        return "redirect:/admin/listAccount/" + path;
+    }
+
+    @PostMapping("/listAccount/lockAccount/{id}")
+    public String lockAccount(@PathVariable Long id, @RequestParam("path") String path){
+        userService.lockAccount(id);
+        if("null".equals(path)){
+            return "redirect:/admin/listAccount";
+        }
+        return "redirect:/admin/listAccount/" + path;
+    }
+
+    @PostMapping("/listAccount/unlockAccount/{id}")
+    public String unlockAccount(@PathVariable Long id, @RequestParam("path") String path){
+        userService.unlockAccount(id);
+        if("null".equals(path)){
+            return "redirect:/admin/listAccount";
+        }
+        return "redirect:/admin/listAccount/" + path;
+    }
 }

@@ -6,9 +6,11 @@ import com.WebLearning.WebLearning.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,11 +52,13 @@ public class LoginController {
                     )
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            return "redirect:/homepage";
         } catch (BadCredentialsException e) {
-            model.addAttribute("error", "Sai tài khoản");
-            model.addAttribute("newUser", user);
-            return "login";
+            model.addAttribute("error", "Thông tin đăng nhập không chính xác");
+        } catch (LockedException e) {
+            model.addAttribute("error", "Tài khoản đã bị khoá hoặc chưa được cấp quyền ");
         }
-        return "redirect:/homepage";
+        model.addAttribute("newUser", user);
+        return "login";
     }
 }

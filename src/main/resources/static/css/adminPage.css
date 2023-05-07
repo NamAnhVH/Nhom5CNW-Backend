@@ -99,7 +99,7 @@ p{
 #left-side-main{
     margin: 2%;
     width: 25%;
-    font-size: 20px;
+    font-size: 100%;
     
 }
 
@@ -112,6 +112,7 @@ p{
 
 #left-side-content ul{
     list-style-type: none;
+    padding: 0 30px;
 }
 
 #left-side-content li{
@@ -170,4 +171,15 @@ p{
 
 #content{
     margin: 10px 5% 10px 0;
+}
+
+.action-btn{
+    font-size: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.action-btn:hover{
+    text-decoration: underline;
 }
