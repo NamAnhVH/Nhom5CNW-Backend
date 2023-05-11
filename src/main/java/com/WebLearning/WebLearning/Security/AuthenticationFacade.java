@@ -1,6 +1,7 @@
 package com.WebLearning.WebLearning.Security;
 
-import com.WebLearning.WebLearning.Models.ModelUser;
+import com.WebLearning.WebLearning.Models.Account;
+import com.WebLearning.WebLearning.Models.Profile;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -11,12 +12,13 @@ public class AuthenticationFacade {
         return SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof CustomUserDetails;
     }
 
-    public ModelUser getUser() {
+    public Account getAccount() {
         return ((CustomUserDetails) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal())
-                .getUser();
+                .getAccount();
     }
+
 }
 

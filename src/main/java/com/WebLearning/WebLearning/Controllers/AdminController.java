@@ -1,6 +1,6 @@
 package com.WebLearning.WebLearning.Controllers;
 
-import com.WebLearning.WebLearning.Models.ModelNews;
+import com.WebLearning.WebLearning.Models.News;
 import com.WebLearning.WebLearning.Service.NewsService;
 import com.WebLearning.WebLearning.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import java.io.IOException;
 
 
@@ -28,13 +27,13 @@ public class AdminController {
     @GetMapping("/addNews")
     //http://localhost:8080/admin/addNews
     public String addNewsPage(Model model){
-        model.addAttribute("news", new ModelNews());
+        model.addAttribute("news", new News());
         return "admin/adminNewsManager/addNews";
     }
 
     @PostMapping("/addNews")
-    public String addNewsAction(@ModelAttribute ModelNews modelNews) throws IOException {
-        newsService.add(modelNews);
+    public String addNewsAction(@ModelAttribute News news) throws IOException {
+        newsService.add(news);
         return "redirect:/admin";
     }
 
@@ -46,14 +45,14 @@ public class AdminController {
 
     @GetMapping("/editNews/{id}")
     public String editNewsPage(@PathVariable Long id, Model model){
-        ModelNews news = newsService.findById(id);
+        News news = newsService.findById(id);
         model.addAttribute("news", news);
         return "admin/adminNewsManager/editNews";
     }
 
     @PostMapping("/editNews/{id}")
-    public String editNewsAction(@PathVariable Long id, @ModelAttribute ModelNews modelNews){
-        newsService.update(id, modelNews);
+    public String editNewsAction(@PathVariable Long id, @ModelAttribute News news){
+        newsService.update(id, news);
         return "redirect:/admin/listNews";
     }
 
@@ -65,7 +64,8 @@ public class AdminController {
 
     @GetMapping("/listAccount")
     public String listAllAccountPage(Model model){
-        model.addAttribute("listAccount", userService.findByRoleNot("admin"));
+        model.addAttribute("listAccount", userService.findAccountByRoleNot("admin"));
+        model.addAttribute("listProfile", userService.findAllProfile());
         return "admin/adminAccountManager/listAccountPage";
     }
 
@@ -73,6 +73,7 @@ public class AdminController {
     public String listAccountPage(@PathVariable String path, Model model){
         model.addAttribute("listOption", path);
         model.addAttribute("listAccount", userService.findAccountByOption(path));
+        model.addAttribute("listProfile", userService.findAllProfile());
         return "admin/adminAccountManager/listAccountPage";
     }
 

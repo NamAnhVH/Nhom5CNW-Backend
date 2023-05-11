@@ -59,10 +59,13 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/login/loginForm",
                         "/css/*",
                         "/image/*",
+                        "/index",
                         "/news/**",
                         "/homepage").permitAll()
                     .antMatchers("/admin/**")
                     .hasRole("admin")
+                    .antMatchers("/teacher/**")
+                    .hasRole("giao-vien")
                     .anyRequest()
                     .authenticated()
                 .and()

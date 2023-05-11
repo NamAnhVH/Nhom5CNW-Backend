@@ -1,7 +1,7 @@
 package com.WebLearning.WebLearning.Security;
 
-import com.WebLearning.WebLearning.Models.ModelUser;
-import com.WebLearning.WebLearning.Repository.UserRepository;
+import com.WebLearning.WebLearning.Models.Account;
+import com.WebLearning.WebLearning.Repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,14 +12,14 @@ import org.springframework.stereotype.Service;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    UserRepository userRepository;
+    AccountRepository accountRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        ModelUser user = userRepository.findByUsername(username);
-        if (user == null) {
+        Account account = accountRepository.findByUsername(username);
+        if (account == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new CustomUserDetails(user);
+        return new CustomUserDetails(account);
     }
 }

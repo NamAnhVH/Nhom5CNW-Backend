@@ -7,25 +7,29 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "users")
-public class ModelUser {
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false)
     private Long id;
 
-    @Column(unique = true)
+    @Column(nullable = false,unique = true)
     private String username;
-    @Column
+    @Column(nullable = false)
     private String password;
 
-    @Column
-    private String fullname;
+//    @Column
+//    private String fullname;
     @Column
     private String role;
     @Column
     private boolean approved;
     @Column
     private boolean locked;
+
+//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+//    private ModelProfile profile;
+
 
 //    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
 //    @EqualsAndHashCode.Exclude

@@ -8,14 +8,26 @@
 
 </head>
 <body>
-    <div id="content" th:utext="${news.detail}">
-<!--        [[th:utext="${news.detail}"]]-->
-    </div>
+    <form action="/index" method="post" enctype="multipart/form-data">
+        <img id="image">
+        <input type="file" name="image" id="files" accept="image/*">
+        <button type="submit"></button>
+    </form>
 <!--    <div>-->
 <!--        hello-->
 <!--    </div>-->
 </body>
-<!--    <script>-->
-<!--        CKEDITOR.inline('content');-->
-<!--    </script>-->
+    <script>
+        document.getElementById("files").onchange = function () {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+        // get loaded data and render thumbnail.
+        document.getElementById("image").src = e.target.result;
+    };
+
+    // read the image file as a data URL.
+    reader.readAsDataURL(this.files[0]);
+};
+    </script>
 </html>

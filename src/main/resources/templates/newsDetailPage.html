@@ -34,6 +34,9 @@
             <div sec:authorize="hasRole('ROLE_admin')">
                 <a th:href="@{/admin}" sec:authentication="principal.user.fullname" class="username-login"></a>
             </div>
+            <div sec:authorize="hasRole('ROLE_giao-vien')">
+                <a th:href="@{/teacher}" sec:authentication="principal.user.fullname" class="username-login"></a>
+            </div>
             <div id="logout-button">
                 <a th:href="@{/logout}">Đăng xuất</a>
             </div>

@@ -1,6 +1,6 @@
 package com.WebLearning.WebLearning.Controllers;
 
-import com.WebLearning.WebLearning.Models.ModelUser;
+import com.WebLearning.WebLearning.Models.Account;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import com.WebLearning.WebLearning.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,13 +36,13 @@ public class LoginController {
         if (authenticationFacade.isAuthenticated()) {
             return "redirect:/homepage";
         }
-        model.addAttribute("newUser", new ModelUser());
+        model.addAttribute("newUser", new Account());
         return "login";
     }
 
     @PostMapping("loginForm")
     // action http://localhost:8080/login/loginForm
-    public String loginSubmit(@ModelAttribute("user") ModelUser user, Model model) {
+    public String loginSubmit(@ModelAttribute("user") Account user, Model model) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(

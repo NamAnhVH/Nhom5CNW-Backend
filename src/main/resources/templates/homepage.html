@@ -32,17 +32,18 @@
             <a th:href="@{/login/loginForm}">Đăng nhập</a>
         </div>
         <div sec:authorize="isAuthenticated()" id="isLogin">
-<!--            <div>-->
-<!--                <span sec:authentication="principal.user.fullname" class="username-login"></span>-->
-<!--            </div>-->
             <div sec:authorize="hasRole('ROLE_admin')">
-                <a th:href="@{/admin}" sec:authentication="principal.user.fullname" class="username-login"></a>
+<!--                <a th:href="@{/admin}" sec:authentication="principal.profile.fullname" class="username-login"></a>-->
+                <a th:href="@{/admin}" th:text="${fullname}" class="username-login"></a>
+
+            </div>
+            <div sec:authorize="hasRole('ROLE_giao-vien')">
+                <a th:href="@{/teacher}" th:text="${fullname}" class="username-login"></a>
             </div>
             <div id="logout-button">
                 <a th:href="@{/logout}">Đăng xuất</a>
             </div>
         </div>
-<!--        <div><span th:text="${#authentication.principal.username}"></span></div>-->
     </section>
     <section id="welcome-section">
         <div id="welcome-lable">

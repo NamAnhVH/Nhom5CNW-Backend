@@ -1,7 +1,11 @@
 package com.WebLearning.WebLearning.Service;
 
-import com.WebLearning.WebLearning.Models.ModelUser;
-import com.WebLearning.WebLearning.Repository.UserRepository;
+import com.WebLearning.WebLearning.Models.Account;
+import com.WebLearning.WebLearning.Models.Profile;
+import com.WebLearning.WebLearning.Repository.AccountRepository;
+import com.WebLearning.WebLearning.Repository.ProfileRepository;
+import com.WebLearning.WebLearning.Security.AuthenticationFacade;
+import com.WebLearning.WebLearning.formData.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,81 +17,108 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private AccountRepository accountRepository;
 
-    public ModelUser findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    @Autowired
+    private ProfileRepository profileRepository;
+
+    @Autowired
+    private AuthenticationFacade authenticationFacade;
+
+    public Account findByUsername(String username) {
+        return accountRepository.findByUsername(username);
     }
 
     public boolean isExistedAccount(String username){
-        ModelUser user = userRepository.findByUsername(username);
+        Account user = accountRepository.findByUsername(username);
         if(user != null){
             return true;
         }
         return false;
     }
 
-    public ModelUser findById(Long id) {
-        return userRepository.findById(id).get();
+    public Account findById(Long id) {
+        return accountRepository.findById(id).get();
     }
 
-    public ModelUser save(ModelUser user) {
-        return userRepository.saveAndFlush(user);
+    public Account save(Account user) {
+        return accountRepository.saveAndFlush(user);
     }
 
-    public List<ModelUser> findAll(){
-        List<ModelUser> listUser = userRepository.findAll();
+    public List<Account> findAll(){
+        List<Account> listUser = accountRepository.findAll();
         return listUser;
     }
 
-    public void add(ModelUser modelUser) {
-        ModelUser newUser = new ModelUser();
-        newUser.setFullname(modelUser.getFullname());
-        newUser.setUsername(modelUser.getUsername());
-        newUser.setPassword(new BCryptPasswordEncoder().encode(modelUser.getPassword()));
-        newUser.setRole(modelUser.getRole());
-        if(newUser.getRole().equals("hoc-sinh")){
-            newUser.setApproved(true);
+    public void add(UserRegistrationDto newUser) {
+        Account newAccount = new Account();
+        newAccount.setUsername(newUser.getUsername());
+        newAccount.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
+        newAccount.setRole(newUser.getRole());
+        if(newAccount.getRole().equals("hoc-sinh")){
+            newAccount.setApproved(true);
         }
         else {
-            newUser.setApproved(false);
+            newAccount.setApproved(false);
         }
-        userRepository.saveAndFlush(newUser);
+        accountRepository.save(newAccount);
+
+        Profile profile = new Profile();
+        profile.setFullname(newUser.getFullname());
+        profile.setAccount(newAccount);
+        profileRepository.save(profile);
     }
 
-    public List<ModelUser> findAccountByOption(String option) {
-        List<ModelUser> listAccount = new ArrayList<>();
+    public List<Account> findAccountByOption(String option) {
+        List<Account> listAccount = new ArrayList<>();
         if (option.equals("studentAccount")){
-            listAccount = userRepository.findByRole("hoc-sinh");
+            listAccount = accountRepository.findByRole("hoc-sinh");
         } else if (option.equals("teacherAccount")) {
-            listAccount = userRepository.findByRole("giao-vien");
+            listAccount = accountRepository.findByRole("giao-vien");
         } else if (option.equals("unapprovedAccount")) {
-            listAccount = userRepository.findByApprovedFalse();
+            listAccount = accountRepository.findByApprovedFalse();
         } else if (option.equals("lockedAccount")) {
-            listAccount = userRepository.findByLockedTrue();
+            listAccount = accountRepository.findByLockedTrue();
         }
         return listAccount;
     }
 
-    public List<ModelUser> findByRoleNot(String role) {
-        return userRepository.findByRoleNot(role);
+    public List<Account> findAccountByRoleNot(String role) {
+        return accountRepository.findByRoleNot(role);
     }
 
     public void approveAccount(Long id) {
-        ModelUser user = userRepository.findById(id).get();
-        user.setApproved(true);
-        userRepository.save(user);
+        Account account = accountRepository.findById(id).get();
+        account.setApproved(true);
+        accountRepository.save(account);
     }
 
     public void lockAccount(Long id) {
-        ModelUser user = userRepository.findById(id).get();
-        user.setLocked(true);
-        userRepository.save(user);
+        Account account = accountRepository.findById(id).get();
+        account.setLocked(true);
+        accountRepository.save(account);
     }
 
     public void unlockAccount(Long id) {
-        ModelUser user = userRepository.findById(id).get();
-        user.setLocked(false);
-        userRepository.save(user);
+        Account account = accountRepository.findById(id).get();
+        account.setLocked(false);
+        accountRepository.save(account);
     }
+
+    public String getFullname() {
+        Account currentAccount = authenticationFacade.getAccount();
+        Profile profile = profileRepository.findByAccountId(currentAccount.getId());
+        return profile.getFullname();
+    }
+
+    public List<Profile> findAllProfile() {
+        return profileRepository.findAll();
+    }
+
+
+//    public void saveAvatar(MultipartFile file, ModelUser user) throws IOException {
+////        ModelUser user = userRepository.findById((long) 4).get();
+//        user.setAvatar(file.getBytes());
+//        userRepository.save(user);
+//    }
 }
