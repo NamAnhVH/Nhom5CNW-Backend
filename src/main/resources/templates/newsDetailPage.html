@@ -32,22 +32,23 @@
         </div>
         <div sec:authorize="isAuthenticated()" id="isLogin">
             <div sec:authorize="hasRole('ROLE_admin')">
-                <a th:href="@{/admin}" sec:authentication="principal.user.fullname" class="username-login"></a>
+                <a th:href="@{/admin}" th:text="${fullname}" class="username-login"></a>
+
             </div>
             <div sec:authorize="hasRole('ROLE_giao-vien')">
-                <a th:href="@{/teacher}" sec:authentication="principal.user.fullname" class="username-login"></a>
+                <a th:href="@{/teacher}" th:text="${fullname}" class="username-login"></a>
             </div>
             <div id="logout-button">
                 <a th:href="@{/logout}">Đăng xuất</a>
             </div>
         </div>
     </section>
-    <section id="information-news">
-        <h1 th:text="${news.title}"></h1>
-        <p id="date" th:text="${news.time}"></p>
-        <div th:utext="${news.imagePage}" class="image-page"></div>
-        <h2 th:text="${news.description}" class="description"></h2>
-        <div id="content" th:utext="${news.detail}"></div>
+    <section id="information-news" th:object="${news}">
+        <h1 th:text="*{title}"></h1>
+        <p id="date" th:text="*{time}"></p>
+        <div th:utext="*{imagePage}" class="image-page"></div>
+        <h2 th:text="*{description}" class="description"></h2>
+        <div id="content" th:utext="*{detail}"></div>
     </section>
     <section id="contact-section">
         <h1>Thông tin liên hệ</h1>

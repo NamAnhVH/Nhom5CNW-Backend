@@ -18,13 +18,14 @@ public class Profile {
     @Lob
     @Column
     private byte[] avatar;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String description;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String detail;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "accountId", nullable = false)
     private Account account;
+
 
 }

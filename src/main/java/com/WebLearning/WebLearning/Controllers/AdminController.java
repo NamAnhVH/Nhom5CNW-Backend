@@ -1,5 +1,6 @@
 package com.WebLearning.WebLearning.Controllers;
 
+import com.WebLearning.WebLearning.FormData.NewsFormDto;
 import com.WebLearning.WebLearning.Models.News;
 import com.WebLearning.WebLearning.Service.NewsService;
 import com.WebLearning.WebLearning.Service.UserService;
@@ -27,12 +28,12 @@ public class AdminController {
     @GetMapping("/addNews")
     //http://localhost:8080/admin/addNews
     public String addNewsPage(Model model){
-        model.addAttribute("news", new News());
+        model.addAttribute("news", new NewsFormDto());
         return "admin/adminNewsManager/addNews";
     }
 
     @PostMapping("/addNews")
-    public String addNewsAction(@ModelAttribute News news) throws IOException {
+    public String addNewsAction(@ModelAttribute NewsFormDto news) throws IOException {
         newsService.add(news);
         return "redirect:/admin";
     }
@@ -51,7 +52,7 @@ public class AdminController {
     }
 
     @PostMapping("/editNews/{id}")
-    public String editNewsAction(@PathVariable Long id, @ModelAttribute News news){
+    public String editNewsAction(@PathVariable Long id, @ModelAttribute NewsFormDto news){
         newsService.update(id, news);
         return "redirect:/admin/listNews";
     }

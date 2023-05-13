@@ -1,8 +1,7 @@
 package com.WebLearning.WebLearning.Controllers;
 
-import com.WebLearning.WebLearning.Models.Account;
 import com.WebLearning.WebLearning.Service.UserService;
-import com.WebLearning.WebLearning.formData.UserRegistrationDto;
+import com.WebLearning.WebLearning.FormData.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

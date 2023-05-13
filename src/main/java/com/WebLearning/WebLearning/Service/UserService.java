@@ -5,7 +5,7 @@ import com.WebLearning.WebLearning.Models.Profile;
 import com.WebLearning.WebLearning.Repository.AccountRepository;
 import com.WebLearning.WebLearning.Repository.ProfileRepository;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
-import com.WebLearning.WebLearning.formData.UserRegistrationDto;
+import com.WebLearning.WebLearning.FormData.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

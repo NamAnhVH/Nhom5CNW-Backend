@@ -33,7 +33,6 @@
         </div>
         <div sec:authorize="isAuthenticated()" id="isLogin">
             <div sec:authorize="hasRole('ROLE_admin')">
-<!--                <a th:href="@{/admin}" sec:authentication="principal.profile.fullname" class="username-login"></a>-->
                 <a th:href="@{/admin}" th:text="${fullname}" class="username-login"></a>
 
             </div>

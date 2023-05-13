@@ -1,4 +1,4 @@
-package com.WebLearning.WebLearning.formData;
+package com.WebLearning.WebLearning.FormData;
 
 import lombok.Getter;
 import lombok.Setter;
