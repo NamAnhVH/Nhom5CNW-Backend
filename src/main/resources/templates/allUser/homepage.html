@@ -17,14 +17,13 @@
             <form>
                 <img src="/image/search-button.png" id="search-button">
                 <input type="text" placeholder="Tìm kiếm khoá học" id="search-text">
-
             </form>
         </div>
         <ul id="header-link">
             <li><a href="/homepage">Trang chủ</a></li>
             <li><a href="/news">Tin tức</a></li>
             <li><a href="html/mainpage/courses-page.html">Khoá học</a></li>
-            <li><a href="">Giảng viên</a></li>
+            <li><a href="/teacherProfile">Giảng viên</a></li>
             <li><a href="">Thư viện</a></li>
             <li><a href="">Hỗ trợ</a></li>
         </ul>
@@ -96,56 +95,34 @@
         </div>
         <a href="html/mainpage/courses-page.html" id="course-link">Khám phá các khoá học phù hợp với nhu cầu của bạn</a>
     </section>
-    <section id="news-section">
+    <section class="content-section">
         <h1>Thông tin mới nhất</h1>
-        <div id="listNews">
+        <div class="list">
             <div th:each="news: ${listNews}">
                 <a th:href="${'/news/' + news.id}" target="_self">
-                    <div th:utext="${news.imagePage}" class="news-tile-image"></div>
+                    <div th:utext="${news.imagePage}" class="image"></div>
                     <span th:text="${news.time}"></span>
                     <h1 th:text="${news.title}"></h1>
                     <p th:text="${news.description}"></p>
                 </a>
             </div>
         </div>
-
-        <a href="/news" id="news-link" target="_self">Các tin tức khác</a>
+        <a href="/news" class="btn-link" target="_self">Các tin tức khác</a>
     </section>
-    <section id="teacher-section">
+    <section class="content-section">
         <h1>Giảng viên</h1>
-        <div>
-            <a href="" target="_blank">
-                <img src="" class="teacher-tile-image" alt="Giảng viên 1">
-                <p>Giảng viên 1</p>
-                <p>Mô tả Giảng viên</p>
-            </a>
-            <a href="" target="_blank">
-                <img src="" class="teacher-tile-image" alt="Giảng viên 2">
-                <p>Giảng viên 2</p>
-                <p>Mô tả Giảng viên</p>
-            </a>
-            <a href="" target="_blank">
-                <img src="" class="teacher-tile-image" alt="Giảng viên 3">
-                <p>Giảng viên 3</p>
-                <p>Mô tả Giảng viên</p>
-            </a>
-            <a href="" target="_blank">
-                <img src="" class="teacher-tile-image" alt="Giảng viên 4">
-                <p>Giảng viên 4</p>
-                <p>Mô tả Giảng viên</p>
-            </a>
-            <a href="" target="_blank">
-                <img src="" class="teacher-tile-image" alt="Giảng viên 5">
-                <p>Giảng viên 5</p>
-                <p>Mô tả Giảng viên</p>
-            </a>
-            <a href="" target="_blank">
-                <img src="" class="teacher-tile-image" alt="Giảng viên 6">
-                <p>Giảng viên 6</p>
-                <p>Mô tả Giảng viên</p>
-            </a>
+        <div class="list">
+            <div th:each="profile: ${listProfile}">
+                <a th:href="${'/teacherProfile/' + profile.id}" target="_self" th:object="${profile}">
+                    <div id="avatar-profile">
+                        <img th:src="*{base64Avatar}">
+                    </div>
+                    <h1 th:text="*{fullname}"></h1>
+                    <p th:text="*{description}"></p>
+                </a>
+            </div>
         </div>
-        <a href="" id="teacher-link">Tất cả giảng viên</a>
+        <a href="/teacherProfile" class="btn-link">Tất cả giảng viên</a>
     </section>
     <section id="reference-section">
         <h1>Tài liệu tham khảo</h1>

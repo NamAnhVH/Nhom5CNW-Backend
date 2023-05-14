@@ -44,15 +44,16 @@
         <table>
             <tr>
                 <th style="width:10%;">AccountID</th>
-                <th style="width:15%;">Username</th>
+                <th style="width:13%;">Username</th>
                 <th style="width:15%;">Fullname</th>
-                <th style="width:10%;">Role</th>
+                <th style="width:8%;">Role</th>
+                <th style="width:12%">Trang cá nhân</th>
                 <th style="width:15%;">Approved</th>
-                <th style="width:15%;">Locked</th>
-                <th style="width:20%;"></th>
+                <th style="width:12%;">Locked</th>
+                <th style="width:15%;"></th>
             </tr>
             <tr th:each="account: ${listAccount}">
-                <td>
+                <td style="text-align:center;">
                     <p th:text="${account.id}"></p>
                 </td>
                 <td>
@@ -64,6 +65,9 @@
                 <td>
                     <p th:if="${account.role} == 'hoc-sinh'">Học sinh</p>
                     <p th:if="${account.role} == 'giao-vien'">Giáo viên</p>
+                </td>
+                <td>
+                    <a th:if="${account.role} == 'giao-vien'" th:href="${'/teacherProfile/' + account.id}">Trang cá nhân</a>
                 </td>
                 <td>
                     <p th:if="${account.approved}">Đã được cấp quyền</p>

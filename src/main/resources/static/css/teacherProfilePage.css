@@ -1,0 +1,195 @@
+html {
+    scroll-padding-top: 1000px;
+    scroll-behavior: smooth;
+}
+
+body {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    scroll-padding-top: 1000px;
+    line-height: 1.4;
+
+}
+
+a {
+    text-decoration: none;
+}
+
+#header-section {
+    /*Opacity start*/
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    filter: alpha(opacity=80);
+    -moz-opacity: 0.80;
+    -khtml-opacity: 0.8;
+    opacity: 0.8;
+    /*Opacity end*/
+    margin-top: -8px;
+    position: fixed;
+    justify-content: flex-end;
+    top: 0;
+    left: 0;
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: rgba(161, 151, 151, 0.671);
+    width: 100%;
+    font-size: 25px;
+    text-align: center;
+    align-items: center;
+    box-shadow: 0px 5px 100px rgb(167, 167, 167);
+    height: auto;
+}
+
+#left-top-header {
+    font-family: 'Times New Roman', Times, serif;
+    float: right;
+    color: black;
+    display: flex;
+    margin-left: 70px;
+    align-items: center;
+}
+
+#logo-header {
+    padding-top: 10px;
+    padding-right: 10px;
+    width: auto;
+    height: 85px;
+    object-fit: contain;
+}
+
+#search-text {
+    /* margin: 30px; */
+    height: 25px;
+    width: 200px;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 5px 30px 5px 10px;
+}
+
+#search-button {
+    position: relative;
+    top: 5px;
+    left: 240px;
+    width: 20px;
+    height: 20px;
+}
+
+#header-link {
+    display: flex;
+    padding: auto;
+    list-style-type: none;
+}
+
+#header-link a {
+    color: black;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 40px;
+    font-size: 20px;
+    background-color: grey;
+
+}
+
+#header-link a:hover {
+    background-color: rgb(73, 73, 73);;
+}
+
+#login-button {
+    margin-right: 50px;
+    font-size: 20px;
+}
+
+#login-button a {
+    background-color: gray;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: black;
+    border-radius: 40px;
+}
+
+#login-button a:hover {
+    background-color: rgb(73, 73, 73);
+}
+
+#isLogin{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.username-login {
+    margin: 0 50px;
+    color: blue;
+}
+
+#logout-button {
+    margin-right: 50px;
+    font-size: 20px;
+}
+
+#logout-button a {
+    background-color: gray;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: black;
+    border-radius: 40px;
+}
+
+#logout-button a:hover {
+    background-color: rgb(73, 73, 73);
+}
+
+#main-section{
+    margin: 200px 20%;
+    display: flex;
+    flex-direction: row;
+}
+
+#profile {
+    display: flex;
+    flex-direction: row;
+}
+
+#avatar-profile{
+    width:25vh;
+}
+
+#avatar-profile img{
+    width: 35vh;
+    height: 35vh;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+#main-profile{
+    margin: 0 10%;
+}
+
+#main-profile h1{
+    font-size: 50px;
+}
+
+#main-profile p {
+    font-size: 18px;
+    margin: 10px;
+}
+
+#main-profile li{
+    margin: 10px;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+#contact-section {
+    background-color: yellow;
+    height: 10vh;
+    justify-content: center;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 150px 200px;
+}

@@ -39,7 +39,7 @@
             </div>
         </div>
 <!--        Hiển thị preview trang cá nhân-->
-        <div th:unless="${param.edit}" id="right-side-main" class="none-background" th:object="${user}">
+        <div th:unless="${param.edit}" class="right-side-main none-background" th:object="${user}">
             <div id="profile">
                 <div id="avatar-profile">
                     <img th:src="*{base64Avatar}">
@@ -57,7 +57,7 @@
             </div>
         </div>
 <!--        Hiển thị trang chỉnh sửa-->
-        <div th:if="${param.edit}" id="right-side-main">
+        <div th:if="${param.edit}" class="right-side-main">
             <form action="/teacher/profile/edit" method="post" enctype="multipart/form-data" th:object="${user}">
                 <div>
                     <label for="fullname">Họ và tên:</label><br>

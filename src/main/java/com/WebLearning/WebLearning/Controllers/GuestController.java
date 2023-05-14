@@ -1,8 +1,10 @@
 package com.WebLearning.WebLearning.Controllers;
 
+import com.WebLearning.WebLearning.FormData.TeacherProfileDto;
 import com.WebLearning.WebLearning.Models.News;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import com.WebLearning.WebLearning.Service.NewsService;
+import com.WebLearning.WebLearning.Service.ProfileService;
 import com.WebLearning.WebLearning.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,8 @@ public class GuestController {
     private NewsService newsService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private ProfileService profileService;
 
     @Autowired
     private AuthenticationFacade authenticationFacade;
@@ -31,7 +35,8 @@ public class GuestController {
             model.addAttribute("fullname", userService.getFullname());
         }
         model.addAttribute("listNews", newsService.findTopSixNews());
-        return "homepage";
+        model.addAttribute("listProfile", profileService.findTopSixTeacher());
+        return "allUser/homepage";
     }
 
     @GetMapping("/news")
@@ -41,7 +46,8 @@ public class GuestController {
             model.addAttribute("fullname", userService.getFullname());
         }
         model.addAttribute("listNews", newsService.findAll());
-        return "newsPage";
+        model.addAttribute("newsPage", "Tin tức sự kiện");
+        return "allUser/listContentPage";
     }
 
     @GetMapping("/news/{id}")
@@ -52,19 +58,26 @@ public class GuestController {
         }
         News news = newsService.findById(id);
         model.addAttribute("news", news);
-        return "newsDetailPage";
+        return "allUser/newsPage";
+    }
+    @GetMapping("/teacherProfile")
+    //http://localhost:8080/teacherProfile
+    public String teacherProfilePage(Model model){
+        if(authenticationFacade.isAuthenticated()){
+            model.addAttribute("fullname", userService.getFullname());
+        }
+        model.addAttribute("listProfile", profileService.findAllByRole("giao-vien"));
+        model.addAttribute("profilePage","Danh sách giảng viên");
+        return "allUser/listContentPage";
     }
 
-//    @GetMapping("/index")
-//    public String test(Model model){
-//        ModelUser form = new ModelUser();
-//        model.addAttribute("form", form);
-//        return "index";
-//    }
-//
-//    @PostMapping("/index")
-//    public String postTest(@RequestParam("image") MultipartFile image) throws IOException {
-//        userService.saveAvatar(image);
-//        return "index";
-//    }
+    @GetMapping("/teacherProfile/{id}")
+    //http://localhost:8080/teacherProfile/{id}
+    public String teacherProfileDetailPage(@PathVariable Long id, Model model) {
+        if(authenticationFacade.isAuthenticated()){
+            model.addAttribute("fullname", userService.getFullname());
+        }
+        model.addAttribute("profile", profileService.findById(id));
+        return "allUser/teacherProfilePage";
+    }
 }

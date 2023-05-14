@@ -25,7 +25,7 @@ public class RegisterController {
     public String registerForm(Model model) {
         //Hiện trang đăng ký
         model.addAttribute("newUser", new UserRegistrationDto());
-        return "register";
+        return "allUser/register";
     }
     @PostMapping("registerForm")
     // action http://localhost:8080/register/registerForm

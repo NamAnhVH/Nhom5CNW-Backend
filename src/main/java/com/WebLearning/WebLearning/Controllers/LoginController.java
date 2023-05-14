@@ -37,7 +37,7 @@ public class LoginController {
             return "redirect:/homepage";
         }
         model.addAttribute("newUser", new Account());
-        return "login";
+        return "allUser/login";
     }
 
     @PostMapping("loginForm")
@@ -58,6 +58,6 @@ public class LoginController {
             model.addAttribute("error", "Tài khoản đã bị khoá hoặc chưa được cấp quyền ");
         }
         model.addAttribute("newUser", user);
-        return "login";
+        return "allUser/login";
     }
 }

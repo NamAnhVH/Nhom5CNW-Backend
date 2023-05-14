@@ -243,7 +243,7 @@ a {
     border-radius: 10px;
 }
 
-#news-section {
+.content-section {
     background-color: white;
     justify-content: center;
     text-align: center;
@@ -253,16 +253,16 @@ a {
     padding: 0 30vh 10vh 30vh;
 }
 
-#news-section h1 {
+.content-section h1 {
     color: black;
     font-size: 50px;
 }
 
-#news-section p {
+.content-section p {
     font-size: 20px;
 }
 
-#listNews{
+.list{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     grid-gap: 3rem;
@@ -273,8 +273,8 @@ a {
 
 
 
-#listNews a h1 {
-    font-size: 20px;
+.list a h1 {
+    font-size: 25px;
     text-align: left;
     display: -webkit-box;
     overflow: hidden;
@@ -282,7 +282,7 @@ a {
     -webkit-box-orient: vertical;
 }
 
-#listNews a p {
+.list a p {
     text-align: left;
     display: -webkit-box;
     overflow: hidden;
@@ -291,14 +291,14 @@ a {
 
 }
 
-.news-tile-image img{
+.image img{
     height: 228px;
     width: 100%;
     flex-grow: 1;
     border-radius: 10px;
 }
 
-#news-link {
+.btn-link {
     margin: 5vh auto;
     background-color: blue;
     border: 2px solid blue;
@@ -309,57 +309,13 @@ a {
     border-radius: 10px;
 }
 
-#teacher-section {
-    background-color: white;
-    justify-content: center;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    margin: 5vh 0;
-    padding: 0 30vh 10vh 30vh;
-    ;
+#avatar-profile img{
+    width: 20vh;
+    height: 20vh;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
-#teacher-section h1 {
-    color: black;
-    font-size: 50px;
-}
-
-#teacher-section p {
-    font-size: 20px;
-}
-
-#teacher-section div {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    grid-gap: 3rem;
-    width: 100%;
-    margin: 40px auto;
-}
-
-#teacher-section a {
-    text-decoration: none;
-}
-
-#teacher-section a p {
-    text-align: left;
-}
-
-.teacher-tile-image {
-    width: 100%;
-    flex-grow: 1;
-}
-
-#teacher-link {
-    margin: 5vh auto;
-    background-color: blue;
-    border: 2px solid blue;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-    padding: 10px;
-    border-radius: 10px;
-}
 
 #reference-section {
     background-color: white;
@@ -424,10 +380,10 @@ a {
     padding: 150px 200px;
 }
 
-#mainpage-title{
+.mainpage-title{
     background-color: blue;
     color:white;
-    height: 20vh;
+    height: 20%;
     justify-content: center;
     display: flex;
     flex-direction: column;
@@ -436,20 +392,20 @@ a {
     font-size: 35px;
 }
 
-.news-top{
+.topPage{
     display: flex;
     flex-wrap: wrap;
     font-size: 15px;
 }
-.news-top a{
+.topPage a{
     text-decoration: none;
     color: white;
 }
 
-.news-top a:hover{
+.topPage a:hover{
     text-decoration: underline;
 }
 
-.news-top p{
+.topPage p{
     padding: 0 10px 0 0;
 }

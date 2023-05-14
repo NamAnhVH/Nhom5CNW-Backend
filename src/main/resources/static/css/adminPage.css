@@ -141,6 +141,15 @@ p{
 
 }
 
+#right-side-main a{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 1000px; /* giới hạn chiều rộng của khối */
+    margin: 10px;
+
+}
+
 #right-side-main a:hover{
     text-decoration: underline;
 }

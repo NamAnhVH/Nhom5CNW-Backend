@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tin tức sự kiện</title>
+    <title th:if="${newsPage}">Tin tức sự kiện</title>
+    <title th:if="${profilePage}">Danh sách giảng viên</title>
     <link rel="stylesheet" href="/css/homepage.css">
 </head>
 <body>
@@ -23,7 +24,7 @@
             <li><a href="/homepage">Trang chủ</a></li>
             <li><a href="/news">Tin tức</a></li>
             <li><a href="/html/mainpage/courses-page.html">Khoá học</a></li>
-            <li><a href="">Giảng viên</a></li>
+            <li><a href="/teacherProfile">Giảng viên</a></li>
             <li><a href="">Thư viện</a></li>
             <li><a href="">Hỗ trợ</a></li>
             <li></li>
@@ -32,43 +33,61 @@
             <a th:href="@{/login/loginForm}">Đăng nhập</a>
         </div>
         <div sec:authorize="isAuthenticated()" id="isLogin">
-            <!--            <div>-->
-            <!--                <span sec:authentication="principal.user.fullname" class="username-login"></span>-->
-            <!--            </div>-->
             <div sec:authorize="hasRole('ROLE_admin')">
-                <a th:href="@{/admin}" sec:authentication="principal.user.fullname" class="username-login"></a>
+                <a th:href="@{/admin}" th:text="${fullname}" class="username-login"></a>
+
             </div>
             <div sec:authorize="hasRole('ROLE_giao-vien')">
-                <a th:href="@{/teacher}" sec:authentication="principal.user.fullname" class="username-login"></a>
+                <a th:href="@{/teacher}" th:text="${fullname}" class="username-login"></a>
             </div>
             <div id="logout-button">
                 <a th:href="@{/logout}">Đăng xuất</a>
             </div>
         </div>
     </section>
-    <section id="mainpage-title">
-        <div class="news-top">
+    <section class="mainpage-title" th:if="${newsPage}">
+        <div class="topPage" >
             <a href="/homepage"><p>Trang chủ</p></a><p>/</p><p>Tin tức</p>
         </div>
         <div>
             <h1>Tin tức sự kiện</h1>
         </div>
     </section>
-    <section id="news-section">
+    <section class="mainpage-title" th:if="${profilePage}">
+        <div class="topPage" >
+            <a href="/homepage"><p>Trang chủ</p></a><p>/</p><p>Danh sách giảng viên</p>
+        </div>
+        <div>
+            <h1>Danh sách giảng viên</h1>
+        </div>
+    </section>
+    <section th:if="${newsPage}" class="content-section">
         <h1>Thông tin mới nhất</h1>
-        <div id="listNews">
+        <div class="list">
             <div th:each="news: ${listNews}">
                 <a th:href="${'/news/' + news.id}" target="_self">
-                    <div th:utext="${news.imagePage}" class="news-tile-image"></div>
+                    <div th:utext="${news.imagePage}" class="image"></div>
                     <span th:text="${news.time}"></span>
                     <h1 th:text="${news.title}"></h1>
                     <p th:text="${news.description}"></p>
                 </a>
             </div>
         </div>
-
     </section>
-
+    <section th:if="${profilePage}" class="content-section">
+        <h1>Giảng viên</h1>
+        <div class="list">
+            <div th:each="profile: ${listProfile}">
+                <a th:href="${'/teacherProfile/' + profile.id}" target="_self" th:object="${profile}">
+                    <div id="avatar-profile">
+                        <img th:src="*{base64Avatar}">
+                    </div>
+                    <h1 th:text="*{fullname}"></h1>
+                    <p th:text="*{description}"></p>
+                </a>
+            </div>
+        </div>
+    </section>
     <section id="contact-section">
         <h1>Thông tin liên hệ</h1>
     </section>

@@ -15,6 +15,8 @@ public class TeacherProfileDto {
     private String description;
     private String detail;
 
+
+    private Long id;
 //    private byte[] test;
 
 //    public void setAvatar(byte[] avatar) {
