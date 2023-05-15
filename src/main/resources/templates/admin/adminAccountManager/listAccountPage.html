@@ -63,11 +63,11 @@
                     <p th:each="profile: ${listProfile}" th:if="${profile.account} == ${account}" th:text="${profile.fullname}"></p>
                 </td>
                 <td>
-                    <p th:if="${account.role} == 'hoc-sinh'">Học sinh</p>
-                    <p th:if="${account.role} == 'giao-vien'">Giáo viên</p>
+                    <p th:if="${account.role} == 'học sinh'">Học sinh</p>
+                    <p th:if="${account.role} == 'giáo viên'">Giáo viên</p>
                 </td>
                 <td>
-                    <a th:if="${account.role} == 'giao-vien'" th:href="${'/teacherProfile/' + account.id}">Trang cá nhân</a>
+                    <a th:if="${account.role} == 'giáo viên'" th:href="${'/teacherProfile/' + account.id}">Trang cá nhân</a>
                 </td>
                 <td>
                     <p th:if="${account.approved}">Đã được cấp quyền</p>

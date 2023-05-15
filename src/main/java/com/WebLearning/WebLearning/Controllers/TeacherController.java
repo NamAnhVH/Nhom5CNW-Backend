@@ -1,7 +1,9 @@
 package com.WebLearning.WebLearning.Controllers;
 
+import com.WebLearning.WebLearning.FormData.CourseFormDto;
 import com.WebLearning.WebLearning.FormData.TeacherProfileDto;
 import com.WebLearning.WebLearning.Models.Profile;
+import com.WebLearning.WebLearning.Service.CourseService;
 import com.WebLearning.WebLearning.Service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,8 @@ public class TeacherController {
 
     @Autowired
     private ProfileService profileService;
+    @Autowired
+    private CourseService courseService;
 
     @GetMapping
     public String teacherPage() {
@@ -38,5 +42,15 @@ public class TeacherController {
         return "redirect:/teacher/profile";
     }
 
-//    @GetMapping
+    @GetMapping("/course/addCourse")
+    public String addCoursePage(Model model){
+        model.addAttribute("newCourse", new CourseFormDto());
+        return "teacher/teacherCourseManager/addCoursePage";
+    }
+
+    @PostMapping("/course/addCourse")
+    public String addCourseAction(@ModelAttribute CourseFormDto newCourse) throws IOException {
+        courseService.add(newCourse);
+        return "redirect:/teacher";
+    }
 }

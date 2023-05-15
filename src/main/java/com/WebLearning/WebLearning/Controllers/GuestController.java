@@ -66,7 +66,7 @@ public class GuestController {
         if(authenticationFacade.isAuthenticated()){
             model.addAttribute("fullname", userService.getFullname());
         }
-        model.addAttribute("listProfile", profileService.findAllByRole("giao-vien"));
+        model.addAttribute("listProfile", profileService.findAllByRole("giáo viên"));
         model.addAttribute("profilePage","Danh sách giảng viên");
         return "allUser/listContentPage";
     }

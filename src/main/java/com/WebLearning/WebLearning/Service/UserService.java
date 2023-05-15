@@ -55,7 +55,7 @@ public class UserService {
         newAccount.setUsername(newUser.getUsername());
         newAccount.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
         newAccount.setRole(newUser.getRole());
-        if(newAccount.getRole().equals("hoc-sinh")){
+        if(newAccount.getRole().equals("học sinh")){
             newAccount.setApproved(true);
         }
         else {
@@ -72,9 +72,9 @@ public class UserService {
     public List<Account> findAccountByOption(String option) {
         List<Account> listAccount = new ArrayList<>();
         if (option.equals("studentAccount")){
-            listAccount = accountRepository.findByRole("hoc-sinh");
+            listAccount = accountRepository.findByRole("học sinh");
         } else if (option.equals("teacherAccount")) {
-            listAccount = accountRepository.findByRole("giao-vien");
+            listAccount = accountRepository.findByRole("giáo viên");
         } else if (option.equals("unapprovedAccount")) {
             listAccount = accountRepository.findByApprovedFalse();
         } else if (option.equals("lockedAccount")) {

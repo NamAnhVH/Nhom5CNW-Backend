@@ -35,7 +35,7 @@
             <a th:href="@{/admin}" th:text="${fullname}" class="username-login"></a>
 
         </div>
-        <div sec:authorize="hasRole('ROLE_giao-vien')">
+        <div sec:authorize="hasRole('ROLE_giáo viên')">
             <a th:href="@{/teacher}" th:text="${fullname}" class="username-login"></a>
         </div>
         <div id="logout-button">

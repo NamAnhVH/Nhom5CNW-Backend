@@ -66,7 +66,7 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/admin/**")
                     .hasRole("admin")
                     .antMatchers("/teacher/**")
-                    .hasRole("giao-vien")
+                    .hasRole("giáo viên")
                     .anyRequest()
                     .authenticated()
                 .and()

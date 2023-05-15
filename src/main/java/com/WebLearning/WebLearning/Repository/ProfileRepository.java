@@ -15,4 +15,6 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
     List<Profile> findByAccountRoleOrderByIdDesc(String role);
 
     List<Profile> findTop6ByAccountRoleOrderByIdDesc(String role);
+
+    List<Profile> findTop6ByAccountRoleAndAccountApprovedTrueAndAccountLockedFalseOrderByIdDesc(String role);
 }
