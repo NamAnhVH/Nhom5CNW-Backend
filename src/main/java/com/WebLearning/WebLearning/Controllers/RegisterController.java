@@ -1,6 +1,6 @@
 package com.WebLearning.WebLearning.Controllers;
 
-import com.WebLearning.WebLearning.Service.UserService;
+import com.WebLearning.WebLearning.Service.AccountService;
 import com.WebLearning.WebLearning.FormData.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ import java.io.IOException;
 public class RegisterController {
 
     @Autowired
-    private UserService userService;
+    private AccountService accountService;
 
     @GetMapping("registerForm")
     //http://localhost:8080/register/registerForm
@@ -32,13 +32,13 @@ public class RegisterController {
     public String registerSubmit(@ModelAttribute UserRegistrationDto newUser , Model model) throws IOException {
         //Xử lý đăng ký tài khoản
 
-        if(userService.isExistedAccount(newUser.getUsername())){
+        if(accountService.isExistedAccount(newUser.getUsername())){
             return "redirect:/register/registerForm?existAccount=true";
         }
         //Nếu tồn tại tài khoản thì trả về trang http:localhost:8080/register/registerForm?existAccount=true
 
         //Lưu user vào database và trả về trang http:localhost:8080/register/registerForm?success=true
-        userService.add(newUser);
+        accountService.add(newUser);
         return "redirect:/register/registerForm?success=true";
     }
 

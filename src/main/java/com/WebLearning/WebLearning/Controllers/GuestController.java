@@ -1,11 +1,10 @@
 package com.WebLearning.WebLearning.Controllers;
 
-import com.WebLearning.WebLearning.FormData.TeacherProfileDto;
 import com.WebLearning.WebLearning.Models.News;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import com.WebLearning.WebLearning.Service.NewsService;
 import com.WebLearning.WebLearning.Service.ProfileService;
-import com.WebLearning.WebLearning.Service.UserService;
+import com.WebLearning.WebLearning.Service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +18,7 @@ public class GuestController {
     @Autowired
     private NewsService newsService;
     @Autowired
-    private UserService userService;
+    private AccountService accountService;
     @Autowired
     private ProfileService profileService;
 
@@ -32,7 +31,7 @@ public class GuestController {
     //http://localhost:8080/homepage/null
     public String homepageGuest(Model model){
         if(authenticationFacade.isAuthenticated()){
-            model.addAttribute("fullname", userService.getFullname());
+            model.addAttribute("fullname", profileService.getFullname());
         }
         model.addAttribute("listNews", newsService.findTopSixNews());
         model.addAttribute("listProfile", profileService.findTopSixTeacher());
@@ -43,7 +42,7 @@ public class GuestController {
     //http://localhost:8080/news
     public String newsPage(Model model){
         if(authenticationFacade.isAuthenticated()){
-            model.addAttribute("fullname", userService.getFullname());
+            model.addAttribute("fullname", profileService.getFullname());
         }
         model.addAttribute("listNews", newsService.findAll());
         model.addAttribute("newsPage", "Tin tức sự kiện");
@@ -54,7 +53,7 @@ public class GuestController {
     //http://localhost:8080/news/{id}
     public String newsDetailPage(@PathVariable Long id, Model model) {
         if(authenticationFacade.isAuthenticated()){
-            model.addAttribute("fullname", userService.getFullname());
+            model.addAttribute("fullname", profileService.getFullname());
         }
         News news = newsService.findById(id);
         model.addAttribute("news", news);
@@ -64,7 +63,7 @@ public class GuestController {
     //http://localhost:8080/teacherProfile
     public String teacherProfilePage(Model model){
         if(authenticationFacade.isAuthenticated()){
-            model.addAttribute("fullname", userService.getFullname());
+            model.addAttribute("fullname", profileService.getFullname());
         }
         model.addAttribute("listProfile", profileService.findAllByRole("giáo viên"));
         model.addAttribute("profilePage","Danh sách giảng viên");
@@ -75,7 +74,7 @@ public class GuestController {
     //http://localhost:8080/teacherProfile/{id}
     public String teacherProfileDetailPage(@PathVariable Long id, Model model) {
         if(authenticationFacade.isAuthenticated()){
-            model.addAttribute("fullname", userService.getFullname());
+            model.addAttribute("fullname", profileService.getFullname());
         }
         model.addAttribute("profile", profileService.findById(id));
         return "allUser/teacherProfilePage";

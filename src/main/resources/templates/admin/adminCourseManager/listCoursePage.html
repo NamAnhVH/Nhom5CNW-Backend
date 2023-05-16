@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách tài khoản</title>
+    <link rel="stylesheet" href="/css/adminPage.css">
+</head>
+<body>
+<header id="header">
+    <div>
+        <a class="logo-head" title="Trang chủ" href="/homepage">
+            <img class="logo-header" src="/image/Hust-logo.jpg" alt="">
+        </a>
+    </div>
+    <div>
+        <ul class="action-tool">
+            <li class="btn"><a href="/homepage">Trang chủ</a></li>
+            <li class="btn"><a href="/admin/listCourse">Quản lý khoá học</a></li>
+            <li class="btn"><a href="/admin/listAccount">Quản lý tài khoản</a></li>
+            <li class="btn"><a href="/admin/listNews">Quản lý tin tức</a></li>
+        </ul>
+    </div>
+    <div>
+        <ul class="action-tool">
+            <li class="btn"><a th:href="@{/logout}" title="Đăng xuất">Đăng xuất</a></li>
+        </ul>
+    </div>
+</header>
+<section id="main">
+    <div id="left-side-main">
+        <div id="left-side-content">
+            <ul>
+                <li><a href="/admin/listCourse">Danh sách khoá học</a></li>
+                <li><a href="/admin/listCourse/unapprovedCourse">Danh sách khoá học đang chờ phê duyệt</a></li>
+                <li><a href="/admin/listCourse/lockedCourse">Danh sách khoá học đã bị khoá</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="right-side-main">
+        <div class="filter">
+            <form method="get">
+                <label for="type">Bộ lọc:</label>
+                <select id="type" name="type">
+                    <option value="">Tất cả khoá học</option>
+                    <option value="Các môn chuyên ngành">Các môn chuyên ngành</option>
+                    <option value="Toán cao cấp">Toán cao cấp</option>
+                    <option value="Tiếng Anh Toeic">Tiếng Anh Toeic</option>
+                    <option value="Khoá học bổ trợ">Khoá học bổ trợ</option>
+                    <option value="Bồi dưỡng học sinh giỏi">Tiếng Anh Toeic</option>
+                    <option value="Luyện thi Pen-C">Luyện thi Pen-C</option>
+                    <option value="Luyện thi ĐH Bách khoa">Luyện thi ĐH bách khoa</option>
+                    <option value="Luyện thi ĐHQG TP.HCM">Luyện thi ĐHQG TP.HCM</option>
+                    <option value="Luyện thi ĐHQG Hà Nội">Luyện thi ĐHQG Hà Nội</option>
+                    <option value="Lớp 12">Lớp 12</option>
+                    <option value="Lớp 11">Lớp 11</option>
+                    <option value="Lớp 10">Lớp 10</option>
+                    <option value="Tổng ôn vào 10">Tổng ôn vào 10</option>
+                    <option value="Luyện đề vào 10">Luyện đề vào 10</option>
+                    <option value="Cấp tốc vào 10">Cấp tốc vào 10</option>
+                    <option value="Lớp 9">Lớp 9</option>
+                    <option value="Lớp 8">Lớp 8</option>
+                    <option value="Lớp 7">Lớp 7</option>
+                    <option value="Lớp 6">Lớp 6</option>
+                    <option value="Tổng ôn vào 6">Tổng ôn vào 6</option>
+                    <option value="Luyện đề vào 6">Luyện đề vào 6</option>
+                    <option value="Lớp 5">Lớp 5</option>
+                    <option value="Lớp 4">Lớp 4</option>
+                    <option value="Lớp 3">Lớp 3</option>
+                    <option value="Lớp 2">Lớp 2</option>
+                    <option value="Lớp 1">Lớp 1</option>
+                    <option value="Tiền tiểu học">Tiền tiểu học</option>
+                </select>
+                <button th:if="${option}" th:formaction="${'/admin/listCourse/' + option + '/'}"  type="submit">Tìm kiếm</button>
+                <button th:unless="${option}" formaction="/admin/listCourse/" type="submit">Tìm kiếm</button>
+            </form>
+        </div>
+        <table>
+            <tr>
+                <th style="width:10%;">CourseID</th>
+                <th style="width:18%;">Tên khoá học</th>
+                <th style="width:15%;">Tên giáo viên</th>
+                <th style="width:12%;">Ngày đăng tải</th>
+                <th style="width:11%">Phân loại</th>
+                <th style="width:12%;">Approved</th>
+                <th style="width:10%;">Locked</th>
+                <th style="width:12%;"></th>
+            </tr>
+            <tr th:each="course: ${listCourse}">
+                <td style="text-align:center;">
+                    <p th:text="${course.id}"></p>
+                </td>
+                <td>
+                    <p th:text="${course.name}"></p>
+                </td>
+                <td th:if="${listProfile != null}">
+                    <p th:each="profile: ${listProfile}" th:if="${profile.account} == ${course.account}" th:text="${profile.fullname}"></p>
+                </td>
+                <td>
+                    <p th:text="${course.time}"></p>
+                </td>
+                <td>
+                    <p th:text="${course.courseType}"></p>
+                </td>
+                <td>
+                    <p th:if="${course.approved}">Đã được phê duyệt</p>
+                    <p th:unless="${course.approved}">Chưa được phê duyệt</p>
+                </td>
+                <td>
+                    <p th:if="${course.locked}">Đã bị khoá</p>
+                </td>
+                <td th:unless="${course.approved}">
+                    <form method="post">
+                        <button th:formaction="${'/admin/listCourse/approveCourse/' + course.id + '?option=' + option +'&type=' + type}" class="action-btn">Phê duyệt</button>
+                    </form>
+                </td>
+                <td th:if="${course.approved}">
+                    <form method="post">
+                        <button th:if="${course.locked}" th:formaction="${'/admin/listCourse/unlockCourse/' + course.id + '?option=' + option +'&type=' + type}" class="action-btn">Mở khoá học</button>
+                        <button th:unless="${course.locked}" th:formaction="${'/admin/listCourse/lockCourse/' + course.id + '?option=' + option +'&type=' + type}" class="action-btn">Khoá khoá học</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</section>
+</body>
+</html>

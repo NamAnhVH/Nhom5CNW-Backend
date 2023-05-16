@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserService {
+public class AccountService {
 
     @Autowired
     private AccountRepository accountRepository;
@@ -105,15 +105,7 @@ public class UserService {
         accountRepository.save(account);
     }
 
-    public String getFullname() {
-        Account currentAccount = authenticationFacade.getAccount();
-        Profile profile = profileRepository.findByAccountId(currentAccount.getId());
-        return profile.getFullname();
-    }
 
-    public List<Profile> findAllProfile() {
-        return profileRepository.findAll();
-    }
 
 
 //    public void saveAvatar(MultipartFile file, ModelUser user) throws IOException {

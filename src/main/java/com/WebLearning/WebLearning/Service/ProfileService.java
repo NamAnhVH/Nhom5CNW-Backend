@@ -85,4 +85,14 @@ public class ProfileService {
         }
         return listProfileDto;
     }
+
+    public String getFullname() {
+        Account currentAccount = authenticationFacade.getAccount();
+        Profile profile = profileRepository.findByAccountId(currentAccount.getId());
+        return profile.getFullname();
+    }
+
+    public List<Profile> findAllProfile() {
+        return profileRepository.findAll();
+    }
 }

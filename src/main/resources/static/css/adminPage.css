@@ -192,3 +192,12 @@ p{
 .action-btn:hover{
     text-decoration: underline;
 }
+
+.filter{
+    margin: 20px 0;
+}
+
+#type{
+    margin: 0 30px;
+    padding: 8px 10px;
+}

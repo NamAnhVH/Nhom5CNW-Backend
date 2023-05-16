@@ -28,4 +28,9 @@ public class Course {
     private String courseType;
     @Column
     private boolean approved;
+    @Column
+    private boolean locked;
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "accountId", nullable = false)
+    private Account account;
 }

@@ -2,7 +2,7 @@ package com.WebLearning.WebLearning.Controllers;
 
 import com.WebLearning.WebLearning.Models.Account;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
-import com.WebLearning.WebLearning.Service.UserService;
+import com.WebLearning.WebLearning.Service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginController {
 
     @Autowired
-    private UserService userService;
+    private AccountService accountService;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
