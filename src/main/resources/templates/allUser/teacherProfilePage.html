@@ -5,63 +5,71 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${profile.fullname}"></title>
-    <link rel="stylesheet" href="/css/teacherProfilePage.css">
+    <link rel="stylesheet" href="/css/contentPage.css">
 
 </head>
 <body>
-<section id="header-section">
-    <div id="left-top-header">
-        <a href="/homepage" target="_self">
-            <img src="/image/Hust-logo.jpg" alt="Logo" id="logo-header" title="Quay về trang chủ">
-        </a>
-        <form>
-            <img src="/image/search-button.png" id="search-button">
-            <input type="text" placeholder="Tìm kiếm khoá học" id="search-text">
-        </form>
-    </div>
-    <ul id="header-link">
-        <li><a href="/homepage">Trang chủ</a></li>
-        <li><a href="/news">Tin tức</a></li>
-        <li><a href="">Khoá học</a></li>
-        <li><a href="/teacherProfile">Giảng viên</a></li>
-        <li><a href="">Thư viện</a></li>
-        <li><a href="">Hỗ trợ</a></li>
-    </ul>
-    <div id="login-button" sec:authorize="!isAuthenticated()">
-        <a th:href="@{/login/loginForm}">Đăng nhập</a>
-    </div>
-    <div sec:authorize="isAuthenticated()" id="isLogin">
-        <div sec:authorize="hasRole('ROLE_admin')">
-            <a th:href="@{/admin}" th:text="${fullname}" class="username-login"></a>
+    <section id="header-section">
+        <div id="left-top-header">
+            <a href="/homepage" target="_self">
+                <img src="/image/Hust-logo.jpg" alt="Logo" id="logo-header" title="Quay về trang chủ">
+            </a>
+            <form>
+                <img src="/image/search-button.png" id="search-button">
+                <input type="text" placeholder="Tìm kiếm khoá học" id="search-text">
+            </form>
+        </div>
+        <ul id="header-link">
+            <li><a href="/homepage">Trang chủ</a></li>
+            <li><a href="/news">Tin tức</a></li>
+            <li><a href="">Khoá học</a></li>
+            <li><a href="/teacherProfile">Giảng viên</a></li>
+            <li><a href="">Thư viện</a></li>
+            <li><a href="">Hỗ trợ</a></li>
+        </ul>
+        <div id="login-button" sec:authorize="!isAuthenticated()">
+            <a th:href="@{/login/loginForm}">Đăng nhập</a>
+        </div>
+        <div sec:authorize="isAuthenticated()" id="isLogin">
+            <div sec:authorize="hasRole('ROLE_admin')">
+                <a th:href="@{/admin}" th:text="${fullname}" class="username-login"></a>
 
-        </div>
-        <div sec:authorize="hasRole('ROLE_giáo viên')">
-            <a th:href="@{/teacher}" th:text="${fullname}" class="username-login"></a>
-        </div>
-        <div id="logout-button">
-            <a th:href="@{/logout}">Đăng xuất</a>
-        </div>
-    </div>
-</section>
-<section id="main-section" th:object="${profile}">
-    <div id="profile">
-        <div id="avatar-profile">
-            <img th:src="*{base64Avatar}">
-        </div>
-        <div id="main-profile">
-            <div>
-                <h1 th:text="*{fullname}"></h1>
             </div>
-            <br>
-            <div>
-                <p th:text="*{description}"></p>
+            <div sec:authorize="hasRole('ROLE_giáo viên')">
+                <a th:href="@{/teacher}" th:text="${fullname}" class="username-login"></a>
             </div>
-            <div th:utext="*{detail}"></div>
+            <div id="logout-button">
+                <a th:href="@{/logout}">Đăng xuất</a>
+            </div>
         </div>
-    </div>
-</section>
-<section id="contact-section">
-    <h1>Thông tin liên hệ</h1>
-</section>
+    </section>
+    <section class="mainpage-title">
+        <div class="topPage">
+            <a href="/homepage"><p>Trang chủ</p></a><p>/</p><a href="/teacherProfile"><p>Danh sách giảng viên</p></a><p>/</p><p th:text="${profile.fullname}"></p>
+        </div>
+        <div>
+            <h1 th:text="${profile.fullname}"></h1>
+        </div>
+    </section>
+    <section id="profile-section" th:object="${profile}">
+        <div id="profile">
+            <div id="avatar-profile">
+                <img th:src="*{base64Avatar}">
+            </div>
+            <div id="main-profile">
+                <div>
+                    <h1 th:text="*{fullname}"></h1>
+                </div>
+                <br>
+                <div>
+                    <p th:text="*{description}"></p>
+                </div>
+                <div th:utext="*{detail}"></div>
+            </div>
+        </div>
+    </section>
+    <section id="contact-section">
+        <h1>Thông tin liên hệ</h1>
+    </section>
 </body>
 </html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm khoá học</title>
+    <link rel="stylesheet" href="/css/teacherPage.css">
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+
+</head>
+<body>
+    <header id="header">
+        <div>
+            <a class="logo-head" title="Trang chủ" href="/homepage">
+                <img class="logo-header" src="/image/Hust-logo.jpg" alt="">
+            </a>
+        </div>
+        <div>
+            <ul class="action-tool">
+                <li class="btn"><a href="/homepage">Trang chủ</a></li>
+                <li class="btn"><a href="/teacher/course/listCourse">Quản lý khoá học</a></li>
+                <li class="btn"><a href="/teacher/profile">Thông tin cá nhân</a></li>
+            </ul>
+        </div>
+        <div>
+            <ul class="action-tool">
+                <li class="btn"><a th:href="@{/logout}" title="Đăng xuất">Đăng xuất</a></li>
+            </ul>
+        </div>
+        
+    </header>
+    <section id="main">
+        <div id="left-side-main">
+            <div id="left-side-content">
+                <ul>
+                    <li><a href="/teacher/course/previewCourse">Trang xem trước khoá học</a></li>
+                    <li><a href="/teacher/course/editCourse">Chỉnh sửa khoá học</a></li>
+                    <li><a href="/teacher/course/addLesson">Thêm bài giảng</a></li>
+                    <li><a href="/teacher/course/manageLesson">Quản lý bài giảng</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

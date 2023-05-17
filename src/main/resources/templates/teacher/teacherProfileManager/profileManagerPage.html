@@ -19,7 +19,7 @@
         <div>
             <ul class="action-tool">
                 <li class="btn"><a href="/homepage">Trang chủ</a></li>
-                <li class="btn"><a href="/teacher/listCourse">Quản lý khoá học</a></li>
+                <li class="btn"><a href="/teacher/course/listCourse">Quản lý khoá học</a></li>
                 <li class="btn"><a href="/teacher/profile">Thông tin cá nhân</a></li>
             </ul>
         </div>
@@ -61,7 +61,7 @@
             <form action="/teacher/profile/edit" method="post" enctype="multipart/form-data" th:object="${user}">
                 <div>
                     <label for="fullname">Họ và tên:</label><br>
-                    <input type="text" id="fullname" name="fullname" class="text-field-content" th:field="*{fullname}">
+                    <input type="text" id="fullname" name="fullname" class="text-field-content" th:field="*{fullname}" required>
                 </div>
                 <div>
                     <label>Avatar</label>

@@ -58,7 +58,7 @@ public class ProfileService {
 
     public List<TeacherProfileDto> findTopSixTeacher() {
         List<TeacherProfileDto> listProfileDto = new ArrayList<>();
-        List<Profile> listProfile = profileRepository.findTop6ByAccountRoleAndAccountApprovedTrueAndAccountLockedFalseOrderByIdDesc("giao-vien");
+        List<Profile> listProfile = profileRepository.findTop6ByAccountRoleAndAccountApprovedTrueAndAccountLockedFalseOrderByIdDesc("giáo viên");
         for (Profile profile: listProfile) {
             TeacherProfileDto profileDto = new TeacherProfileDto();
             profileDto.setFullname(profile.getFullname());
@@ -73,7 +73,7 @@ public class ProfileService {
 
     public List<TeacherProfileDto> findAllByRole(String role) {
         List<TeacherProfileDto> listProfileDto = new ArrayList<>();
-        List<Profile> listProfile = profileRepository.findByAccountRoleOrderByIdDesc(role);
+        List<Profile> listProfile = profileRepository.findByAccountRoleAndAccountApprovedTrueAndAccountLockedFalseOrderByIdDesc(role);
         for (Profile profile: listProfile) {
             TeacherProfileDto profileDto = new TeacherProfileDto();
             profileDto.setFullname(profile.getFullname());

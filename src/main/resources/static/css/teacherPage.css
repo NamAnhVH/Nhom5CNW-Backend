@@ -3,6 +3,11 @@
     margin: 0;
 }
 
+html {
+    /*scroll-padding-top: 1000px;*/
+    scroll-behavior: smooth;
+}
+
 
 body{
     /* justify-content: space-between; */
@@ -10,7 +15,7 @@ body{
     flex-direction: column;
     height: 100vh;
     font-family: 'Be Vietnam Pro', sans-serif;
-
+    line-height: 1.6;
 }
 
 a {
@@ -26,6 +31,18 @@ table, th, td {
 th{
     line-height: 1.6;
     font-size: 20px;
+}
+
+table p{
+    padding: 10px;
+}
+
+table a{
+    padding: 10px;
+}
+
+table a:hover{
+    text-decoration: underline;
 }
 
 p{
@@ -137,6 +154,11 @@ p{
     box-shadow: 0 0 0 0 !important;
 }
 
+#right-side-main a:hover{
+    text-decoration: underline;
+}
+
+
 .text-field-content {
     margin: 20px 0;
     padding: 10px;
@@ -190,7 +212,7 @@ p{
 
 #main-profile{
     margin: 0 3%;
-    width: 75vh;
+    width: 70%;
 }
 
 #main-profile h1{
@@ -211,5 +233,101 @@ p{
 #type{
     margin: 20px 0;
     padding: 8px 10px;
+}
+
+.course-title{
+    margin: 50px 5%;
+    width:60%;
+}
+
+.course-title h1{
+    margin: 20px 0;
+    font-size: 32px;
+}
+
+.course-title p{
+    font-size: 18px;
+    max-width: 80%;
+    margin: 10px 0;
+}
+
+.course-title p strong{
+    font-size: 24px;
+}
+
+.course-title p em{
+    font-size: 24px;
+    text-decoration: underline;
+}
+
+.course-title button{
+    margin: 30px 0 0 0;
+    background-color: orange;
+    padding: 10px 20px;
+    font-size: 20px;
+    border: none;
+    border-radius: 10px;
+}
+
+.flex-row{
+    display: flex;
+    flex-direction: row;
+}
+
+.preview-course{
+   width:80% !important;
+   margin : -2% 0 !important;
+}
+
+#image-course{
+    display: flex;
+    align-items: center;
+}
+
+
+#image-course img{
+    width: 80%;
+}
+
+
+.list-container{
+    width: 100%;
+    border-bottom: 1px solid gray;
+}
+
+.row-list {
+    display: flex;
+    padding: 20px;
+    list-style-type: none;
+    margin: 0 1%;
+}
+
+.row-list a {
+    color: black;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 18px;
+
+}
+
+.row-list a:hover {
+    /* background-color: rgb(73, 73, 73);; */
+}
+
+#description{
+    margin: 20px;
+    width: 80%;
+}
+
+#description h2{
+    font-size: 18px;
+}
+
+#description h3{
+    margin: 10px 0;
+}
+
+#description p{
+    margin: 10px;
 }
 

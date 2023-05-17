@@ -1,9 +1,11 @@
 package com.WebLearning.WebLearning.Service;
 
 import com.WebLearning.WebLearning.FormData.CourseFormDto;
+import com.WebLearning.WebLearning.Models.Account;
 import com.WebLearning.WebLearning.Models.Course;
 import com.WebLearning.WebLearning.Repository.CourseRepository;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +21,7 @@ public class CourseService {
     @Autowired
     private CourseRepository courseRepository;
 
-    public void add(CourseFormDto newCourse) throws IOException {
+    public void addCourse(CourseFormDto newCourse) throws IOException {
         Course course = new Course();
         course.setName(newCourse.getName());
         course.setImage(newCourse.getImage().getBytes());
@@ -74,6 +76,47 @@ public class CourseService {
     public void unlockCourse(Long id) {
         Course course = courseRepository.findById(id).get();
         course.setLocked(false);
+        courseRepository.save(course);
+    }
+
+    public List<Course> findAllByCurrentAccount() {
+        Account currentAccount = authenticationFacade.getAccount();
+        return courseRepository.findByAccountId(currentAccount.getId());
+    }
+
+    public CourseFormDto getCourseById(Long id) {
+        Course course = courseRepository.findById(id).get();
+        CourseFormDto courseDto = new CourseFormDto();
+        courseDto.setName(course.getName());
+        courseDto.setBase64Image("data:image/png;base64," + Base64.encodeBase64String(course.getImage()));
+        courseDto.setIntroduction(course.getIntroduction());
+        courseDto.setDescription(course.getDescription());
+        courseDto.setTime(course.getTime());
+        courseDto.setId(course.getId());
+        return courseDto;
+    }
+
+    public boolean isAccessAllowed(Long id) {
+        Account currentAccount = authenticationFacade.getAccount();
+        Course course = courseRepository.findById(id).get();
+        return course.getAccount().getId() == currentAccount.getId();
+    }
+
+    public List<Course> findAllUnapprovedCourseByCurrentAccount() {
+        Account currentAccount = authenticationFacade.getAccount();
+        return courseRepository.findByApprovedFalseAndAccountId(currentAccount.getId());
+    }
+
+    public void updateCourse(Long id, CourseFormDto courseDto) throws IOException {
+        Course course = courseRepository.findById(id).get();
+        course.setName(courseDto.getName());
+        if(!courseDto.getImage().isEmpty()){
+            course.setImage(courseDto.getImage().getBytes());
+        }
+        course.setTime(courseDto.getTime());
+        course.setIntroduction(courseDto.getIntroduction());
+        course.setDescription(courseDto.getDescription());
+        course.setCourseType(courseDto.getCourseType());
         courseRepository.save(course);
     }
 }

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${news.title}"></title>
-    <link rel="stylesheet" href="/css/news-detail-page.css">
+    <link rel="stylesheet" href="/css/contentPage.css">
 
 </head>
 <body>
@@ -43,7 +43,15 @@
             </div>
         </div>
     </section>
-    <section id="information-news" th:object="${news}">
+    <section class="mainpage-title">
+        <div class="topPage">
+            <a href="/homepage"><p>Trang chủ</p></a><p>/</p><a href="/news"><p>Tin tức</p></a><p>/</p><p th:text="${news.title}"></p>
+        </div>
+        <div>
+            <h1>Tin tức sự kiện</h1>
+        </div>
+    </section>
+    <section id="news-section" th:object="${news}">
         <h1 th:text="*{title}"></h1>
         <p id="date" th:text="*{time}"></p>
         <div th:utext="*{imagePage}" class="image-page"></div>

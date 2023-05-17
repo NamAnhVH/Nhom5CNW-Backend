@@ -19,4 +19,8 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     List<Course> findByCourseTypeAndApprovedFalse(String type);
 
     List<Course> findByCourseTypeAndLockedTrue(String type);
+
+    List<Course> findByAccountId(Long id);
+
+    List<Course> findByApprovedFalseAndAccountId(Long id);
 }

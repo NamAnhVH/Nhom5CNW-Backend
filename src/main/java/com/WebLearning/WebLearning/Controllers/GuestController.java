@@ -2,6 +2,7 @@ package com.WebLearning.WebLearning.Controllers;
 
 import com.WebLearning.WebLearning.Models.News;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
+import com.WebLearning.WebLearning.Service.CourseService;
 import com.WebLearning.WebLearning.Service.NewsService;
 import com.WebLearning.WebLearning.Service.ProfileService;
 import com.WebLearning.WebLearning.Service.AccountService;
@@ -21,6 +22,8 @@ public class GuestController {
     private AccountService accountService;
     @Autowired
     private ProfileService profileService;
+    @Autowired
+    private CourseService courseService;
 
     @Autowired
     private AuthenticationFacade authenticationFacade;
@@ -78,5 +81,15 @@ public class GuestController {
         }
         model.addAttribute("profile", profileService.findById(id));
         return "allUser/teacherProfilePage";
+    }
+
+    @GetMapping("/course/{id}")
+    //http://localhost:8080/course/{id}
+    public String courseDetailPage(@PathVariable Long id, Model model) {
+        if(authenticationFacade.isAuthenticated()){
+            model.addAttribute("fullname", profileService.getFullname());
+        }
+        model.addAttribute("course", courseService.getCourseById(id));
+        return "allUser/coursePage";
     }
 }

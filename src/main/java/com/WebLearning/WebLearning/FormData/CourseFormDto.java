@@ -8,8 +8,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class CourseFormDto {
     private String name;
     private MultipartFile image;
+    private String base64Image;
     private String time;
     private String introduction;
     private String description;
     private String courseType;
+
+    private Long id;
 }

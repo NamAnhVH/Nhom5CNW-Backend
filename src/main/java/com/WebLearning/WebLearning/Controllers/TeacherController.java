@@ -29,7 +29,7 @@ public class TeacherController {
     @GetMapping("/profile")
     public String teacherProfilePage(Model model) {
         model.addAttribute("user", profileService.getTeacherProfile());
-        return "teacher/teacherProfileManager/profilePage";
+        return "teacher/teacherProfileManager/profileManagerPage";
     }
 
     @PostMapping("/profile/edit")
@@ -42,6 +42,18 @@ public class TeacherController {
         return "redirect:/teacher/profile";
     }
 
+    @GetMapping("/course/listCourse")
+    public String listCoursePage(Model model){
+        model.addAttribute("listCourse", courseService.findAllByCurrentAccount());
+        return "teacher/teacherCourseManager/listCoursePage";
+    }
+
+    @GetMapping("/course/listCourse/unapprovedCourse")
+    public String listUnapprovedCoursePage(Model model){
+        model.addAttribute("listCourse", courseService.findAllUnapprovedCourseByCurrentAccount());
+        return "teacher/teacherCourseManager/listCoursePage";
+    }
+
     @GetMapping("/course/addCourse")
     public String addCoursePage(Model model){
         model.addAttribute("newCourse", new CourseFormDto());
@@ -50,7 +62,31 @@ public class TeacherController {
 
     @PostMapping("/course/addCourse")
     public String addCourseAction(@ModelAttribute CourseFormDto newCourse) throws IOException {
-        courseService.add(newCourse);
-        return "redirect:/teacher";
+        courseService.addCourse(newCourse);
+        return "redirect:/teacher/course/listCourse";
+    }
+
+    @GetMapping("/course/{id}/previewCourse")
+    public String previewCoursePage(@PathVariable Long id, Model model){
+        if(!courseService.isAccessAllowed(id)){
+            return "redirect:/teacher/course/listCourse";
+        }
+        model.addAttribute("course", courseService.getCourseById(id));
+        return "teacher/teacherCourseManager/previewCoursePage";
+    }
+
+    @GetMapping("/course/{id}/editCourse")
+    public String editCoursePage(@PathVariable Long id, Model model){
+        if(!courseService.isAccessAllowed(id)){
+            return "redirect:/teacher/course/listCourse";
+        }
+        model.addAttribute("course", courseService.getCourseById(id));
+        return "teacher/teacherCourseManager/editCoursePage";
+    }
+
+    @PostMapping("/course/{id}/editCourse")
+    public String editCourseAction(@PathVariable Long id, @ModelAttribute CourseFormDto courseDto) throws IOException {
+        courseService.updateCourse(id, courseDto);
+        return "redirect:/teacher/course/" + id + "/previewCourse";
     }
 }

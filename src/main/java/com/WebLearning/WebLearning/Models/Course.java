@@ -30,7 +30,7 @@ public class Course {
     private boolean approved;
     @Column
     private boolean locked;
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "accountId", nullable = false)
     private Account account;
 }
