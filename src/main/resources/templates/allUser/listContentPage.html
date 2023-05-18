@@ -23,7 +23,7 @@
         <ul id="header-link">
             <li><a href="/homepage">Trang chủ</a></li>
             <li><a href="/news">Tin tức</a></li>
-            <li><a href="/html/mainpage/courses-page.html">Khoá học</a></li>
+            <li><a href="/course">Khoá học</a></li>
             <li><a href="/teacherProfile">Giảng viên</a></li>
             <li><a href="">Thư viện</a></li>
             <li><a href="">Hỗ trợ</a></li>
@@ -61,10 +61,18 @@
             <h1>Danh sách giảng viên</h1>
         </div>
     </section>
+    <section class="mainpage-title" th:if="${coursePage}">
+        <div class="topPage" >
+            <a href="/homepage"><p>Trang chủ</p></a><p>/</p><p>Danh sách khoá học</p>
+        </div>
+        <div>
+            <h1>Danh sách khoá học</h1>
+        </div>
+    </section>
     <section th:if="${newsPage}" class="content-section">
         <h1>Thông tin mới nhất</h1>
         <div class="list">
-            <div th:each="news: ${listNews}">
+            <div th:each="news: ${listNews}" class="items">
                 <a th:href="${'/news/' + news.id}" target="_self">
                     <div th:utext="${news.imagePage}" class="image"></div>
                     <span th:text="${news.time}"></span>
@@ -77,13 +85,28 @@
     <section th:if="${profilePage}" class="content-section">
         <h1>Giảng viên</h1>
         <div class="list">
-            <div th:each="profile: ${listProfile}">
+            <div th:each="profile: ${listProfile}" class="items">
                 <a th:href="${'/teacherProfile/' + profile.id}" target="_self" th:object="${profile}">
                     <div id="avatar-profile">
                         <img th:src="*{base64Avatar}">
                     </div>
                     <h1 th:text="*{fullname}"></h1>
                     <p th:text="*{description}"></p>
+                </a>
+            </div>
+        </div>
+    </section>
+    <section th:if="${coursePage}" class="content-section">
+        <h1>Danh sách khoá học</h1>
+        <div class="list">
+            <div th:each="course: ${listCourse}" class="items">
+                <a th:href="${'/course/' + course.id}" target="_self">
+                    <div class="image">
+                        <img th:src="${course.base64Image}">
+                    </div>
+                    <span th:text="${course.time}"></span>
+                    <h1 th:text="${course.name}"></h1>
+                    <p th:text="${course.introduction}"></p>
                 </a>
             </div>
         </div>

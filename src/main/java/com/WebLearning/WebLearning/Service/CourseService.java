@@ -117,6 +117,49 @@ public class CourseService {
         course.setIntroduction(courseDto.getIntroduction());
         course.setDescription(courseDto.getDescription());
         course.setCourseType(courseDto.getCourseType());
+        course.setApproved(false);
         courseRepository.save(course);
+    }
+
+    public boolean isApprovedAndUnlocked(Long id) {
+        Course course = courseRepository.findById(id).get();
+        if(course.isApproved() && !course.isLocked()){
+            return true;
+        }
+        return false;
+    }
+
+    public List<CourseFormDto> findTopSixCourseApprovedAndUnlocked() {
+        List<CourseFormDto> listCourseDto = new ArrayList<>();
+        List<Course> listCourse = courseRepository.findTop6ByApprovedTrueAndLockedFalseOrderByIdDesc();
+        for (Course course: listCourse){
+            CourseFormDto courseDto = new CourseFormDto();
+            courseDto.setName(course.getName());
+            courseDto.setBase64Image("data:image/png;base64," + Base64.encodeBase64String(course.getImage()));
+            courseDto.setIntroduction(course.getIntroduction());
+            courseDto.setTime(course.getTime());
+            courseDto.setId(course.getId());
+            listCourseDto.add(courseDto);
+        }
+        return listCourseDto;
+    }
+
+    public List<CourseFormDto> findAllCourseApprovedAndUnlocked() {
+        List<CourseFormDto> listCourseDto = new ArrayList<>();
+        List<Course> listCourse = courseRepository.findByApprovedTrueAndLockedFalseOrderByIdDesc();
+        for (Course course: listCourse){
+            CourseFormDto courseDto = new CourseFormDto();
+            courseDto.setName(course.getName());
+            courseDto.setBase64Image("data:image/png;base64," + Base64.encodeBase64String(course.getImage()));
+            courseDto.setIntroduction(course.getIntroduction());
+            courseDto.setTime(course.getTime());
+            courseDto.setId(course.getId());
+            listCourseDto.add(courseDto);
+        }
+        return listCourseDto;
+    }
+
+    public void deleteCourse(Long id) {
+        courseRepository.deleteById(id);
     }
 }

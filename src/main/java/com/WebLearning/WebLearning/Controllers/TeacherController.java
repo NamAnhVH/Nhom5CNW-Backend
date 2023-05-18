@@ -89,4 +89,10 @@ public class TeacherController {
         courseService.updateCourse(id, courseDto);
         return "redirect:/teacher/course/" + id + "/previewCourse";
     }
+
+    @PostMapping("/course/{id}/deleteCourse")
+    public String deleteCourseAction(@PathVariable Long id){
+        courseService.deleteCourse(id);
+        return "redirect:/teacher/course/listCourse";
+    }
 }

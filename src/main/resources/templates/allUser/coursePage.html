@@ -22,7 +22,7 @@
     <ul id="header-link">
         <li><a href="/homepage">Trang chủ</a></li>
         <li><a href="/news">Tin tức</a></li>
-        <li><a href="">Khoá học</a></li>
+        <li><a href="/course">Khoá học</a></li>
         <li><a href="/teacherProfile">Giảng viên</a></li>
         <li><a href="">Thư viện</a></li>
         <li><a href="">Hỗ trợ</a></li>
@@ -45,7 +45,7 @@
 </section>
 <section class="mainpage-title">
     <div class="topPage" >
-        <a href="/homepage"><p>Trang chủ</p></a><p>/</p><a href=""><p>Danh sách khoá học</p></a><p>/</p><p th:text="${course.name}"></p>
+        <a href="/homepage"><p>Trang chủ</p></a><p>/</p><a href="/course"><p>Danh sách khoá học</p></a><p>/</p><p th:text="${course.name}"></p>
     </div>
     <div class="flex-row">
         <div class="course-title">
@@ -67,20 +67,32 @@
             <li><a href="#description">Mô tả khoá học</a></li>
             <li><a href="#list-lesson">Đề cương khoá học</a></li>
             <li><a href="#teacher-course">Giáo viên giảng dạy</a></li>
+            <li><a href="#related-course">Các khoá học liên quan</a></li>
         </ul>
     </div>
-    <div id="description">
+    <div id="description" th:utext="${course.description}">
 
     </div>
     <div id="list-lesson">
 
     </div>
     <div id="teacher-course">
+        <h1> Giáo viên giảng dạy</h1>
+        <div>
+            <a th:href="${'/teacherProfile/' + profile.id}" target="_self" th:object="${profile}" class="items">
+                <div id="avatar-profile-course">
+                    <img th:src="*{base64Avatar}">
+                </div>
+                <div id="info-profile">
+                    <h1 th:text="*{fullname}"></h1>
+                    <p th:text="*{description}"></p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div id="related-course">
 
     </div>
-</section>
-<section class="related-course">
-
 </section>
 <section id="contact-section">
     <h1>Thông tin liên hệ</h1>

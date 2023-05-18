@@ -45,7 +45,7 @@ public class AdminController {
 
     @PostMapping("/addNews")
     public String addNewsAction(@ModelAttribute NewsFormDto news) throws IOException {
-        newsService.add(news);
+        newsService.addNews(news);
         return "redirect:/admin";
     }
 
@@ -64,13 +64,13 @@ public class AdminController {
 
     @PostMapping("/editNews/{id}")
     public String editNewsAction(@PathVariable Long id, @ModelAttribute NewsFormDto news){
-        newsService.update(id, news);
+        newsService.updateNews(id, news);
         return "redirect:/admin/listNews";
     }
 
     @PostMapping("/deleteNews/{id}")
     public String deleteNews(@PathVariable Long id){
-        newsService.delete(id);
+        newsService.deleteNews(id);
         return "redirect:/admin/listNews";
     }
 

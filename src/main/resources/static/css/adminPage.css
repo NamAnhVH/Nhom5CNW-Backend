@@ -33,9 +33,7 @@ p{
 }
 
 #header {
-    height: auto;
-    top: 0;
-    left: 0;
+    height: 100px;
     flex-direction: row;
     display: flex;
     flex-wrap: wrap;
@@ -46,14 +44,16 @@ p{
     text-align: center;
     align-items: center;
 }
+
+.logo-container{
+    height: 100%;
+}
+
 .logo-head {
-    padding-left: 5px;
-    padding-top: 5px;
+    margin: 5px 0 5px 5px;
 }
 .logo-header {
-    width: auto;
-    height: 85px;
-    object-fit: contain;
+    height: 100%;
 }
 
 .action-tool {

@@ -2,7 +2,9 @@ package com.WebLearning.WebLearning.Service;
 
 import com.WebLearning.WebLearning.FormData.TeacherProfileDto;
 import com.WebLearning.WebLearning.Models.Account;
+import com.WebLearning.WebLearning.Models.Course;
 import com.WebLearning.WebLearning.Models.Profile;
+import com.WebLearning.WebLearning.Repository.CourseRepository;
 import com.WebLearning.WebLearning.Repository.ProfileRepository;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -22,6 +24,8 @@ public class ProfileService {
 
     @Autowired
     private ProfileRepository profileRepository;
+    @Autowired
+    private CourseRepository courseRepository;
 
     public TeacherProfileDto getTeacherProfile() {
         Account currentAccount = authenticationFacade.getAccount();
@@ -56,7 +60,7 @@ public class ProfileService {
         return profileDto;
     }
 
-    public List<TeacherProfileDto> findTopSixTeacher() {
+    public List<TeacherProfileDto> findTopSixTeacherApprovedAndUnlocked() {
         List<TeacherProfileDto> listProfileDto = new ArrayList<>();
         List<Profile> listProfile = profileRepository.findTop6ByAccountRoleAndAccountApprovedTrueAndAccountLockedFalseOrderByIdDesc("giáo viên");
         for (Profile profile: listProfile) {
@@ -64,14 +68,13 @@ public class ProfileService {
             profileDto.setFullname(profile.getFullname());
             profileDto.setDescription(profile.getDescription());
             profileDto.setBase64Avatar("data:image/png;base64," + Base64.encodeBase64String(profile.getAvatar()));
-            profileDto.setDetail(profile.getDetail());
             profileDto.setId(profile.getId());
             listProfileDto.add(profileDto);
         }
         return listProfileDto;
     }
 
-    public List<TeacherProfileDto> findAllByRole(String role) {
+    public List<TeacherProfileDto> findAllByRoleAndApprovedAndUnlocked(String role) {
         List<TeacherProfileDto> listProfileDto = new ArrayList<>();
         List<Profile> listProfile = profileRepository.findByAccountRoleAndAccountApprovedTrueAndAccountLockedFalseOrderByIdDesc(role);
         for (Profile profile: listProfile) {
@@ -79,7 +82,6 @@ public class ProfileService {
             profileDto.setFullname(profile.getFullname());
             profileDto.setDescription(profile.getDescription());
             profileDto.setBase64Avatar("data:image/png;base64," + Base64.encodeBase64String(profile.getAvatar()));
-            profileDto.setDetail(profile.getDetail());
             profileDto.setId(profile.getId());
             listProfileDto.add(profileDto);
         }
@@ -94,5 +96,24 @@ public class ProfileService {
 
     public List<Profile> findAllProfile() {
         return profileRepository.findAll();
+    }
+
+    public boolean isApprovedAndUnlocked(Long id) {
+        Profile profile = profileRepository.findById(id).get();
+        if(profile.getAccount().isApproved() && !profile.getAccount().isLocked()){
+            return true;
+        }
+        return false;
+    }
+
+    public TeacherProfileDto findAllProfileTeachCourse(Long id) {
+        Course course = courseRepository.findById(id).get();
+        Profile profile = profileRepository.findByAccountId(course.getAccount().getId());
+        TeacherProfileDto profileDto = new TeacherProfileDto();
+        profileDto.setFullname(profile.getFullname());
+        profileDto.setDescription(profile.getDescription());
+        profileDto.setBase64Avatar("data:image/png;base64," + Base64.encodeBase64String(profile.getAvatar()));
+        profileDto.setId(profile.getId());
+        return profileDto;
     }
 }

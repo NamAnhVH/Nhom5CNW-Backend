@@ -19,11 +19,11 @@ public class NewsService {
 
     public News save(News news) { return newsRepository.saveAndFlush(news); }
 
-    public List<News> findAll()  { return newsRepository.findAll(); }
+    public List<News> findAll()  { return newsRepository.findByOrderByIdDesc(); }
 
     public List<News> findTopSixNews() { return newsRepository.findTop6ByOrderByIdDesc(); }
 
-    public void update(Long id, NewsFormDto news) {
+    public void updateNews(Long id, NewsFormDto news) {
         News editNews = newsRepository.findById(id).get();
         editNews.setTitle(news.getTitle());
         editNews.setTime(news.getTime());
@@ -33,7 +33,7 @@ public class NewsService {
         newsRepository.save(editNews);
     }
 
-    public void add(NewsFormDto newNews) {
+    public void addNews(NewsFormDto newNews) {
         News news = new News();;
         news.setTitle(newNews.getTitle());
         news.setTime(newNews.getTime());
@@ -43,7 +43,7 @@ public class NewsService {
         newsRepository.saveAndFlush(news);
     }
 
-    public void delete(Long id) {
+    public void deleteNews(Long id) {
         newsRepository.deleteById(id);
     }
 }

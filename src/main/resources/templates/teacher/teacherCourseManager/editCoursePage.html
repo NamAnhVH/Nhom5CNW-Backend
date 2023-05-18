@@ -11,7 +11,7 @@
 </head>
 <body>
 <header id="header">
-    <div>
+    <div class="logo-container">
         <a class="logo-head" title="Trang chủ" href="/homepage">
             <img class="logo-header" src="/image/Hust-logo.jpg" alt="">
         </a>
@@ -102,7 +102,10 @@
                     <option value="Tiền tiểu học">Tiền tiểu học</option>
                 </select>
                 <br>
-                <button type="submit" id="submit">Đăng tải</button>
+                <div id="btn">
+                    <button type="submit" id="submit">Chỉnh sửa</button>
+                    <button type="submit" th:formaction="${'/teacher/course/' + course.id + '/deleteCourse'}">Xoá khoá học</button>
+                </div>
             </form>
         </div>
     </section>

@@ -22,7 +22,7 @@
         <ul id="header-link">
             <li><a href="/homepage">Trang chủ</a></li>
             <li><a href="/news">Tin tức</a></li>
-            <li><a href="html/mainpage/courses-page.html">Khoá học</a></li>
+            <li><a href="/course">Khoá học</a></li>
             <li><a href="/teacherProfile">Giảng viên</a></li>
             <li><a href="">Thư viện</a></li>
             <li><a href="">Hỗ trợ</a></li>
@@ -55,50 +55,31 @@
             </ul>
         </div>
     </section>
-    <section id="course-section">
+    <section class="content-section">
         <h1>Những khoá học phổ biến</h1>
         <p>Bạn muốn học tập hay tìm hiểu nội dung kiến thức gì?</p>
         <p>Rất nhiều khóa học, trình độ từ phổ cập đến chuyên ngành, với học liệu phong phú và giảng viên
             giỏi đến từ các cơ sở đào tạo hàng đầu Việt Nam, đang được mở cửa tự do chắc chắn sẽ giúp bạn
             thỏa mãn khát khao học tập.</p>
-        <div>
-            <a href="" target="_blank">
-                <img src="" class="course-tile-image" alt="Khoá học 1">
-                <p>Khoá học 1</p>
-                <p>Mô tả khoá học</p>
-            </a>
-            <a href="" target="_blank">
-                <img src="" class="course-tile-image" alt="Khoá học 2">
-                <p>Khoá học 2</p>
-                <p>Mô tả khoá học</p>
-            </a>
-            <a href="" target="_blank">
-                <img src="" class="course-tile-image" alt="Khoá học 3">
-                <p>Khoá học 3</p>
-                <p>Mô tả khoá học</p>
-            </a>
-            <a href="" target="_blank">
-                <img src="" class="course-tile-image" alt="Khoá học 4">
-                <p>Khoá học 4</p>
-                <p>Mô tả khoá học</p>
-            </a>
-            <a href="" target="_blank">
-                <img src="" class="course-tile-image" alt="Khoá học 5">
-                <p>Khoá học 5</p>
-                <p>Mô tả khoá học</p>
-            </a>
-            <a href="" target="_blank">
-                <img src="" class="course-tile-image" alt="Khoá học 6">
-                <p>Khoá học 6</p>
-                <p>Mô tả khoá học</p>
-            </a>
+        <div class="list">
+            <div th:each="course: ${listCourse}" class="items">
+                <a th:href="${'/course/' + course.id}" target="_self">
+                    <div class="image">
+                        <img th:src="${course.base64Image}">
+                    </div>
+                    <br>
+                    <span th:text="${'Ngày đăng tải: ' + course.time}"></span>
+                    <h1 th:text="${course.name}"></h1>
+                    <p th:text="${course.introduction}"></p>
+                </a>
+            </div>
         </div>
-        <a href="html/mainpage/courses-page.html" id="course-link">Khám phá các khoá học phù hợp với nhu cầu của bạn</a>
+        <a href="/course" class="btn-link">Khám phá các khoá học phù hợp với nhu cầu của bạn</a>
     </section>
     <section class="content-section">
         <h1>Thông tin mới nhất</h1>
         <div class="list">
-            <div th:each="news: ${listNews}">
+            <div th:each="news: ${listNews}" class="items">
                 <a th:href="${'/news/' + news.id}" target="_self">
                     <div th:utext="${news.imagePage}" class="image"></div>
                     <span th:text="${news.time}"></span>
@@ -112,7 +93,7 @@
     <section class="content-section">
         <h1>Giảng viên</h1>
         <div class="list">
-            <div th:each="profile: ${listProfile}">
+            <div th:each="profile: ${listProfile}" class="items">
                 <a th:href="${'/teacherProfile/' + profile.id}" target="_self" th:object="${profile}">
                     <div id="avatar-profile">
                         <img th:src="*{base64Avatar}">

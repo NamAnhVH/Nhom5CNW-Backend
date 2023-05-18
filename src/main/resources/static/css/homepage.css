@@ -17,6 +17,10 @@ a {
     text-decoration: none;
 }
 
+a:visited {
+    color: blue;
+}
+
 #header-section {
     /*Opacity start*/
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
@@ -50,18 +54,15 @@ a {
     display: flex;
     margin-left: 70px;
     align-items: center;
+    height:100px
 }
 
 #logo-header {
-    padding-top: 10px;
-    padding-right: 10px;
-    width: auto;
-    height: 85px;
-    object-fit: contain;
+    margin: 15px 10px 0 0;
+    height: 90px;
 }
 
 #search-text {
-    /* margin: 30px; */
     height: 25px;
     width: 200px;
     border-radius: 10px;
@@ -191,58 +192,6 @@ a {
     margin-left: 100px;
 }
 
-#course-section {
-    background-color: white;
-    justify-content: center;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    margin: 5vh 0;
-    padding: 0 30vh 10vh 30vh;
-    ;
-}
-
-#course-section h1 {
-    color: black;
-    font-size: 50px;
-}
-
-#course-section p {
-    font-size: 20px;
-}
-
-#course-section div {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    grid-gap: 3rem;
-    width: 100%;
-    margin: 40px auto;
-}
-
-#course-section a {
-    text-decoration: none;
-}
-
-#course-section a p {
-    text-align: left;
-}
-
-.course-tile-image {
-    width: 100%;
-    flex-grow: 1;
-}
-
-#course-link {
-    margin: 5vh auto;
-    background-color: blue;
-    border: 2px solid blue;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-    padding: 10px;
-    border-radius: 10px;
-}
-
 .content-section {
     background-color: white;
     justify-content: center;
@@ -259,19 +208,26 @@ a {
 }
 
 .content-section p {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .list{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    grid-gap: 3rem;
-    width: 100%;
-    margin: 40px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.items{
+    flex-basis: calc(30% - 10px);
+    margin: 20px;
     text-align: left;
 }
 
-
+@media (max-width: 1187px) {
+    .list{
+        justify-content: space-evenly;
+    }
+}
 
 .list a h1 {
     font-size: 25px;
@@ -288,12 +244,12 @@ a {
     overflow: hidden;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
-
 }
 
 .image img{
     height: 228px;
-    width: 100%;
+    width: 400px;
+    object-fit:cover;
     flex-grow: 1;
     border-radius: 10px;
 }
@@ -307,6 +263,10 @@ a {
     color: white;
     padding: 10px;
     border-radius: 10px;
+}
+
+.btn-link:visited{
+    color: white;
 }
 
 #avatar-profile img{

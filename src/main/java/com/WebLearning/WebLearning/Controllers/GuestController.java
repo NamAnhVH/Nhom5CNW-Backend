@@ -37,7 +37,8 @@ public class GuestController {
             model.addAttribute("fullname", profileService.getFullname());
         }
         model.addAttribute("listNews", newsService.findTopSixNews());
-        model.addAttribute("listProfile", profileService.findTopSixTeacher());
+        model.addAttribute("listProfile", profileService.findTopSixTeacherApprovedAndUnlocked());
+        model.addAttribute("listCourse", courseService.findTopSixCourseApprovedAndUnlocked());
         return "allUser/homepage";
     }
 
@@ -68,7 +69,7 @@ public class GuestController {
         if(authenticationFacade.isAuthenticated()){
             model.addAttribute("fullname", profileService.getFullname());
         }
-        model.addAttribute("listProfile", profileService.findAllByRole("giáo viên"));
+        model.addAttribute("listProfile", profileService.findAllByRoleAndApprovedAndUnlocked("giáo viên"));
         model.addAttribute("profilePage","Danh sách giảng viên");
         return "allUser/listContentPage";
     }
@@ -79,8 +80,22 @@ public class GuestController {
         if(authenticationFacade.isAuthenticated()){
             model.addAttribute("fullname", profileService.getFullname());
         }
+        if(!profileService.isApprovedAndUnlocked(id)){
+            return "redirect:/homepage";
+        }
         model.addAttribute("profile", profileService.findById(id));
         return "allUser/teacherProfilePage";
+    }
+
+    @GetMapping("/course")
+    //http://localhost:8080/course
+    public String coursePage(Model model){
+        if(authenticationFacade.isAuthenticated()){
+            model.addAttribute("fullname", profileService.getFullname());
+        }
+        model.addAttribute("listCourse", courseService.findAllCourseApprovedAndUnlocked());
+        model.addAttribute("coursePage", "Danh sách khoá học");
+        return "allUser/listContentPage";
     }
 
     @GetMapping("/course/{id}")
@@ -89,7 +104,12 @@ public class GuestController {
         if(authenticationFacade.isAuthenticated()){
             model.addAttribute("fullname", profileService.getFullname());
         }
+        if(!courseService.isApprovedAndUnlocked(id)){
+            return "redirect:/homepage";
+        }
         model.addAttribute("course", courseService.getCourseById(id));
+        model.addAttribute("profile", profileService.findAllProfileTeachCourse(id));
         return "allUser/coursePage";
     }
+
 }
