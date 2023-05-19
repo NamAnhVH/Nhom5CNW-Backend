@@ -50,6 +50,7 @@
                     <option value="Khoá học bổ trợ">Khoá học bổ trợ</option>
                     <option value="Bồi dưỡng học sinh giỏi">Tiếng Anh Toeic</option>
                     <option value="Luyện thi Pen-C">Luyện thi Pen-C</option>
+                    <option value="Luyện thi Pen-I">Luyện thi Pen-I</option>
                     <option value="Luyện thi ĐH Bách khoa">Luyện thi ĐH bách khoa</option>
                     <option value="Luyện thi ĐHQG TP.HCM">Luyện thi ĐHQG TP.HCM</option>
                     <option value="Luyện thi ĐHQG Hà Nội">Luyện thi ĐHQG Hà Nội</option>
@@ -76,7 +77,7 @@
                 <button th:unless="${option}" formaction="/admin/listCourse/" type="submit">Tìm kiếm</button>
             </form>
         </div>
-        <table>
+        <table class="course-table">
             <tr>
                 <th style="width:10%;">CourseID</th>
                 <th style="width:18%;">Tên khoá học</th>

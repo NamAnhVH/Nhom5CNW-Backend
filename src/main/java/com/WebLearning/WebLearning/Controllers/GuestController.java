@@ -98,6 +98,18 @@ public class GuestController {
         return "allUser/listContentPage";
     }
 
+    @GetMapping("/course/")
+    //http://localhost:8080/course?type=
+    public String courseTypePage(@RequestParam("type") String type, Model model){
+        if(authenticationFacade.isAuthenticated()){
+            model.addAttribute("fullname", profileService.getFullname());
+        }
+        model.addAttribute("type", type);
+        model.addAttribute("listCourse", courseService.getCourseByType(type));
+        model.addAttribute("coursePage", "Danh sách khoá học");
+        return "allUser/listContentPage";
+    }
+
     @GetMapping("/course/{id}")
     //http://localhost:8080/course/{id}
     public String courseDetailPage(@PathVariable Long id, Model model) {

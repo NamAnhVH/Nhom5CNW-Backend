@@ -114,10 +114,7 @@ p{
 #left-side-main{
     margin: 2%;
     width: 25%;
-    /* text-align: center; */
     font-size: 100%;
-    /* align-items: center; */
-
 }
 
 #left-side-content{
@@ -147,6 +144,10 @@ p{
     box-shadow: 0 1px 5px gray;
 }
 
+.right-side-main input{
+    line-height: 1.5;
+}
+
 .none-background{
     background-color: rgb(255, 255, 255) !important;
     box-shadow: 0 0 0 0 !important;
@@ -155,6 +156,7 @@ p{
 #right-side-main a:hover{
     text-decoration: underline;
 }
+
 
 
 .text-field-content {
@@ -189,7 +191,7 @@ p{
     width: 100px;
     height: 30px;
     padding: 5px;
-    margin: 5px 0;
+    margin: 5px 5px 5px 0;
 }
 
 #profile {
@@ -280,6 +282,7 @@ p{
 #image-course{
     display: flex;
     align-items: center;
+    width:50%;
 }
 
 
@@ -328,4 +331,3 @@ p{
 #description p{
     margin: 10px 25px;
 }
-

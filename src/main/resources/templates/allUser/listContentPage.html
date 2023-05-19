@@ -63,7 +63,7 @@
     </section>
     <section class="mainpage-title" th:if="${coursePage}">
         <div class="topPage" >
-            <a href="/homepage"><p>Trang chủ</p></a><p>/</p><p>Danh sách khoá học</p>
+            <a href="/homepage"><p>Trang chủ</p></a><p>/</p><a href="/course"><p>Danh sách khoá học</p></a><p>/</p><p th:text="${type}"></p>
         </div>
         <div>
             <h1>Danh sách khoá học</h1>
@@ -97,22 +97,96 @@
         </div>
     </section>
     <section th:if="${coursePage}" class="content-section">
-        <h1>Danh sách khoá học</h1>
-        <div class="list">
-            <div th:each="course: ${listCourse}" class="items">
-                <a th:href="${'/course/' + course.id}" target="_self">
-                    <div class="image">
-                        <img th:src="${course.base64Image}">
+        <div class="course-content">
+            <div class="course-left">
+                <div class="courses-left-filter">
+                    <h1>Lọc danh sách khoá học</h1>
+                    <ul>
+                        <button class="button-courses-filter" name="dai-hoc-cao-dang">Đại học - Cao đẳng</button>
+                        <li class="tab-content dai-hoc-cao-dang"><a href="/course/?type=Các môn chuyên ngành">Các môn chuyên ngành</a></li>
+                        <li class="tab-content dai-hoc-cao-dang"><a href="/course/?type=Toán cao cấp">Toán cao cấp</a></li>
+                        <li class="tab-content dai-hoc-cao-dang"><a href="/course/?type=Tiếng Anh Toeic">Tiếng Anh Toeic</a></li>
+                        <button class="button-courses-filter" name="bo-tro-boi-duong">Bổ trợ & bồi dưỡng HSG</button>
+                        <li class="tab-content bo-tro-boi-duong"><a href="/course/?type=Khoá học bổ trợ">Khoá học bổ trợ</a></li>
+                        <li class="tab-content bo-tro-boi-duong"><a href="/course/?type=Bồi dưỡng học sinh giỏi">Bồi dưỡng học sinh giỏi</a></li>
+                        <button class="button-courses-filter" name="luyen-thi-dai-hoc">Luyện thi đại học</button>
+                        <li class="tab-content luyen-thi-dai-hoc"><a href="/course/?type=Luyện thi Pen-C">Luyện thi Pen-C</a></li>
+                        <li class="tab-content luyen-thi-dai-hoc"><a href="/course/?type=Luyện thi Pen-I">Luyện thi Pen-I</a></li>
+                        <li class="tab-content luyen-thi-dai-hoc"><a href="/course/?type=Luyện thi ĐH Bách khoa">Luyện thi ĐH Bách khoa</a></li>
+                        <li class="tab-content luyen-thi-dai-hoc"><a href="/course/?type=Luyện thi ĐHQG TP.HCM">Luyện thi ĐHQG TP.HCM</a></li>
+                        <li class="tab-content luyen-thi-dai-hoc"><a href="/course/?type=Luyện thi ĐHQG Hà Nội">Luyện thi ĐHQG Hà Nội</a></li>
+                        <button class="button-courses-filter" name="trung-hoc-pho-thong">Trung học phổ thông</button>
+                        <li class="tab-content trung-hoc-pho-thong"><a href="/course/?type=Lớp 12">Lớp 12</a></li>
+                        <li class="tab-content trung-hoc-pho-thong"><a href="/course/?type=Lớp 11">Lớp 11</a></li>
+                        <li class="tab-content trung-hoc-pho-thong"><a href="/course/?type=Lớp 10">Lớp 10</a></li>
+                        <button class="button-courses-filter" name="luyen-thi-vao-10">Luyện thi vào 10</button>
+                        <li class="tab-content luyen-thi-vao-10"><a href="/course/?type=Tổng ôn vào 10">Tổng ôn</a></li>
+                        <li class="tab-content luyen-thi-vao-10"><a href="/course/?type=Luyện đề vào 10">Luyện đề</a></li>
+                        <li class="tab-content luyen-thi-vao-10"><a href="/course/?type=Cấp tốc vào 10">Cấp tốc</a></li>
+                        <button class="button-courses-filter" name="trung-hoc-co-so">Trung học cơ sở</button>
+                        <li class="tab-content trung-hoc-co-so"><a href="/course/?type=Lớp 9">Lớp 9</a></li>
+                        <li class="tab-content trung-hoc-co-so"><a href="/course/?type=Lớp 8">Lớp 8</a></li>
+                        <li class="tab-content trung-hoc-co-so"><a href="/course/?type=Lớp 7">Lớp 7</a></li>
+                        <li class="tab-content trung-hoc-co-so"><a href="/course/?type=Lớp 6">Lớp 6</a></li>
+                        <button class="button-courses-filter" name="luyen-thi-vao-6">Luyện thi vào 6</button>
+                        <li class="tab-content luyen-thi-vao-6"><a href="/course/?type=Tổng ôn vào 6">Tổng ôn</a></li>
+                        <li class="tab-content luyen-thi-vao-6"><a href="/course/?type=Luyện đề vào 6">Luyện đề</a></li>
+                        <button class="button-courses-filter" name="tieu-hoc">Tiểu học</button>
+                        <li class="tab-content tieu-hoc"><a href="/course/?type=Lớp 5">Lớp 5</a></li>
+                        <li class="tab-content tieu-hoc"><a href="/course/?type=Lớp 4">Lớp 4</a></li>
+                        <li class="tab-content tieu-hoc"><a href="/course/?type=Lớp 3">Lớp 3</a></li>
+                        <li class="tab-content tieu-hoc"><a href="/course/?type=Lớp 2">Lớp 2</a></li>
+                        <li class="tab-content tieu-hoc"><a href="/course/?type=Lớp 1">Lớp 1</a></li>
+                        <li class="tab-content tieu-hoc"><a href="/course/?type=Tiền tiểu học">Tiền tiểu học</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="course-right">
+                <h1>Danh sách khoá học</h1>
+                <div class="list">
+                    <div th:each="course: ${listCourse}" class="items">
+                        <a th:href="${'/course/' + course.id}" target="_self">
+                            <div class="image">
+                                <img th:src="${course.base64Image}">
+                            </div>
+                            <br>
+                            <span th:text="${course.time}"></span>
+                            <h1 th:text="${course.name}"></h1>
+                            <p th:text="${course.introduction}"></p>
+                        </a>
                     </div>
-                    <span th:text="${course.time}"></span>
-                    <h1 th:text="${course.name}"></h1>
-                    <p th:text="${course.introduction}"></p>
-                </a>
+                </div>
             </div>
         </div>
+
     </section>
     <section id="contact-section">
         <h1>Thông tin liên hệ</h1>
     </section>
 </body>
+    <script th:if="${coursePage}">
+        let buttons = document.getElementsByClassName('button-courses-filter');
+        let contents = document.getElementsByClassName('tab-content');
+        function showContent(id){
+            for (let i = 0; i < contents.length; i++) {
+                contents[i].style.display = 'none';
+            }
+            let content = document.getElementsByClassName(id);
+            for(let i = 0; i < content.length; i++){
+                content[i].style.display = 'block';
+            }
+        }
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].addEventListener("click", function(){
+                let id = this.name;
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons[i].classList.remove("active");
+                }
+                this.className += " active";
+                console.log(id);
+                showContent(id);
+            });
+        }
+        showContent('');
+    </script>
 </html>

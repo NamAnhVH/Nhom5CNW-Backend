@@ -198,8 +198,7 @@ a:visited {
     text-align: center;
     display: flex;
     flex-direction: column;
-    margin: 5vh 0;
-    padding: 0 30vh 10vh 30vh;
+    margin: 2% 0 0 5%;
 }
 
 .content-section h1 {
@@ -214,19 +213,13 @@ a:visited {
 .list{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 .items{
     flex-basis: calc(30% - 10px);
     margin: 20px;
     text-align: left;
-}
-
-@media (max-width: 1187px) {
-    .list{
-        justify-content: space-evenly;
-    }
 }
 
 .list a h1 {
@@ -368,4 +361,57 @@ a:visited {
 
 .topPage p{
     padding: 0 10px 0 0;
+}
+
+.course-content{
+    display:flex;
+}
+
+.course-left{
+    width: 17%;
+    text-align: left;
+    margin: 0 1% 0 0;
+}
+.course-left-filter{
+    width: 70%;
+}
+.course-left h1{
+    font-size: 20px;
+}
+.course-left ul{
+    width: auto;
+    border: 1px solid gray;
+    list-style-type: none;
+    padding: 0;
+}
+
+.course-left .button-courses-filter{
+    padding: 10px;
+    margin: 0px;
+    border: 1px solid rgb(148, 145, 145);
+    background-color: gray;
+    width: 100%;
+    text-align: left;
+    font-size: 18px;
+}
+.course-left .active{
+    background-color: blue;
+    border: 1px solid blue;
+    color: white
+}
+.course-left li{
+    text-decoration: none;
+    padding: 10px;
+    margin: -1px;
+    border: 1px solid gray;
+}
+.course-left li a{
+    text-decoration: none;
+}
+.course-left li:hover{
+    text-decoration: underline;
+}
+
+.course-right{
+        width: 100%;
 }

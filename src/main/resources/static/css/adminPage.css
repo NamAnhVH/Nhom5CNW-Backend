@@ -138,7 +138,6 @@ p{
     text-overflow: ellipsis;
     max-width: 1000px; /* giới hạn chiều rộng của khối */
     margin: 10px;
-
 }
 
 #right-side-main a{
@@ -163,7 +162,7 @@ p{
     width: 100px;
     height: 30px;
     padding: 5px;
-    margin: 5px;
+    margin: 5px 5px 5px 0;
 }
 
 .text-field-content {
@@ -200,4 +199,8 @@ p{
 #type{
     margin: 0 30px;
     padding: 8px 10px;
+}
+
+.course-table p {
+    font-size: 14px;
 }
