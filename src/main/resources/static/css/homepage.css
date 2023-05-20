@@ -217,7 +217,7 @@ a:visited {
 }
 
 .items{
-    flex-basis: calc(30% - 10px);
+    flex-basis: calc(30% - 100px);
     margin: 20px;
     text-align: left;
 }
@@ -241,7 +241,7 @@ a:visited {
 
 .image img{
     height: 228px;
-    width: 400px;
+    width: 450px;
     object-fit:cover;
     flex-grow: 1;
     border-radius: 10px;

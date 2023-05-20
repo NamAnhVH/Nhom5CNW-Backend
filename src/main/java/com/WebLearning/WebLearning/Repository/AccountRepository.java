@@ -18,4 +18,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     List<Account> findByLockedTrue();
     List<Account> findByRoleNot(String role);
+
+    Account findByVerificationCode(String verificationCode);
 }

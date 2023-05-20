@@ -50,10 +50,11 @@ public class AccountService {
         return listUser;
     }
 
-    public void add(UserRegistrationDto newUser) {
+    public void addAccount(UserRegistrationDto newUser) {
         Account newAccount = new Account();
         newAccount.setUsername(newUser.getUsername());
         newAccount.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
+        newAccount.setEmail(newUser.getEmail());
         newAccount.setRole(newUser.getRole());
         if(newAccount.getRole().equals("học sinh")){
             newAccount.setApproved(true);
@@ -69,7 +70,7 @@ public class AccountService {
         profileRepository.save(profile);
     }
 
-    public List<Account> findAccountByOption(String option) {
+    public List<Account> getAccountByOption(String option) {
         List<Account> listAccount = new ArrayList<>();
         if (option.equals("studentAccount")){
             listAccount = accountRepository.findByRole("học sinh");
@@ -83,7 +84,7 @@ public class AccountService {
         return listAccount;
     }
 
-    public List<Account> findAccountByRoleNot(String role) {
+    public List<Account> getAccountByRoleNot(String role) {
         return accountRepository.findByRoleNot(role);
     }
 

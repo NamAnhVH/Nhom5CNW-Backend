@@ -1,14 +1,13 @@
 package com.WebLearning.WebLearning.Controllers;
 
+import com.WebLearning.WebLearning.Email.EmailVerificationService;
 import com.WebLearning.WebLearning.Service.AccountService;
 import com.WebLearning.WebLearning.FormData.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -19,6 +18,8 @@ public class RegisterController {
 
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private EmailVerificationService emailVerificationService;
 
     @GetMapping("registerForm")
     //http://localhost:8080/register/registerForm
@@ -38,8 +39,25 @@ public class RegisterController {
         //Nếu tồn tại tài khoản thì trả về trang http:localhost:8080/register/registerForm?existAccount=true
 
         //Lưu user vào database và trả về trang http:localhost:8080/register/registerForm?success=true
-        accountService.add(newUser);
+        accountService.addAccount(newUser);
+        emailVerificationService.sendVerificationEmail(newUser.getUsername());
         return "redirect:/register/registerForm?success=true";
+    }
+
+    @GetMapping("/verify")
+    public String verifyEmail(@RequestParam("code") String verificationCode, Model model) {
+        try {
+            // Xác minh email
+            if(emailVerificationService.verifyEmail(verificationCode)){
+                model.addAttribute("verifiedSuccess", true);
+            } else {
+                model.addAttribute("isVerified", true);
+            }
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("verifiedSuccess", false);
+        }
+        return "allUser/register";
+
     }
 
 }

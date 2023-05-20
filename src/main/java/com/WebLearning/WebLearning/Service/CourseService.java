@@ -33,11 +33,11 @@ public class CourseService {
         courseRepository.save(course);
     }
 
-    public List<Course> findAll() {
+    public List<Course> getAll() {
         return courseRepository.findAll();
     }
 
-    public List<Course> findCourseByOption(String option) {
+    public List<Course> getCourseByOption(String option) {
         List<Course> listCourse = new ArrayList<>();
         if(option.equals("unapprovedCourse")){
             listCourse = courseRepository.findByApprovedFalse();
@@ -47,7 +47,7 @@ public class CourseService {
         return listCourse;
     }
 
-    public List<Course> findCourseByCourseType(String type) {
+    public List<Course> getCourseByCourseType(String type) {
         return courseRepository.findByCourseType(type);
     }
 
@@ -79,7 +79,7 @@ public class CourseService {
         courseRepository.save(course);
     }
 
-    public List<Course> findAllByCurrentAccount() {
+    public List<Course> getAllByCurrentAccount() {
         Account currentAccount = authenticationFacade.getAccount();
         return courseRepository.findByAccountId(currentAccount.getId());
     }
@@ -102,7 +102,7 @@ public class CourseService {
         return course.getAccount().getId() == currentAccount.getId();
     }
 
-    public List<Course> findAllUnapprovedCourseByCurrentAccount() {
+    public List<Course> getAllUnapprovedCourseByCurrentAccount() {
         Account currentAccount = authenticationFacade.getAccount();
         return courseRepository.findByApprovedFalseAndAccountId(currentAccount.getId());
     }
@@ -129,7 +129,7 @@ public class CourseService {
         return false;
     }
 
-    public List<CourseFormDto> findTopSixCourseApprovedAndUnlocked() {
+    public List<CourseFormDto> getTopSixCourseApprovedAndUnlocked() {
         List<CourseFormDto> listCourseDto = new ArrayList<>();
         List<Course> listCourse = courseRepository.findTop6ByApprovedTrueAndLockedFalseOrderByIdDesc();
         for (Course course: listCourse){
@@ -144,7 +144,7 @@ public class CourseService {
         return listCourseDto;
     }
 
-    public List<CourseFormDto> findAllCourseApprovedAndUnlocked() {
+    public List<CourseFormDto> getAllCourseApprovedAndUnlocked() {
         List<CourseFormDto> listCourseDto = new ArrayList<>();
         List<Course> listCourse = courseRepository.findByApprovedTrueAndLockedFalseOrderByIdDesc();
         for (Course course: listCourse){
@@ -165,6 +165,39 @@ public class CourseService {
 
     public List<CourseFormDto> getCourseByType(String type) {
         List<Course> listCourse = courseRepository.findByCourseType(type);
+        List<CourseFormDto> listCourseDto = new ArrayList<>();
+        for (Course course: listCourse){
+            CourseFormDto courseDto = new CourseFormDto();
+            courseDto.setName(course.getName());
+            courseDto.setBase64Image("data:image/png;base64," + Base64.encodeBase64String(course.getImage()));
+            courseDto.setIntroduction(course.getIntroduction());
+            courseDto.setTime(course.getTime());
+            courseDto.setId(course.getId());
+            listCourseDto.add(courseDto);
+        }
+        return listCourseDto;
+    }
+
+    public List<CourseFormDto> getCourseBySameType(Long id) {
+        List<CourseFormDto> listCourseDto = new ArrayList<>();
+        Course course = courseRepository.findById(id).get();
+        List<Course> listCourse = courseRepository.findByCourseType(course.getCourseType());
+        for (Course relatedCourse: listCourse){
+            if(relatedCourse.getId() != course.getId()){
+                CourseFormDto courseDto = new CourseFormDto();
+                courseDto.setName(relatedCourse.getName());
+                courseDto.setBase64Image("data:image/png;base64," + Base64.encodeBase64String(relatedCourse.getImage()));
+                courseDto.setIntroduction(relatedCourse.getIntroduction());
+                courseDto.setTime(relatedCourse.getTime());
+                courseDto.setId(relatedCourse.getId());
+                listCourseDto.add(courseDto);
+            }
+        }
+        return listCourseDto;
+    }
+
+    public List<CourseFormDto> getCourseByTeacher(Long id) {
+        List<Course> listCourse = courseRepository.findByAccountId(id);
         List<CourseFormDto> listCourseDto = new ArrayList<>();
         for (Course course: listCourse){
             CourseFormDto courseDto = new CourseFormDto();

@@ -13,11 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-
 
 @Controller
 @RequestMapping(path = "/admin")
@@ -51,13 +47,13 @@ public class AdminController {
 
     @GetMapping("/listNews")
     public String listNewsPage(Model model){
-        model.addAttribute("listNews", newsService.findAll());
+        model.addAttribute("listNews", newsService.getAll());
         return "admin/adminNewsManager/listNewsPage";
     }
 
     @GetMapping("/editNews/{id}")
     public String editNewsPage(@PathVariable Long id, Model model){
-        News news = newsService.findById(id);
+        News news = newsService.getNewsById(id);
         model.addAttribute("news", news);
         return "admin/adminNewsManager/editNews";
     }
@@ -76,16 +72,16 @@ public class AdminController {
 
     @GetMapping("/listAccount")
     public String listAllAccountPage(Model model){
-        model.addAttribute("listAccount", accountService.findAccountByRoleNot("admin"));
-        model.addAttribute("listProfile", profileService.findAllProfile());
+        model.addAttribute("listAccount", accountService.getAccountByRoleNot("admin"));
+        model.addAttribute("listProfile", profileService.getAllProfile());
         return "admin/adminAccountManager/listAccountPage";
     }
 
     @GetMapping("/listAccount/{option}")
     public String listAccountPage(@PathVariable String option, Model model){
         model.addAttribute("option", option);
-        model.addAttribute("listAccount", accountService.findAccountByOption(option));
-        model.addAttribute("listProfile", profileService.findAllProfile());
+        model.addAttribute("listAccount", accountService.getAccountByOption(option));
+        model.addAttribute("listProfile", profileService.getAllProfile());
         return "admin/adminAccountManager/listAccountPage";
     }
 
@@ -118,40 +114,40 @@ public class AdminController {
 
     @GetMapping("/listCourse")
     public String listAllCoursePage(Model model){
-        model.addAttribute("listCourse", courseService.findAll());
-        model.addAttribute("listProfile", profileService.findAllProfile());
+        model.addAttribute("listCourse", courseService.getAll());
+        model.addAttribute("listProfile", profileService.getAllProfile());
         return "admin/adminCourseManager/listCoursePage";
     }
 
     @GetMapping("/listCourse/")
     public String listAllCourseByTypePage(@RequestParam("type") String type, Model model){
         if ("".equals(type)){
-            model.addAttribute("listCourse", courseService.findAll());
+            model.addAttribute("listCourse", courseService.getAll());
         } else {
-            model.addAttribute("listCourse", courseService.findCourseByCourseType(type));
+            model.addAttribute("listCourse", courseService.getCourseByCourseType(type));
         }
         model.addAttribute("type", type);
-        model.addAttribute("listProfile", profileService.findAllProfile());
+        model.addAttribute("listProfile", profileService.getAllProfile());
         return "admin/adminCourseManager/listCoursePage";
     }
 
     @GetMapping("/listCourse/{option}")
     public String listCoursePage(@PathVariable String option, Model model){
         model.addAttribute("option", option);
-        model.addAttribute("listCourse", courseService.findCourseByOption(option));
-        model.addAttribute("listProfile", profileService.findAllProfile());
+        model.addAttribute("listCourse", courseService.getCourseByOption(option));
+        model.addAttribute("listProfile", profileService.getAllProfile());
         return "admin/adminCourseManager/listCoursePage";
     }
 
     @GetMapping("/listCourse/{option}/")
     public String listCourseByTypePage(@PathVariable String option, @RequestParam String type, Model model){
         if ("".equals(type)){
-            model.addAttribute("listCourse", courseService.findCourseByOption(option));
+            model.addAttribute("listCourse", courseService.getCourseByOption(option));
         } else {
             model.addAttribute("listCourse", courseService.findCourseByOptionAndCourseType(option, type));
         }
         model.addAttribute("type", type);
-        model.addAttribute("listProfile", profileService.findAllProfile());
+        model.addAttribute("listProfile", profileService.getAllProfile());
         return "admin/adminCourseManager/listCoursePage";
     }
 

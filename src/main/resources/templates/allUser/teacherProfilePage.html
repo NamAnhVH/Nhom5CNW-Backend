@@ -68,6 +68,22 @@
             </div>
         </div>
     </section>
+    <section id="related-course">
+        <h1>Danh sách khoá học giảng dạy</h1>
+        <div class="list">
+            <div th:each="course: ${listCourse}" class="items">
+                <a th:href="${'/course/' + course.id}" target="_self">
+                    <div class="image">
+                        <img th:src="${course.base64Image}">
+                    </div>
+                    <br>
+                    <span th:text="${course.time}"></span>
+                    <h1 th:text="${course.name}"></h1>
+                    <p th:text="${course.introduction}"></p>
+                </a>
+            </div>
+        </div>
+    </section>
     <section id="contact-section">
         <h1>Thông tin liên hệ</h1>
     </section>

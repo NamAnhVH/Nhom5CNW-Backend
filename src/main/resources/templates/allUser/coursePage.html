@@ -91,7 +91,20 @@
         </div>
     </div>
     <div id="related-course">
-
+        <h1>Danh sách khoá học liên quan</h1>
+        <div class="list">
+            <div th:each="relatedCourse: ${listRelatedCourse}" class="items">
+                <a th:href="${'/course/' + relatedCourse.id}" target="_self">
+                    <div class="image">
+                        <img th:src="${relatedCourse.base64Image}">
+                    </div>
+                    <br>
+                    <span th:text="${relatedCourse.time}"></span>
+                    <h1 th:text="${relatedCourse.name}"></h1>
+                    <p th:text="${relatedCourse.introduction}"></p>
+                </a>
+            </div>
+        </div>
     </div>
 </section>
 <section id="contact-section">

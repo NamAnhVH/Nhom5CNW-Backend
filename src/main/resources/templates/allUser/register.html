@@ -23,14 +23,14 @@
     </ul>
 </div>
 <div id="main">
-    <div class="sign-up__header" th:unless="${param.success}">
+    <div class="sign-up__header" th:unless="${param.success}" th:if="${newUser}">
         <h3 class="sign-up__heading">Tạo tài khoản của bạn</h3>
         <form class="form-sign-up" action="#" th:action="@{/register/registerForm}" th:object="${newUser}" method="post">
 
             <div class="sign-up__box">
                 <input type="text" id="fullname" th:field="*{fullname}" class="sign-up__input" name="fullname" placeholder="Họ và tên" required>
                 <input type="text" id="username" th:field="*{username}" class="sign-up__input" name="username" placeholder="Tên tài khoản" required>
-                <!-- <input type="text" id="sdt" class="sign-up__input" placeholder="Số điện thoại"> -->
+                <input type="email" id="email" th:field="*{email}" class="sign-up__input" name="email" placeholder="Tài khoản email" required>
                 <input type="password" id="password" th:field="*{password}" class="sign-up__input" name="password" placeholder="Mật khẩu" required>
                 <!-- <input type="password" class="sign-up__input" placeholder="Xác nhận mật khẩu"> -->
                 <select name="role" id="role" th:field="*{role}">
@@ -70,8 +70,20 @@
 
     </div>
     <div th:if="${param.success}" class="labelThongBao">
-        <p>Đăng ký thành công</p>
-        <p><a href="/login/loginForm">Xin chuyển sang trang Đăng nhập</a></p>
+        <p>Xin chúc mừng! Bạn đã đăng ký thành công.</p>
+        <p>Hãy kiên nhẫn đợi tin nhắn xác thực tài khoản sẽ được gửi đến hộp thư của bạn trong thời gian sớm nhất.</p>
+    </div>
+    <div th:if="${verifiedSuccess == true}" class="labelThongBao">
+        <p>Xác minh tài khoản thành công</p>
+        <p>Vui lòng chuyển hướng đến trang <a href="/login/loginForm">Đăng nhập</a></p>
+    </div>
+    <div th:if="${verifiedSuccess == false}" class="labelThongBao">
+        <p>Xác minh tài khoản không thành công</p>
+        <p>Vui lòng quay trở lại trang <a href="/register/registerForm">Đăng ký</a></p>
+    </div>
+    <div th:if="${isVerified == true}" class="labelThongBao">
+        <p>Tài khoản đã được xác minh</p>
+        <p>Vui lòng chuyển hướng đến trang <a href="/login/loginForm">Đăng nhập</a></p>
     </div>
 </div>
 <div id="contact">

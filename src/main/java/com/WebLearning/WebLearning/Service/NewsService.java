@@ -14,14 +14,14 @@ public class NewsService {
     @Autowired
     private NewsRepository newsRepository;
 
-    public News findById(Long id) { return newsRepository.findById(id).get(); }
+    public News getNewsById(Long id) { return newsRepository.findById(id).get(); }
 
 
     public News save(News news) { return newsRepository.saveAndFlush(news); }
 
-    public List<News> findAll()  { return newsRepository.findByOrderByIdDesc(); }
+    public List<News> getAll()  { return newsRepository.findByOrderByIdDesc(); }
 
-    public List<News> findTopSixNews() { return newsRepository.findTop6ByOrderByIdDesc(); }
+    public List<News> getTopSixNews() { return newsRepository.findTop6ByOrderByIdDesc(); }
 
     public void updateNews(Long id, NewsFormDto news) {
         News editNews = newsRepository.findById(id).get();

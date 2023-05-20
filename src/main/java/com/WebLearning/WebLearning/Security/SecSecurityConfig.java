@@ -55,8 +55,8 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                     .csrf().disable()
                     .cors().disable()
                     .authorizeRequests()
-                    .antMatchers("/register/registerForm",
-                        "/login/loginForm",
+                    .antMatchers("/register/**",
+                        "/login/**",
                         "/css/*",
                         "/image/*",
                         "/index",

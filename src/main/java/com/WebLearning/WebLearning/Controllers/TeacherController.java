@@ -2,7 +2,6 @@ package com.WebLearning.WebLearning.Controllers;
 
 import com.WebLearning.WebLearning.FormData.CourseFormDto;
 import com.WebLearning.WebLearning.FormData.TeacherProfileDto;
-import com.WebLearning.WebLearning.Models.Profile;
 import com.WebLearning.WebLearning.Service.CourseService;
 import com.WebLearning.WebLearning.Service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,13 +43,13 @@ public class TeacherController {
 
     @GetMapping("/course/listCourse")
     public String listCoursePage(Model model){
-        model.addAttribute("listCourse", courseService.findAllByCurrentAccount());
+        model.addAttribute("listCourse", courseService.getAllByCurrentAccount());
         return "teacher/teacherCourseManager/listCoursePage";
     }
 
     @GetMapping("/course/listCourse/unapprovedCourse")
     public String listUnapprovedCoursePage(Model model){
-        model.addAttribute("listCourse", courseService.findAllUnapprovedCourseByCurrentAccount());
+        model.addAttribute("listCourse", courseService.getAllUnapprovedCourseByCurrentAccount());
         return "teacher/teacherCourseManager/listCoursePage";
     }
 

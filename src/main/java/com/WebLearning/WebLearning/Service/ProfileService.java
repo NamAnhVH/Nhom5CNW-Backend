@@ -11,7 +11,6 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +49,7 @@ public class ProfileService {
         profileRepository.save(currentProfile);
     }
 
-    public TeacherProfileDto findById(Long id) {
+    public TeacherProfileDto getById(Long id) {
         Profile profile = profileRepository.findById(id).get();
         TeacherProfileDto profileDto = new TeacherProfileDto();
         profileDto.setFullname(profile.getFullname());
@@ -60,7 +59,7 @@ public class ProfileService {
         return profileDto;
     }
 
-    public List<TeacherProfileDto> findTopSixTeacherApprovedAndUnlocked() {
+    public List<TeacherProfileDto> getTopSixTeacherApprovedAndUnlocked() {
         List<TeacherProfileDto> listProfileDto = new ArrayList<>();
         List<Profile> listProfile = profileRepository.findTop6ByAccountRoleAndAccountApprovedTrueAndAccountLockedFalseOrderByIdDesc("giáo viên");
         for (Profile profile: listProfile) {
@@ -74,7 +73,7 @@ public class ProfileService {
         return listProfileDto;
     }
 
-    public List<TeacherProfileDto> findAllByRoleAndApprovedAndUnlocked(String role) {
+    public List<TeacherProfileDto> getAllByRoleAndApprovedAndUnlocked(String role) {
         List<TeacherProfileDto> listProfileDto = new ArrayList<>();
         List<Profile> listProfile = profileRepository.findByAccountRoleAndAccountApprovedTrueAndAccountLockedFalseOrderByIdDesc(role);
         for (Profile profile: listProfile) {
@@ -94,7 +93,7 @@ public class ProfileService {
         return profile.getFullname();
     }
 
-    public List<Profile> findAllProfile() {
+    public List<Profile> getAllProfile() {
         return profileRepository.findAll();
     }
 
@@ -106,7 +105,7 @@ public class ProfileService {
         return false;
     }
 
-    public TeacherProfileDto findAllProfileTeachCourse(Long id) {
+    public TeacherProfileDto getAllProfileTeachCourse(Long id) {
         Course course = courseRepository.findById(id).get();
         Profile profile = profileRepository.findByAccountId(course.getAccount().getId());
         TeacherProfileDto profileDto = new TeacherProfileDto();
