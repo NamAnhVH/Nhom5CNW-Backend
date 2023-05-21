@@ -4,7 +4,6 @@ import com.WebLearning.WebLearning.Email.EmailVerificationService;
 import com.WebLearning.WebLearning.Service.AccountService;
 import com.WebLearning.WebLearning.FormData.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,16 +31,38 @@ public class RegisterController {
     // action http://localhost:8080/register/registerForm
     public String registerSubmit(@ModelAttribute UserRegistrationDto newUser , Model model) throws IOException {
         //Xử lý đăng ký tài khoản
-
         if(accountService.isExistedAccount(newUser.getUsername())){
-            return "redirect:/register/registerForm?existAccount=true";
+            if(!accountService.isVerifiedByUsername(newUser.getUsername())){
+                if(accountService.isExistedEmail(newUser.getEmail())){
+                    if(!accountService.isVerifiedByEmail(newUser.getEmail())) {
+                        accountService.replaceAccountByEmail(newUser);
+                        emailVerificationService.sendVerificationEmailByEmail(newUser.getEmail());
+                        return "redirect:/register/registerForm?success=true";
+                    } else {
+                        return "redirect:/register/registerForm?existEmail=true";
+                    }
+                } else {
+                    accountService.replaceAccountByUsername(newUser);
+                    emailVerificationService.sendVerificationEmailByUsername(newUser.getUsername());
+                    return "redirect:/register/registerForm?success=true";
+                }
+            } else {
+                return "redirect:/register/registerForm?existAccount=true";
+            }
+        } else {
+            if(accountService.isExistedEmail(newUser.getEmail())){
+                if(!accountService.isVerifiedByEmail(newUser.getEmail())) {
+                    accountService.replaceAccountByEmail(newUser);
+                    emailVerificationService.sendVerificationEmailByEmail(newUser.getEmail());
+                    return "redirect:/register/registerForm?success=true";
+                }
+                return "redirect:/register/registerForm?existEmail=true";
+            } else {
+                accountService.addAccount(newUser);
+                emailVerificationService.sendVerificationEmailByUsername(newUser.getUsername());
+                return "redirect:/register/registerForm?success=true";
+            }
         }
-        //Nếu tồn tại tài khoản thì trả về trang http:localhost:8080/register/registerForm?existAccount=true
-
-        //Lưu user vào database và trả về trang http:localhost:8080/register/registerForm?success=true
-        accountService.addAccount(newUser);
-        emailVerificationService.sendVerificationEmail(newUser.getUsername());
-        return "redirect:/register/registerForm?success=true";
     }
 
     @GetMapping("/verify")

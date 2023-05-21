@@ -30,8 +30,8 @@ public class AccountService {
     }
 
     public boolean isExistedAccount(String username){
-        Account user = accountRepository.findByUsername(username);
-        if(user != null){
+        Account account = accountRepository.findByUsername(username);
+        if(account != null){
             return true;
         }
         return false;
@@ -41,13 +41,13 @@ public class AccountService {
         return accountRepository.findById(id).get();
     }
 
-    public Account save(Account user) {
-        return accountRepository.saveAndFlush(user);
+    public Account save(Account account) {
+        return accountRepository.saveAndFlush(account);
     }
 
     public List<Account> findAll(){
-        List<Account> listUser = accountRepository.findAll();
-        return listUser;
+        List<Account> listAccount = accountRepository.findAll();
+        return listAccount;
     }
 
     public void addAccount(UserRegistrationDto newUser) {
@@ -106,7 +106,66 @@ public class AccountService {
         accountRepository.save(account);
     }
 
+    public boolean isExistedEmail(String email) {
+        Account account = accountRepository.findByEmail(email);
+        if(account != null){
+            return true;
+        }
+        return false;
+    }
 
+    public boolean isVerifiedByUsername(String username) {
+        Account account = accountRepository.findByUsername(username);
+        return account.isVerified();
+    }
+
+    public boolean isVerifiedByEmail(String email) {
+        Account account = accountRepository.findByEmail(email);
+        return account.isVerified();
+    }
+
+    public void replaceAccountByUsername(UserRegistrationDto newUser) {
+        Account account = accountRepository.findByUsername(newUser.getUsername());
+        account.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
+        account.setEmail(newUser.getEmail());
+        account.setRole(newUser.getRole());
+        if(account.getRole().equals("học sinh")){
+            account.setApproved(true);
+        }
+        else {
+            account.setApproved(false);
+        }
+        accountRepository.save(account);
+
+        Profile profile = profileRepository.findByAccountId(account.getId());
+        profile.setFullname(newUser.getFullname());
+        profileRepository.save(profile);
+    }
+
+    public void replaceAccountByEmail(UserRegistrationDto newUser) {
+        Account account = accountRepository.findByEmail(newUser.getEmail());
+        Account deleteAccount = accountRepository.findByUsername(newUser.getUsername());
+        if(deleteAccount != null){
+            Profile deleteProfile = profileRepository.findByAccountId(deleteAccount.getId());
+            profileRepository.deleteById(deleteProfile.getId());
+            accountRepository.deleteById(deleteAccount.getId());
+        }
+        account.setUsername(newUser.getUsername());
+        account.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
+        account.setRole(newUser.getRole());
+        if(account.getRole().equals("học sinh")){
+            account.setApproved(true);
+        }
+        else {
+            account.setApproved(false);
+        }
+        accountRepository.save(account);
+        account = accountRepository.findByUsername(newUser.getUsername());
+
+        Profile profile = profileRepository.findByAccountId(account.getId());
+        profile.setFullname(newUser.getFullname());
+        profileRepository.save(profile);
+    }
 
 
 //    public void saveAvatar(MultipartFile file, ModelUser user) throws IOException {

@@ -4,10 +4,7 @@ import com.WebLearning.WebLearning.Models.Account;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import com.WebLearning.WebLearning.Service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.LockedException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -55,7 +52,11 @@ public class LoginController {
         } catch (BadCredentialsException e) {
             model.addAttribute("error", "Thông tin đăng nhập không chính xác");
         } catch (LockedException e) {
-            model.addAttribute("error", "Tài khoản đã bị khoá hoặc chưa được cấp quyền ");
+            model.addAttribute("error", "Tài khoản đã bị khoá");
+        } catch (DisabledException e) {
+            model.addAttribute("error", "Tài khoản chưa được xác thực");
+        } catch (AccountExpiredException e) {
+            model.addAttribute("error", "Tài khoản chưa được cấp quyền");
         }
         model.addAttribute("newUser", user);
         return "allUser/login";

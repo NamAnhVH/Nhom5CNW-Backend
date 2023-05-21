@@ -13,8 +13,6 @@ public class CustomUserDetails implements UserDetails {
 
     Account account;
 
-    Profile profile;
-
     public CustomUserDetails(Account account) {
         this.account = account;
     }
@@ -44,12 +42,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return account.isApproved();
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return account.isApproved() && !account.isLocked();
+        return !account.isLocked();
     }
 
     @Override
@@ -59,7 +57,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return account.isVerified();
     }
 
 

@@ -20,4 +20,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     List<Account> findByRoleNot(String role);
 
     Account findByVerificationCode(String verificationCode);
+
+    Account findByEmail(String email);
 }

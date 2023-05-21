@@ -32,6 +32,10 @@ p{
     line-height: 1.4;
 }
 
+button{
+    cursor: pointer;
+}
+
 #header {
     height: 100px;
     flex-direction: row;

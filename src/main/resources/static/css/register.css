@@ -11,6 +11,10 @@ body{
     height: 100vh;
 }
 
+button{
+    cursor: pointer;
+}
+
 #header {
     height: auto;
     top: 0;
@@ -166,6 +170,10 @@ a {
     border: none;
 }
 
+.sign-up__alert {
+    padding: 10px 0 0 0;
+}
+
 #contact {
     background-color: #eeeeee;
     height: 5vh;
@@ -178,7 +186,7 @@ a {
 }
 
 .sign-up__haveaccount{
-    margin-top: 10px;
+    margin: 10px 0;
     font-size: 15px;
 }
 .sign-up__haveaccount a{
@@ -192,9 +200,16 @@ a {
 
 .labelThongBao p{
     margin: 15px;
+    line-height: 1.6;
+    font-size: 20px;
 }
 
 .labelThongBao a{
     text-decoration: none;
     color: black;
+    font-weight: bold;
+}
+
+.labelThongBao a:hover{
+    text-decoration: underline;
 }

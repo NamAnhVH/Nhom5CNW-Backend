@@ -41,11 +41,33 @@ public class EmailVerificationService {
         return session;
     }
 
-    public void sendVerificationEmail(String username) {
+    public void sendVerificationEmailByUsername(String username) {
         Account account = accountRepository.findByUsername(username);
         try {
             Message message = new MimeMessage(session());
-            message.setFrom(new InternetAddress("namanh20022002@gmail.com", "WEB học trực tuyến"));
+            message.setFrom(new InternetAddress("Webhoctructuyen.vn", "WEB học trực tuyến"));
+            message.setRecipients(
+                    Message.RecipientType.TO,
+                    InternetAddress.parse(account.getEmail())
+            );
+            message.setSubject("Xác minh tài khoản");
+            String verificationCode = generateVerificationCode();
+            account.setVerificationCode(verificationCode);
+            accountRepository.save(account);
+            String content = "Xin chào, để hoàn tất đăng ký, vui lòng nhấp vào liên kết sau: " + path + "?code=" + verificationCode;
+            message.setContent(content, "text/html; charset=utf-8");
+
+            Transport.send(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendVerificationEmailByEmail(String email) {
+        Account account = accountRepository.findByEmail(email);
+        try {
+            Message message = new MimeMessage(session());
+            message.setFrom(new InternetAddress("Webhoctructuyen.vn", "WEB học trực tuyến"));
             message.setRecipients(
                     Message.RecipientType.TO,
                     InternetAddress.parse(account.getEmail())
@@ -86,5 +108,7 @@ public class EmailVerificationService {
         String code = UUID.randomUUID().toString();
         return code;
     }
+
+
 }
 

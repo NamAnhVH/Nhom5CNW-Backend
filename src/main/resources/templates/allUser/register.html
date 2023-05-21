@@ -9,85 +9,112 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-<div id="header">
-    <a class="logo-head" title="Trang chủ" href="/homepage">
-        <img class="logo-header" src="/image/Hust-logo.jpg" alt="">
-    </a>
-    <ul class="action-tool">
-        <li class="login-btn">
-            <a href="/login/loginForm"  title="Đăng nhập">Đăng nhập</a>
-        </li>
-        <li class="login-btn">
-            <a href="/register/registerForm" title="Đăng ký tài khoản">Đăng ký</a>
-        </li>
-    </ul>
-</div>
-<div id="main">
-    <div class="sign-up__header" th:unless="${param.success}" th:if="${newUser}">
-        <h3 class="sign-up__heading">Tạo tài khoản của bạn</h3>
-        <form class="form-sign-up" action="#" th:action="@{/register/registerForm}" th:object="${newUser}" method="post">
+    <div id="header">
+        <a class="logo-head" title="Trang chủ" href="/homepage">
+            <img class="logo-header" src="/image/Hust-logo.jpg" alt="">
+        </a>
+        <ul class="action-tool">
+            <li class="login-btn">
+                <a href="/login/loginForm"  title="Đăng nhập">Đăng nhập</a>
+            </li>
+            <li class="login-btn">
+                <a href="/register/registerForm" title="Đăng ký tài khoản">Đăng ký</a>
+            </li>
+        </ul>
+    </div>
+    <div id="main">
+        <div class="sign-up__header" th:unless="${param.success}" th:if="${newUser}">
+            <h3 class="sign-up__heading">Tạo tài khoản của bạn</h3>
+            <form class="form-sign-up" action="#" th:action="@{/register/registerForm}" th:object="${newUser}" method="post" onsubmit="return validateForm()">
 
-            <div class="sign-up__box">
-                <input type="text" id="fullname" th:field="*{fullname}" class="sign-up__input" name="fullname" placeholder="Họ và tên" required>
-                <input type="text" id="username" th:field="*{username}" class="sign-up__input" name="username" placeholder="Tên tài khoản" required>
-                <input type="email" id="email" th:field="*{email}" class="sign-up__input" name="email" placeholder="Tài khoản email" required>
-                <input type="password" id="password" th:field="*{password}" class="sign-up__input" name="password" placeholder="Mật khẩu" required>
-                <!-- <input type="password" class="sign-up__input" placeholder="Xác nhận mật khẩu"> -->
-                <select name="role" id="role" th:field="*{role}">
-                    <option value="học sinh">Học Sinh</option>
-                    <option value="giáo viên">Giáo Viên</option>
-                </select>
-            </div>
+                <div class="sign-up__box">
+                    <input type="text" id="fullname" th:field="*{fullname}" class="sign-up__input" name="fullname" placeholder="Họ và tên" required>
+                    <input type="text" id="username" th:field="*{username}" class="sign-up__input" name="username" placeholder="Tên tài khoản" required>
+                    <input type="email" id="email" th:field="*{email}" class="sign-up__input" name="email" placeholder="Tài khoản email" required>
+                    <input type="password" id="password" th:field="*{password}" class="sign-up__input" name="password" placeholder="Mật khẩu" required>
+                     <input type="password" id="check-password" class="sign-up__input" placeholder="Xác nhận mật khẩu" required>
+                    <select name="role" id="role" th:field="*{role}">
+                        <option value="học sinh">Học Sinh</option>
+                        <option value="giáo viên">Giáo Viên</option>
+                    </select>
+                </div>
 
-            <!-- <div class="sign-up__facebook">
-                <a href="" class="btn">
-                    <i class="fa-brands fa-facebook-f logo-btn" style="color: #ffffff;"></i>
-                    <div class="social-text">Đăng ký qua Facebook</div>
-                </a>
-            </div>
-            <div class="sign-up__google">
-                <a href="" class="btn">
-                    <i class="fa-brands fa-google logo-btn" style="color: #ffffff;"></i>
-                    <div>Đăng ký qua Google</div>
-                </a>
-            </div> -->
-            <div class="sign-up__aside">
-                <p class="sign-up__policy-text">
-                    (*) Khi bấm vào đăng ký tài khoản, bạn chắc chắn đã đọc và đồng ý với
-                    <a href="" class="sign-up__policy-link">Chính sách bảo mật, Điều khoản dịch vụ và chính sách tư vấn</a>
-                </p>
-            </div>
-            <div class="sign-up__button">
-                <input type="submit" value="Đăng ký" class="sign-up-button">
-            </div>
-            <div th:if="${param.existAccount}" class="labelThongBao">
-                <p>Tài khoản đã tồn tại, xin mời đăng ký lại</p>
-            </div>
-            <div class="sign-up__haveaccount">
-                <p><a href="/login/loginForm">Đã có tài khoản</a></p>
-            </div>
-        </form>
+                <!-- <div class="sign-up__facebook">
+                    <a href="" class="btn">
+                        <i class="fa-brands fa-facebook-f logo-btn" style="color: #ffffff;"></i>
+                        <div class="social-text">Đăng ký qua Facebook</div>
+                    </a>
+                </div>
+                <div class="sign-up__google">
+                    <a href="" class="btn">
+                        <i class="fa-brands fa-google logo-btn" style="color: #ffffff;"></i>
+                        <div>Đăng ký qua Google</div>
+                    </a>
+                </div> -->
+                <div class="sign-up__aside">
+                    <p class="sign-up__policy-text">
+                        (*) Khi bấm vào đăng ký tài khoản, bạn chắc chắn đã đọc và đồng ý với
+                        <a href="" class="sign-up__policy-link">Chính sách bảo mật, Điều khoản dịch vụ và chính sách tư vấn</a>
+                    </p>
+                </div>
+                <div class="sign-up__button">
+                    <button type="submit" value="Đăng ký" class="sign-up-button">Đăng ký</button>
+                </div>
+                <div th:if="${param.existAccount}" class="sign-up__alert">
+                    <p>Tài khoản đã tồn tại, xin mời đăng ký lại</p>
+                </div>
+                <div th:if="${param.existEmail}" class="sign-up__alert">
+                    <p>Tài khoản email đã tồn tại, xin mời đăng ký lại</p>
+                </div>
+                <div class="sign-up__haveaccount">
+                    <p><a href="/login/loginForm">Đã có tài khoản</a></p>
+                </div>
+            </form>
 
+            <script>
+                function validateForm() {
+                    var username = document.getElementById("username").value;
+                    var password = document.getElementById("password").value;
+                    var confirmPassword = document.getElementById("check-password").value;
+
+                    if (username.length < 8 || !/^[a-zA-Z0-9]+$/.test(username)) {
+                        alert("Tên đăng nhập phải gồm ít nhất 8 ký tự và không có ký tự đặc biệt.");
+                        return false;
+                    }
+
+                    if (password.length < 8 || !/^[a-zA-Z0-9]+$/.test(password)) {
+                        alert("Mật khẩu phải gồm ít nhất 8 ký tự và không có ký tự đặc biệt.");
+                        return false;
+                    }
+
+                    if (password !== confirmPassword) {
+                        alert("Mật khẩu xác nhận không khớp.");
+                        return false;
+                    }
+                }
+            </script>
+
+        </div>
+        <div th:if="${param.success}" class="labelThongBao">
+            <p>Xin chúc mừng! Bạn đã đăng ký thành công.</p>
+            <p>Hãy kiên nhẫn đợi tin nhắn xác thực tài khoản sẽ được gửi đến hộp thư của bạn trong thời gian sớm nhất.</p>
+        </div>
+        <div th:if="${verifiedSuccess == true}" class="labelThongBao">
+            <p>Xác minh tài khoản thành công</p>
+            <p>Vui lòng chuyển hướng đến trang <a href="/login/loginForm">Đăng nhập</a></p>
+        </div>
+        <div th:if="${verifiedSuccess == false}" class="labelThongBao">
+            <p>Xác minh tài khoản không thành công</p>
+            <p>Vui lòng quay trở lại trang <a href="/register/registerForm">Đăng ký</a></p>
+        </div>
+        <div th:if="${isVerified == true}" class="labelThongBao">
+            <p>Tài khoản đã được xác minh</p>
+            <p>Vui lòng chuyển hướng đến trang <a href="/login/loginForm">Đăng nhập</a></p>
+        </div>
     </div>
-    <div th:if="${param.success}" class="labelThongBao">
-        <p>Xin chúc mừng! Bạn đã đăng ký thành công.</p>
-        <p>Hãy kiên nhẫn đợi tin nhắn xác thực tài khoản sẽ được gửi đến hộp thư của bạn trong thời gian sớm nhất.</p>
+    <div id="contact">
+        <h1>Thông tin liên hệ</h1>
     </div>
-    <div th:if="${verifiedSuccess == true}" class="labelThongBao">
-        <p>Xác minh tài khoản thành công</p>
-        <p>Vui lòng chuyển hướng đến trang <a href="/login/loginForm">Đăng nhập</a></p>
-    </div>
-    <div th:if="${verifiedSuccess == false}" class="labelThongBao">
-        <p>Xác minh tài khoản không thành công</p>
-        <p>Vui lòng quay trở lại trang <a href="/register/registerForm">Đăng ký</a></p>
-    </div>
-    <div th:if="${isVerified == true}" class="labelThongBao">
-        <p>Tài khoản đã được xác minh</p>
-        <p>Vui lòng chuyển hướng đến trang <a href="/login/loginForm">Đăng nhập</a></p>
-    </div>
-</div>
-<div id="contact">
-    <h1>Thông tin liên hệ</h1>
-</div>
 </body>
+
 </html>
