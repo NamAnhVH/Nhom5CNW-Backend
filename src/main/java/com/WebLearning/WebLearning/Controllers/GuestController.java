@@ -80,6 +80,11 @@ public class GuestController {
         if(authenticationFacade.isAuthenticated()){
             model.addAttribute("fullname", profileService.getFullname());
         }
+        if(authenticationFacade.getAccount().getRole().equals("admin")){
+            model.addAttribute("profile", profileService.getById(id));
+            model.addAttribute("listCourse", courseService.getCourseByTeacher(id));
+            return "allUser/teacherProfilePage";
+        }
         if(!profileService.isApprovedAndUnlocked(id)){
             return "redirect:/homepage";
         }
@@ -116,6 +121,12 @@ public class GuestController {
     public String courseDetailPage(@PathVariable Long id, Model model) {
         if(authenticationFacade.isAuthenticated()){
             model.addAttribute("fullname", profileService.getFullname());
+        }
+        if(authenticationFacade.getAccount().getRole().equals("admin")){
+            model.addAttribute("course", courseService.getCourseById(id));
+            model.addAttribute("profile", profileService.getAllProfileTeachCourse(id));
+            model.addAttribute("listRelatedCourse", courseService.getCourseBySameType(id));
+            return "allUser/coursePage";
         }
         if(!courseService.isApprovedAndUnlocked(id)){
             return "redirect:/homepage";

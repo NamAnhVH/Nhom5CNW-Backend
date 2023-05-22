@@ -205,6 +205,10 @@ button{
     padding: 8px 10px;
 }
 
-.course-table p {
+.content-table a{
+    display: inherit;
+}
+
+.content-table p {
     font-size: 14px;
 }

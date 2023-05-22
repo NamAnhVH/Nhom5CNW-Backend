@@ -60,6 +60,7 @@
                 <div class="sign-up__button">
                     <button type="submit" value="Đăng ký" class="sign-up-button">Đăng ký</button>
                 </div>
+                <div id="error-message" class="sign-up__alert" style="display: none;"></div>
                 <div th:if="${param.existAccount}" class="sign-up__alert">
                     <p>Tài khoản đã tồn tại, xin mời đăng ký lại</p>
                 </div>
@@ -76,21 +77,27 @@
                     var username = document.getElementById("username").value;
                     var password = document.getElementById("password").value;
                     var confirmPassword = document.getElementById("check-password").value;
+                    var errorMessage = document.getElementById("error-message");
 
                     if (username.length < 8 || !/^[a-zA-Z0-9]+$/.test(username)) {
-                        alert("Tên đăng nhập phải gồm ít nhất 8 ký tự và không có ký tự đặc biệt.");
+                        errorMessage.innerText = "Tên đăng nhập phải gồm ít nhất 8 ký tự và không có ký tự đặc biệt.";
+                        errorMessage.style.display = "block";
                         return false;
                     }
 
                     if (password.length < 8 || !/^[a-zA-Z0-9]+$/.test(password)) {
-                        alert("Mật khẩu phải gồm ít nhất 8 ký tự và không có ký tự đặc biệt.");
+                        errorMessage.innerText = "Mật khẩu phải gồm ít nhất 8 ký tự và không có ký tự đặc biệt.";
+                        errorMessage.style.display = "block";
                         return false;
                     }
 
                     if (password !== confirmPassword) {
-                        alert("Mật khẩu xác nhận không khớp.");
+                        errorMessage.innerText = "Mật khẩu xác nhận không khớp.";
+                        errorMessage.style.display = "block";
                         return false;
                     }
+
+                    errorMessage.style.display = "none";
                 }
             </script>
 

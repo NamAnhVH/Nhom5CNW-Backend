@@ -12,14 +12,15 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     Account findByUsername(String username);
 
-    List<Account> findByRole(String role);
-
-    List<Account> findByApprovedFalse();
-
-    List<Account> findByLockedTrue();
-    List<Account> findByRoleNot(String role);
-
     Account findByVerificationCode(String verificationCode);
 
     Account findByEmail(String email);
+
+    List<Account> findByRoleNotAndVerifiedTrue(String role);
+
+    List<Account> findByRoleAndVerifiedTrue(String role);
+
+    List<Account> findByRoleNotAndApprovedFalseAndVerifiedTrue(String role);
+
+    List<Account> findByRoleNotAndLockedTrueAndVerifiedTrue(String role);
 }

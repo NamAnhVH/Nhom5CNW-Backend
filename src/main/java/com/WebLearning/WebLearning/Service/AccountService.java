@@ -70,22 +70,22 @@ public class AccountService {
         profileRepository.save(profile);
     }
 
-    public List<Account> getAccountByOption(String option) {
+    public List<Account> getAccountByOptionAndVerified(String option) {
         List<Account> listAccount = new ArrayList<>();
         if (option.equals("studentAccount")){
-            listAccount = accountRepository.findByRole("học sinh");
+            listAccount = accountRepository.findByRoleAndVerifiedTrue("học sinh");
         } else if (option.equals("teacherAccount")) {
-            listAccount = accountRepository.findByRole("giáo viên");
+            listAccount = accountRepository.findByRoleAndVerifiedTrue("giáo viên");
         } else if (option.equals("unapprovedAccount")) {
-            listAccount = accountRepository.findByApprovedFalse();
+            listAccount = accountRepository.findByRoleNotAndApprovedFalseAndVerifiedTrue("admin");
         } else if (option.equals("lockedAccount")) {
-            listAccount = accountRepository.findByLockedTrue();
+            listAccount = accountRepository.findByRoleNotAndLockedTrueAndVerifiedTrue("admin");
         }
         return listAccount;
     }
 
-    public List<Account> getAccountByRoleNot(String role) {
-        return accountRepository.findByRoleNot(role);
+    public List<Account> getAccountByRoleNotAndVerified(String role) {
+        return accountRepository.findByRoleNotAndVerifiedTrue(role);
     }
 
     public void approveAccount(Long id) {

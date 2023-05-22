@@ -1,7 +1,9 @@
 package com.WebLearning.WebLearning.Email;
 
 import com.WebLearning.WebLearning.Models.Account;
+import com.WebLearning.WebLearning.Models.Course;
 import com.WebLearning.WebLearning.Repository.AccountRepository;
+import com.WebLearning.WebLearning.Repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,8 @@ public class EmailVerificationService {
 
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private CourseRepository courseRepository;
 
     public static final String path = "http://localhost:8080/register/verify";
 
@@ -86,11 +90,8 @@ public class EmailVerificationService {
     }
 
     public boolean verifyEmail(String verificationCode) {
-        // Tìm người dùng dựa trên mã xác minh
         Account account = accountRepository.findByVerificationCode(verificationCode);
-
         if (account != null) {
-            // Xác minh thành công, cập nhật trạng thái xác minh và lưu vào cơ sở dữ liệu
             if(!account.isVerified()){
                 account.setVerified(true);
                 accountRepository.save(account);
@@ -98,16 +99,96 @@ public class EmailVerificationService {
             }
             return false;
         } else {
-            // Mã xác minh không hợp lệ
             throw new IllegalArgumentException("Mã xác minh không hợp lệ");
         }
     }
 
     private String generateVerificationCode() {
-        // Logic để tạo mã xác minh ngẫu nhiên, ví dụ: UUID.randomUUID().toString()
         String code = UUID.randomUUID().toString();
         return code;
     }
+
+    public void sendNoticeTo(Long id, String mainContent) {
+        Account account = accountRepository.findById(id).get();
+        try {
+            Message message = new MimeMessage(session());
+            message.setFrom(new InternetAddress("Webhoctructuyen.vn", "WEB học trực tuyến"));
+            message.setRecipients(
+                    Message.RecipientType.TO,
+                    InternetAddress.parse(account.getEmail())
+            );
+            String content = null;
+            if(mainContent.equals("approveAccount")){
+                message.setSubject("Tài khoản được cấp quyền");
+                content = "Tài khoản của bạn đã được chấp thuận, bạn có thể bắt đầu sử dụng hệ thống ngay bây giờ." +
+                        "<br>" +
+                        "<br>" +
+                        "Chúng tôi chân thành cảm ơn sự hợp tác của bạn.";
+            }
+            if(mainContent.equals("lockAccount")){
+                message.setSubject("Tài khoản đã bị khoá");
+                content = "Tài khoản của bạn đã bị khoá do vi phạm quy định của hệ thống, nếu có gì sai sót xin vui lòng liên hệ bên quản trị hệ thống." +
+                        "<br>" +
+                        "<br>" +
+                        "Chúng tôi chân thành xin lỗi vì sự bất tiện này.";
+            }
+            if(mainContent.equals("unlockAccount")){
+                message.setSubject("Tài khoản đã được mở khoá");
+                content = "Tài khoản của bạn đã được mở khoá, bạn có thể bắt đầu sử dụng hệ thống ngay bây giờ." +
+                        "<br>" +
+                        "<br>" +
+                        "Chúng tôi chân thành cảm ơn sự hợp tác của bạn.";
+            }
+            message.setContent(content, "text/html; charset=utf-8");
+
+            Transport.send(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendNoticeAboutCourse(Long id, String mainContent) {
+        Course course = courseRepository.findById(id).get();
+        Account account = accountRepository.findById(course.getAccount().getId()).get();
+        try {
+            Message message = new MimeMessage(session());
+            message.setFrom(new InternetAddress("Webhoctructuyen.vn", "WEB học trực tuyến"));
+            message.setRecipients(
+                    Message.RecipientType.TO,
+                    InternetAddress.parse(account.getEmail())
+            );
+            String content = null;
+            if(mainContent.equals("approveCourse")){
+                message.setSubject("Khoá học được phê duyệt");
+                content = "Khoá học <strong>" + course.getName() +  "<strong> của bạn đã được phê duyệt, khoá học đã có thể được truy cập trên hệ thống." +
+                        "<br>" +
+                        "<br>" +
+                        "Chúng tôi chân thành cảm ơn sự hợp tác của bạn.";
+            }
+            if(mainContent.equals("lockCourse")){
+                message.setSubject("Khoá học đã bị khoá");
+                content = "Khoá học <strong>" + course.getName() +  "<strong> của bạn đã bị khoá do vi phạm quy định của hệ thống, khoá học tạm thời không được truy cập trên hệ thống." +
+                        "<br>" +
+                        "Nếu có gì sai sót, xin vui lòng liên hệ với bên quản trị hệ thống." +
+                        "<br>" +
+                        "<br>" +
+                        "Chúng tôi xin lỗi vì sự bất tiện này.";
+            }
+            if(mainContent.equals("unlockCourse")){
+                message.setSubject("Khoá học được mở khoá");
+                content = "Khoá học <strong>" + course.getName() +  "<strong> của bạn đã mở khoá, khoá học đã có thể được truy cập trên hệ thống." +
+                        "<br>" +
+                        "<br>" +
+                        "Chúng tôi chân thành cảm ơn sự hợp tác của bạn.";
+            }
+            message.setContent(content, "text/html; charset=utf-8");
+
+            Transport.send(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }

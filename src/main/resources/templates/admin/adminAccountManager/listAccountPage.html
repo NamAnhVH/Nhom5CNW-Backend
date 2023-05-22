@@ -41,13 +41,12 @@
         </div>
     </div>
     <div id="right-side-main">
-        <table>
+        <table class="content-table">
             <tr>
                 <th style="width:10%;">AccountID</th>
                 <th style="width:13%;">Username</th>
                 <th style="width:15%;">Fullname</th>
                 <th style="width:8%;">Role</th>
-                <th style="width:12%">Trang cá nhân</th>
                 <th style="width:15%;">Approved</th>
                 <th style="width:12%;">Locked</th>
                 <th style="width:15%;"></th>
@@ -60,14 +59,12 @@
                     <p th:text="${account.username}"></p>
                 </td>
                 <td th:if="${listProfile != null}">
-                    <p th:each="profile: ${listProfile}" th:if="${profile.account} == ${account}" th:text="${profile.fullname}"></p>
+                    <a th:if="${account.role} == 'giáo viên'" th:href="${'/teacherProfile/' + account.id}"><p th:each="profile: ${listProfile}" th:if="${profile.account} == ${account}" th:text="${profile.fullname}"></p></a>
+                    <p th:each="profile: ${listProfile}" th:if="*{profile.account == account && account.role == 'học sinh'}" th:text="${profile.fullname}"></p>
                 </td>
                 <td>
                     <p th:if="${account.role} == 'học sinh'">Học sinh</p>
                     <p th:if="${account.role} == 'giáo viên'">Giáo viên</p>
-                </td>
-                <td>
-                    <a th:if="${account.role} == 'giáo viên'" th:href="${'/teacherProfile/' + account.id}">Trang cá nhân</a>
                 </td>
                 <td>
                     <p th:if="${account.approved}">Đã được cấp quyền</p>
