@@ -58,9 +58,11 @@
                 <td>
                     <p th:text="${account.username}"></p>
                 </td>
-                <td th:if="${listProfile != null}">
-                    <a th:if="${account.role} == 'giáo viên'" th:href="${'/teacherProfile/' + account.id}"><p th:each="profile: ${listProfile}" th:if="${profile.account} == ${account}" th:text="${profile.fullname}"></p></a>
-                    <p th:each="profile: ${listProfile}" th:if="*{profile.account == account && account.role == 'học sinh'}" th:text="${profile.fullname}"></p>
+                <td th:if="*{account.role == 'giáo viên' && listTeacherProfile != null}">
+                    <a th:href="${'/teacherProfile/' + account.id}"><p th:each="teacherProfile: ${listTeacherProfile}" th:if="${teacherProfile.account} == ${account}" th:text="${teacherProfile.fullname}"></p></a>
+                </td>
+                <td th:if="*{account.role == 'học sinh' && listTeacherProfile != null}">
+                    <p th:each="studentProfile: ${listStudentProfile}" th:if="${studentProfile.account} == ${ account}" th:text="${studentProfile.fullname}"></p>
                 </td>
                 <td>
                     <p th:if="${account.role} == 'học sinh'">Học sinh</p>

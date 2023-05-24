@@ -3,6 +3,8 @@ package com.WebLearning.WebLearning.Models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -31,6 +33,10 @@ public class Course {
     @Column
     private boolean locked;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "accountId", nullable = false)
-    private Account account;
+    @JoinColumn(name = "teacherProfileId", nullable = false)
+    private TeacherProfile teacher;
+
+    @ManyToMany(mappedBy = "courses")
+    private Set<StudentProfile> students = new HashSet<>();
+
 }

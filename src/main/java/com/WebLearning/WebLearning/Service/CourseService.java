@@ -3,7 +3,9 @@ package com.WebLearning.WebLearning.Service;
 import com.WebLearning.WebLearning.FormData.CourseFormDto;
 import com.WebLearning.WebLearning.Models.Account;
 import com.WebLearning.WebLearning.Models.Course;
+import com.WebLearning.WebLearning.Models.TeacherProfile;
 import com.WebLearning.WebLearning.Repository.CourseRepository;
+import com.WebLearning.WebLearning.Repository.TeacherProfileRepository;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ public class CourseService {
     private AuthenticationFacade authenticationFacade;
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private TeacherProfileRepository teacherProfileRepository;
 
     public void addCourse(CourseFormDto newCourse) throws IOException {
         Course course = new Course();
@@ -29,7 +33,8 @@ public class CourseService {
         course.setIntroduction(newCourse.getIntroduction());
         course.setDescription(newCourse.getDescription());
         course.setCourseType(newCourse.getCourseType());
-        course.setAccount(authenticationFacade.getAccount());
+        TeacherProfile currentTeacher = teacherProfileRepository.findByAccountId(authenticationFacade.getAccount().getId());
+        course.setTeacher(currentTeacher);
         courseRepository.save(course);
     }
 
@@ -80,8 +85,8 @@ public class CourseService {
     }
 
     public List<Course> getAllByCurrentAccount() {
-        Account currentAccount = authenticationFacade.getAccount();
-        return courseRepository.findByAccountId(currentAccount.getId());
+        TeacherProfile currentTeacher = teacherProfileRepository.findByAccountId(authenticationFacade.getAccount().getId());
+        return courseRepository.findByTeacherId(currentTeacher.getId());
     }
 
     public CourseFormDto getCourseById(Long id) {
@@ -97,14 +102,14 @@ public class CourseService {
     }
 
     public boolean isAccessAllowed(Long id) {
-        Account currentAccount = authenticationFacade.getAccount();
+        TeacherProfile currentTeacher = teacherProfileRepository.findByAccountId(authenticationFacade.getAccount().getId());
         Course course = courseRepository.findById(id).get();
-        return course.getAccount().getId() == currentAccount.getId();
+        return course.getTeacher().getId() == currentTeacher.getId();
     }
 
-    public List<Course> getAllUnapprovedCourseByCurrentAccount() {
-        Account currentAccount = authenticationFacade.getAccount();
-        return courseRepository.findByApprovedFalseAndAccountId(currentAccount.getId());
+    public List<Course> getAllUnapprovedCourseByCurrentTeacher() {
+        TeacherProfile currentTeacher = teacherProfileRepository.findByAccountId(authenticationFacade.getAccount().getId());
+        return courseRepository.findByApprovedFalseAndTeacherId(currentTeacher.getId());
     }
 
     public void updateCourse(Long id, CourseFormDto courseDto) throws IOException {
@@ -197,7 +202,7 @@ public class CourseService {
     }
 
     public List<CourseFormDto> getCourseByTeacher(Long id) {
-        List<Course> listCourse = courseRepository.findByAccountId(id);
+        List<Course> listCourse = courseRepository.findByTeacherId(id);
         List<CourseFormDto> listCourseDto = new ArrayList<>();
         for (Course course: listCourse){
             CourseFormDto courseDto = new CourseFormDto();

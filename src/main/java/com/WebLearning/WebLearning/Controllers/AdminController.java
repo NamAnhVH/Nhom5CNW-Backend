@@ -3,10 +3,7 @@ package com.WebLearning.WebLearning.Controllers;
 import com.WebLearning.WebLearning.Email.EmailVerificationService;
 import com.WebLearning.WebLearning.FormData.NewsFormDto;
 import com.WebLearning.WebLearning.Models.News;
-import com.WebLearning.WebLearning.Service.CourseService;
-import com.WebLearning.WebLearning.Service.NewsService;
-import com.WebLearning.WebLearning.Service.AccountService;
-import com.WebLearning.WebLearning.Service.ProfileService;
+import com.WebLearning.WebLearning.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +21,9 @@ public class AdminController {
     @Autowired
     private AccountService accountService;
     @Autowired
-    private ProfileService profileService;
+    private TeacherProfileService teacherProfileService;
+    @Autowired
+    private StudentProfileService studentProfileService;
     @Autowired
     private CourseService courseService;
     @Autowired
@@ -76,7 +75,8 @@ public class AdminController {
     @GetMapping("/listAccount")
     public String listAllAccountPage(Model model){
         model.addAttribute("listAccount", accountService.getAccountByRoleNotAndVerified("admin"));
-        model.addAttribute("listProfile", profileService.getAllProfile());
+        model.addAttribute("listTeacherProfile", teacherProfileService.getAllProfile());
+        model.addAttribute("listStudentProfile", studentProfileService.getAllProfile());
         return "admin/adminAccountManager/listAccountPage";
     }
 
@@ -84,7 +84,8 @@ public class AdminController {
     public String listAccountPage(@PathVariable String option, Model model){
         model.addAttribute("option", option);
         model.addAttribute("listAccount", accountService.getAccountByOptionAndVerified(option));
-        model.addAttribute("listProfile", profileService.getAllProfile());
+        model.addAttribute("listTeacherProfile", teacherProfileService.getAllProfile());
+        model.addAttribute("listStudentProfile", studentProfileService.getAllProfile());
         return "admin/adminAccountManager/listAccountPage";
     }
 
@@ -121,7 +122,7 @@ public class AdminController {
     @GetMapping("/listCourse")
     public String listAllCoursePage(Model model){
         model.addAttribute("listCourse", courseService.getAll());
-        model.addAttribute("listProfile", profileService.getAllProfile());
+        model.addAttribute("listTeacherProfile", teacherProfileService.getAllProfile());
         return "admin/adminCourseManager/listCoursePage";
     }
 
@@ -133,7 +134,7 @@ public class AdminController {
             model.addAttribute("listCourse", courseService.getCourseByCourseType(type));
         }
         model.addAttribute("type", type);
-        model.addAttribute("listProfile", profileService.getAllProfile());
+        model.addAttribute("listTeacherProfile", teacherProfileService.getAllProfile());
         return "admin/adminCourseManager/listCoursePage";
     }
 
@@ -141,7 +142,7 @@ public class AdminController {
     public String listCoursePage(@PathVariable String option, Model model){
         model.addAttribute("option", option);
         model.addAttribute("listCourse", courseService.getCourseByOption(option));
-        model.addAttribute("listProfile", profileService.getAllProfile());
+        model.addAttribute("listTeacherProfile", teacherProfileService.getAllProfile());
         return "admin/adminCourseManager/listCoursePage";
     }
 
@@ -153,7 +154,7 @@ public class AdminController {
             model.addAttribute("listCourse", courseService.findCourseByOptionAndCourseType(option, type));
         }
         model.addAttribute("type", type);
-        model.addAttribute("listProfile", profileService.getAllProfile());
+        model.addAttribute("listTeacherProfile", teacherProfileService.getAllProfile());
         return "admin/adminCourseManager/listCoursePage";
     }
 

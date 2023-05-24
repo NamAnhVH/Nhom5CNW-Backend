@@ -1,7 +1,6 @@
 package com.WebLearning.WebLearning.Security;
 
 import com.WebLearning.WebLearning.Models.Account;
-import com.WebLearning.WebLearning.Models.Profile;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 

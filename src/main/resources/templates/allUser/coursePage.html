@@ -38,6 +38,9 @@
         <div sec:authorize="hasRole('ROLE_giáo viên')">
             <a th:href="@{/teacher}" th:text="${fullname}" class="username-login"></a>
         </div>
+        <div sec:authorize="hasRole('ROLE_học sinh')">
+            <a th:href="@{/student}" th:text="${fullname}" class="username-login"></a>
+        </div>
         <div id="logout-button">
             <a th:href="@{/logout}">Đăng xuất</a>
         </div>
@@ -52,9 +55,11 @@
             <h1 th:text="${course.name}"></h1>
             <p th:text="${course.introduction}"></p>
             <p><strong>Ngày đăng tải khoá học:</strong> <em th:text="${course.time}"></em></p>
-            <form method="post">
-                <button type="submit" value="submit">Đăng ký khoá học</button>
-            </form>
+            <div sec:authorize="hasRole('ROLE_học sinh')">
+                <form method="post">
+                    <button type="submit" value="submit">Đăng ký khoá học</button>
+                </form>
+            </div>
         </div>
         <div id="image-course">
             <img th:src="${course.base64Image}">

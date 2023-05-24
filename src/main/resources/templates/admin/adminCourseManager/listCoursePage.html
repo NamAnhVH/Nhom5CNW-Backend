@@ -95,8 +95,8 @@
                 <td>
                     <a th:href="${'/course/' + course.id}"><p th:text="${course.name}"></p></a>
                 </td>
-                <td th:if="${listProfile != null}">
-                    <p th:each="profile: ${listProfile}" th:if="${profile.account} == ${course.account}" th:text="${profile.fullname}"></p>
+                <td th:if="${listTeacherProfile != null}">
+                    <p th:each="teacherProfile: ${listTeacherProfile}" th:if="${teacherProfile} == ${course.teacher}" th:text="${teacherProfile.fullname}"></p>
                 </td>
                 <td>
                     <p th:text="${course.time}"></p>

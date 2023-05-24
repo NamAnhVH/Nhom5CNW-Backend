@@ -40,6 +40,9 @@
             <div sec:authorize="hasRole('ROLE_giáo viên')">
                 <a th:href="@{/teacher}" th:text="${fullname}" class="username-login"></a>
             </div>
+            <div sec:authorize="hasRole('ROLE_học sinh')">
+                <a th:href="@{/student}" th:text="${fullname}" class="username-login"></a>
+            </div>
             <div id="logout-button">
                 <a th:href="@{/logout}">Đăng xuất</a>
             </div>
@@ -85,8 +88,8 @@
     <section th:if="${profilePage}" class="content-section">
         <h1>Giảng viên</h1>
         <div class="list">
-            <div th:each="profile: ${listProfile}" class="items">
-                <a th:href="${'/teacherProfile/' + profile.id}" target="_self" th:object="${profile}">
+            <div th:each="teacherProfile: ${listTeacherProfile}" class="items">
+                <a th:href="${'/teacherProfile/' + teacherProfile.id}" target="_self" th:object="${teacherProfile}">
                     <div id="avatar-profile">
                         <img th:src="*{base64Avatar}">
                     </div>

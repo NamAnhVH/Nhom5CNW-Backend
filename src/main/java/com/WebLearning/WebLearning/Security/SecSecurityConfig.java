@@ -68,6 +68,8 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                     .hasRole("admin")
                     .antMatchers("/teacher/**")
                     .hasRole("giáo viên")
+                    .antMatchers("/student/**")
+                    .hasRole("học sinh")
                     .anyRequest()
                     .authenticated()
                 .and()

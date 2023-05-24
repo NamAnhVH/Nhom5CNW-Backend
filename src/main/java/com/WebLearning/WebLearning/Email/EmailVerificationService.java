@@ -4,6 +4,7 @@ import com.WebLearning.WebLearning.Models.Account;
 import com.WebLearning.WebLearning.Models.Course;
 import com.WebLearning.WebLearning.Repository.AccountRepository;
 import com.WebLearning.WebLearning.Repository.CourseRepository;
+import com.WebLearning.WebLearning.Repository.TeacherProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,8 @@ public class EmailVerificationService {
     private AccountRepository accountRepository;
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private TeacherProfileRepository teacherProfileRepository;
 
     public static final String path = "http://localhost:8080/register/verify";
 
@@ -149,7 +152,7 @@ public class EmailVerificationService {
 
     public void sendNoticeAboutCourse(Long id, String mainContent) {
         Course course = courseRepository.findById(id).get();
-        Account account = accountRepository.findById(course.getAccount().getId()).get();
+        Account account = teacherProfileRepository.findById(course.getTeacher().getId()).get().getAccount();
         try {
             Message message = new MimeMessage(session());
             message.setFrom(new InternetAddress("Webhoctructuyen.vn", "WEB học trực tuyến"));

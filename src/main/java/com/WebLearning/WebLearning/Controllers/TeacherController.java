@@ -3,7 +3,7 @@ package com.WebLearning.WebLearning.Controllers;
 import com.WebLearning.WebLearning.FormData.CourseFormDto;
 import com.WebLearning.WebLearning.FormData.TeacherProfileDto;
 import com.WebLearning.WebLearning.Service.CourseService;
-import com.WebLearning.WebLearning.Service.ProfileService;
+import com.WebLearning.WebLearning.Service.TeacherProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +16,7 @@ import java.io.IOException;
 public class TeacherController {
 
     @Autowired
-    private ProfileService profileService;
+    private TeacherProfileService teacherProfileService;
     @Autowired
     private CourseService courseService;
 
@@ -27,14 +27,14 @@ public class TeacherController {
 
     @GetMapping("/profile")
     public String teacherProfilePage(Model model) {
-        model.addAttribute("user", profileService.getTeacherProfile());
+        model.addAttribute("user", teacherProfileService.getCurrentAccountProfile());
         return "teacher/teacherProfileManager/profileManagerPage";
     }
 
     @PostMapping("/profile/edit")
     public String editProfile(@ModelAttribute TeacherProfileDto profile){
         try {
-            profileService.updateProfile(profile);
+            teacherProfileService.updateProfile(profile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -49,7 +49,7 @@ public class TeacherController {
 
     @GetMapping("/course/listCourse/unapprovedCourse")
     public String listUnapprovedCoursePage(Model model){
-        model.addAttribute("listCourse", courseService.getAllUnapprovedCourseByCurrentAccount());
+        model.addAttribute("listCourse", courseService.getAllUnapprovedCourseByCurrentTeacher());
         return "teacher/teacherCourseManager/listCoursePage";
     }
 

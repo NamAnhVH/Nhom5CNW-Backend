@@ -1,9 +1,11 @@
 package com.WebLearning.WebLearning.Service;
 
 import com.WebLearning.WebLearning.Models.Account;
-import com.WebLearning.WebLearning.Models.Profile;
+import com.WebLearning.WebLearning.Models.StudentProfile;
+import com.WebLearning.WebLearning.Models.TeacherProfile;
 import com.WebLearning.WebLearning.Repository.AccountRepository;
-import com.WebLearning.WebLearning.Repository.ProfileRepository;
+import com.WebLearning.WebLearning.Repository.StudentProfileRepository;
+import com.WebLearning.WebLearning.Repository.TeacherProfileRepository;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import com.WebLearning.WebLearning.FormData.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,10 @@ public class AccountService {
     private AccountRepository accountRepository;
 
     @Autowired
-    private ProfileRepository profileRepository;
+    private TeacherProfileRepository teacherProfileRepository;
+
+    @Autowired
+    private StudentProfileRepository studentProfileRepository;
 
     @Autowired
     private AuthenticationFacade authenticationFacade;
@@ -64,10 +69,17 @@ public class AccountService {
         }
         accountRepository.save(newAccount);
 
-        Profile profile = new Profile();
-        profile.setFullname(newUser.getFullname());
-        profile.setAccount(newAccount);
-        profileRepository.save(profile);
+        if(newAccount.getRole().equals("học sinh")){
+            StudentProfile studentProfile = new StudentProfile();
+            studentProfile.setFullname(newUser.getFullname());
+            studentProfile.setAccount(newAccount);
+            studentProfileRepository.save(studentProfile);
+        } else {
+            TeacherProfile teacherProfile = new TeacherProfile();
+            teacherProfile.setFullname(newUser.getFullname());
+            teacherProfile.setAccount(newAccount);
+            teacherProfileRepository.save(teacherProfile);
+        }
     }
 
     public List<Account> getAccountByOptionAndVerified(String option) {
@@ -126,6 +138,18 @@ public class AccountService {
 
     public void replaceAccountByUsername(UserRegistrationDto newUser) {
         Account account = accountRepository.findByUsername(newUser.getUsername());
+        Account deleteAccount = accountRepository.findByUsername(newUser.getUsername());
+        if(deleteAccount != null){
+            if(deleteAccount.getRole().equals("học sinh")){
+                StudentProfile deleteStudentProfile = studentProfileRepository.findByAccountId(deleteAccount.getId());
+                studentProfileRepository.deleteById(deleteStudentProfile.getId());
+                accountRepository.deleteById(deleteAccount.getId());
+            } else {
+                TeacherProfile deleteTeacherProfile = teacherProfileRepository.findByAccountId(deleteAccount.getId());
+                teacherProfileRepository.deleteById(deleteTeacherProfile.getId());
+                accountRepository.deleteById(deleteAccount.getId());
+            }
+        }
         account.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
         account.setEmail(newUser.getEmail());
         account.setRole(newUser.getRole());
@@ -136,19 +160,39 @@ public class AccountService {
             account.setApproved(false);
         }
         accountRepository.save(account);
-
-        Profile profile = profileRepository.findByAccountId(account.getId());
-        profile.setFullname(newUser.getFullname());
-        profileRepository.save(profile);
+        account = accountRepository.findByUsername(newUser.getUsername());
+        if(account.getRole().equals("học sinh")){
+            StudentProfile studentProfile = studentProfileRepository.findByAccountId(account.getId());
+            if(studentProfile == null){
+                studentProfile = new StudentProfile();
+                studentProfile.setAccount(account);
+            }
+            studentProfile.setFullname(newUser.getFullname());
+            studentProfileRepository.save(studentProfile);
+        } else {
+            TeacherProfile teacherProfile = teacherProfileRepository.findByAccountId(account.getId());
+            if(teacherProfile == null){
+                teacherProfile = new TeacherProfile();
+                teacherProfile.setAccount(account);
+            }
+            teacherProfile.setFullname(newUser.getFullname());
+            teacherProfileRepository.save(teacherProfile);
+        }
     }
 
     public void replaceAccountByEmail(UserRegistrationDto newUser) {
         Account account = accountRepository.findByEmail(newUser.getEmail());
         Account deleteAccount = accountRepository.findByUsername(newUser.getUsername());
         if(deleteAccount != null){
-            Profile deleteProfile = profileRepository.findByAccountId(deleteAccount.getId());
-            profileRepository.deleteById(deleteProfile.getId());
-            accountRepository.deleteById(deleteAccount.getId());
+            if(deleteAccount.getRole().equals("học sinh")){
+                StudentProfile deleteStudentProfile = studentProfileRepository.findByAccountId(deleteAccount.getId());
+                studentProfileRepository.deleteById(deleteStudentProfile.getId());
+                accountRepository.deleteById(deleteAccount.getId());
+            } else {
+                TeacherProfile deleteTeacherProfile = teacherProfileRepository.findByAccountId(deleteAccount.getId());
+                teacherProfileRepository.deleteById(deleteTeacherProfile.getId());
+                accountRepository.deleteById(deleteAccount.getId());
+            }
         }
         account.setUsername(newUser.getUsername());
         account.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
@@ -161,16 +205,24 @@ public class AccountService {
         }
         accountRepository.save(account);
         account = accountRepository.findByUsername(newUser.getUsername());
-
-        Profile profile = profileRepository.findByAccountId(account.getId());
-        profile.setFullname(newUser.getFullname());
-        profileRepository.save(profile);
+        if(account.getRole().equals("học sinh")){
+            StudentProfile studentProfile = studentProfileRepository.findByAccountId(account.getId());
+            if(studentProfile == null){
+                studentProfile = new StudentProfile();
+                studentProfile.setAccount(account);
+            }
+            studentProfile.setFullname(newUser.getFullname());
+            studentProfileRepository.save(studentProfile);
+        } else {
+            TeacherProfile teacherProfile = teacherProfileRepository.findByAccountId(account.getId());
+            if(teacherProfile == null){
+                teacherProfile = new TeacherProfile();
+                teacherProfile.setAccount(account);
+            }
+            teacherProfile.setFullname(newUser.getFullname());
+            teacherProfileRepository.save(teacherProfile);
+        }
     }
 
 
-//    public void saveAvatar(MultipartFile file, ModelUser user) throws IOException {
-////        ModelUser user = userRepository.findById((long) 4).get();
-//        user.setAvatar(file.getBytes());
-//        userRepository.save(user);
-//    }
 }
