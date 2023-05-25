@@ -17,9 +17,5 @@ public class TeacherProfileDto {
 
 
     private Long id;
-//    private byte[] test;
 
-//    public void setAvatar(byte[] avatar) {
-//        ByteArrayResource resource = new ByteArrayResource(avatar);
-//    }
 }

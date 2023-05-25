@@ -225,4 +225,8 @@ public class AccountService {
     }
 
 
+    public String getEmail() {
+        Account account = authenticationFacade.getAccount();
+        return account.getEmail();
+    }
 }

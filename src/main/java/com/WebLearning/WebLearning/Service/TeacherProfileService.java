@@ -28,46 +28,46 @@ public class TeacherProfileService {
 
     public TeacherProfileDto getCurrentAccountProfile() {
         Account currentAccount = authenticationFacade.getAccount();
-        TeacherProfile currentTeacherProfile = teacherProfileRepository.findByAccountId(currentAccount.getId());
+        TeacherProfile profile = teacherProfileRepository.findByAccountId(currentAccount.getId());
         TeacherProfileDto profileDto = new TeacherProfileDto();
-        profileDto.setFullname(currentTeacherProfile.getFullname());
-        profileDto.setDescription(currentTeacherProfile.getDescription());
-        profileDto.setBase64Avatar("data:image/png;base64," + Base64.encodeBase64String(currentTeacherProfile.getAvatar()));
-        profileDto.setDetail(currentTeacherProfile.getDetail());
+        profileDto.setFullname(profile.getFullname());
+        profileDto.setDescription(profile.getDescription());
+        profileDto.setBase64Avatar("data:image/png;base64," + Base64.encodeBase64String(profile.getAvatar()));
+        profileDto.setDetail(profile.getDetail());
         return profileDto;
     }
 
-    public void updateProfile(TeacherProfileDto profile) throws IOException {
+    public void updateProfile(TeacherProfileDto profileDto) throws IOException {
         Account currentAccount = authenticationFacade.getAccount();
-        TeacherProfile currentTeacherProfile = teacherProfileRepository.findByAccountId(currentAccount.getId());
-        currentTeacherProfile.setFullname(profile.getFullname());
-        if(!profile.getAvatar().isEmpty()){
-            currentTeacherProfile.setAvatar(profile.getAvatar().getBytes());
+        TeacherProfile profile = teacherProfileRepository.findByAccountId(currentAccount.getId());
+        profile.setFullname(profileDto.getFullname());
+        if(!profileDto.getAvatar().isEmpty()){
+            profile.setAvatar(profileDto.getAvatar().getBytes());
         }
-        currentTeacherProfile.setDescription(profile.getDescription());
-        currentTeacherProfile.setDetail(profile.getDetail());
-        teacherProfileRepository.save(currentTeacherProfile);
+        profile.setDescription(profileDto.getDescription());
+        profile.setDetail(profileDto.getDetail());
+        teacherProfileRepository.save(profile);
     }
 
     public TeacherProfileDto getById(Long id) {
-        TeacherProfile teacherProfile = teacherProfileRepository.findById(id).get();
+        TeacherProfile profile = teacherProfileRepository.findById(id).get();
         TeacherProfileDto profileDto = new TeacherProfileDto();
-        profileDto.setFullname(teacherProfile.getFullname());
-        profileDto.setDescription(teacherProfile.getDescription());
-        profileDto.setBase64Avatar("data:image/png;base64," + Base64.encodeBase64String(teacherProfile.getAvatar()));
-        profileDto.setDetail(teacherProfile.getDetail());
+        profileDto.setFullname(profile.getFullname());
+        profileDto.setDescription(profile.getDescription());
+        profileDto.setBase64Avatar("data:image/png;base64," + Base64.encodeBase64String(profile.getAvatar()));
+        profileDto.setDetail(profile.getDetail());
         return profileDto;
     }
 
     public List<TeacherProfileDto> getTopSixTeacherApprovedAndUnlocked() {
         List<TeacherProfileDto> listProfileDto = new ArrayList<>();
-        List<TeacherProfile> listTeacherProfile = teacherProfileRepository.findTop6ByAccountRoleAndAccountApprovedTrueAndAccountLockedFalseOrderByIdDesc("giáo viên");
-        for (TeacherProfile teacherProfile : listTeacherProfile) {
+        List<TeacherProfile> listProfile = teacherProfileRepository.findTop6ByAccountRoleAndAccountApprovedTrueAndAccountLockedFalseOrderByIdDesc("giáo viên");
+        for (TeacherProfile profile : listProfile) {
             TeacherProfileDto profileDto = new TeacherProfileDto();
-            profileDto.setFullname(teacherProfile.getFullname());
-            profileDto.setDescription(teacherProfile.getDescription());
-            profileDto.setBase64Avatar("data:image/png;base64," + Base64.encodeBase64String(teacherProfile.getAvatar()));
-            profileDto.setId(teacherProfile.getId());
+            profileDto.setFullname(profile.getFullname());
+            profileDto.setDescription(profile.getDescription());
+            profileDto.setBase64Avatar("data:image/png;base64," + Base64.encodeBase64String(profile.getAvatar()));
+            profileDto.setId(profile.getId());
             listProfileDto.add(profileDto);
         }
         return listProfileDto;
@@ -75,13 +75,13 @@ public class TeacherProfileService {
 
     public List<TeacherProfileDto> getAllByRoleAndApprovedAndUnlocked(String role) {
         List<TeacherProfileDto> listProfileDto = new ArrayList<>();
-        List<TeacherProfile> listTeacherProfile = teacherProfileRepository.findByAccountRoleAndAccountApprovedTrueAndAccountLockedFalseOrderByIdDesc(role);
-        for (TeacherProfile teacherProfile : listTeacherProfile) {
+        List<TeacherProfile> listProfile = teacherProfileRepository.findByAccountRoleAndAccountApprovedTrueAndAccountLockedFalseOrderByIdDesc(role);
+        for (TeacherProfile profile : listProfile) {
             TeacherProfileDto profileDto = new TeacherProfileDto();
-            profileDto.setFullname(teacherProfile.getFullname());
-            profileDto.setDescription(teacherProfile.getDescription());
-            profileDto.setBase64Avatar("data:image/png;base64," + Base64.encodeBase64String(teacherProfile.getAvatar()));
-            profileDto.setId(teacherProfile.getId());
+            profileDto.setFullname(profile.getFullname());
+            profileDto.setDescription(profile.getDescription());
+            profileDto.setBase64Avatar("data:image/png;base64," + Base64.encodeBase64String(profile.getAvatar()));
+            profileDto.setId(profile.getId());
             listProfileDto.add(profileDto);
         }
         return listProfileDto;
@@ -89,8 +89,8 @@ public class TeacherProfileService {
 
     public String getFullname() {
         Account currentAccount = authenticationFacade.getAccount();
-        TeacherProfile teacherProfile = teacherProfileRepository.findByAccountId(currentAccount.getId());
-        return teacherProfile.getFullname();
+        TeacherProfile profile = teacherProfileRepository.findByAccountId(currentAccount.getId());
+        return profile.getFullname();
     }
 
     public List<TeacherProfile> getAllProfile() {
@@ -98,8 +98,8 @@ public class TeacherProfileService {
     }
 
     public boolean isApprovedAndUnlocked(Long id) {
-        TeacherProfile teacherProfile = teacherProfileRepository.findById(id).get();
-        if(teacherProfile.getAccount().isApproved() && !teacherProfile.getAccount().isLocked()){
+        TeacherProfile profile = teacherProfileRepository.findById(id).get();
+        if(profile.getAccount().isApproved() && !profile.getAccount().isLocked()){
             return true;
         }
         return false;
@@ -107,12 +107,12 @@ public class TeacherProfileService {
 
     public TeacherProfileDto getAllProfileTeachCourse(Long id) {
         Course course = courseRepository.findById(id).get();
-        TeacherProfile teacherProfile = course.getTeacher();
+        TeacherProfile profile = course.getTeacher();
         TeacherProfileDto profileDto = new TeacherProfileDto();
-        profileDto.setFullname(teacherProfile.getFullname());
-        profileDto.setDescription(teacherProfile.getDescription());
-        profileDto.setBase64Avatar("data:image/png;base64," + Base64.encodeBase64String(teacherProfile.getAvatar()));
-        profileDto.setId(teacherProfile.getId());
+        profileDto.setFullname(profile.getFullname());
+        profileDto.setDescription(profile.getDescription());
+        profileDto.setBase64Avatar("data:image/png;base64," + Base64.encodeBase64String(profile.getAvatar()));
+        profileDto.setId(profile.getId());
         return profileDto;
     }
 }

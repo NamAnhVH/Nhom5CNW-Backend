@@ -27,6 +27,12 @@ public class StudentProfile {
     private Date birthDate;
     @Column
     private String literacy;
+    @Column
+    private String address;
+    @Column
+    private String hobby;
+    @Column
+    private String achivement;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "accountId", nullable = false)
