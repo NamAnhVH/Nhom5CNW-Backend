@@ -1,6 +1,6 @@
 package com.WebLearning.WebLearning.Controllers;
 
-import com.WebLearning.WebLearning.Email.EmailVerificationService;
+import com.WebLearning.WebLearning.Email.EmailService;
 import com.WebLearning.WebLearning.FormData.NewsFormDto;
 import com.WebLearning.WebLearning.Models.News;
 import com.WebLearning.WebLearning.Service.*;
@@ -27,7 +27,7 @@ public class AdminController {
     @Autowired
     private CourseService courseService;
     @Autowired
-    private EmailVerificationService emailVerificationService;
+    private EmailService emailService;
 
     @GetMapping
     public String adminPage(){
@@ -38,7 +38,7 @@ public class AdminController {
     //http://localhost:8080/admin/addNews
     public String addNewsPage(Model model){
         model.addAttribute("news", new NewsFormDto());
-        return "admin/adminNewsManager/addNews";
+        return "admin/newsManager/addNewsPage";
     }
 
     @PostMapping("/addNews")
@@ -50,14 +50,14 @@ public class AdminController {
     @GetMapping("/listNews")
     public String listNewsPage(Model model){
         model.addAttribute("listNews", newsService.getAll());
-        return "admin/adminNewsManager/listNewsPage";
+        return "admin/newsManager/listNewsPage";
     }
 
     @GetMapping("/editNews/{id}")
     public String editNewsPage(@PathVariable Long id, Model model){
         News news = newsService.getNewsById(id);
         model.addAttribute("news", news);
-        return "admin/adminNewsManager/editNews";
+        return "admin/newsManager/editNewsPage";
     }
 
     @PostMapping("/editNews/{id}")
@@ -77,7 +77,7 @@ public class AdminController {
         model.addAttribute("listAccount", accountService.getAccountByRoleNotAndVerified("admin"));
         model.addAttribute("listTeacherProfile", teacherProfileService.getAllProfile());
         model.addAttribute("listStudentProfile", studentProfileService.getAllProfile());
-        return "admin/adminAccountManager/listAccountPage";
+        return "admin/accountManager/listAccountPage";
     }
 
     @GetMapping("/listAccount/{option}")
@@ -86,13 +86,13 @@ public class AdminController {
         model.addAttribute("listAccount", accountService.getAccountByOptionAndVerified(option));
         model.addAttribute("listTeacherProfile", teacherProfileService.getAllProfile());
         model.addAttribute("listStudentProfile", studentProfileService.getAllProfile());
-        return "admin/adminAccountManager/listAccountPage";
+        return "admin/accountManager/listAccountPage";
     }
 
     @PostMapping("/listAccount/approveAccount/{id}")
     public String approveAccount(@PathVariable Long id, @RequestParam("option") String option){
         accountService.approveAccount(id);
-        emailVerificationService.sendNoticeTo(id,"approveAccount");
+        emailService.sendNoticeTo(id,"approveAccount");
         if("null".equals(option)){
             return "redirect:/admin/listAccount";
         }
@@ -102,7 +102,7 @@ public class AdminController {
     @PostMapping("/listAccount/lockAccount/{id}")
     public String lockAccount(@PathVariable Long id, @RequestParam("option") String option){
         accountService.lockAccount(id);
-        emailVerificationService.sendNoticeTo(id,"lockAccount");
+        emailService.sendNoticeTo(id,"lockAccount");
         if("null".equals(option)){
             return "redirect:/admin/listAccount";
         }
@@ -112,7 +112,7 @@ public class AdminController {
     @PostMapping("/listAccount/unlockAccount/{id}")
     public String unlockAccount(@PathVariable Long id, @RequestParam("option") String option){
         accountService.unlockAccount(id);
-        emailVerificationService.sendNoticeTo(id,"unlockAccount");
+        emailService.sendNoticeTo(id,"unlockAccount");
         if("null".equals(option)){
             return "redirect:/admin/listAccount";
         }
@@ -123,7 +123,7 @@ public class AdminController {
     public String listAllCoursePage(Model model){
         model.addAttribute("listCourse", courseService.getAll());
         model.addAttribute("listTeacherProfile", teacherProfileService.getAllProfile());
-        return "admin/adminCourseManager/listCoursePage";
+        return "admin/courseManager/listCoursePage";
     }
 
     @GetMapping("/listCourse/")
@@ -135,7 +135,7 @@ public class AdminController {
         }
         model.addAttribute("type", type);
         model.addAttribute("listTeacherProfile", teacherProfileService.getAllProfile());
-        return "admin/adminCourseManager/listCoursePage";
+        return "admin/courseManager/listCoursePage";
     }
 
     @GetMapping("/listCourse/{option}")
@@ -143,7 +143,7 @@ public class AdminController {
         model.addAttribute("option", option);
         model.addAttribute("listCourse", courseService.getCourseByOption(option));
         model.addAttribute("listTeacherProfile", teacherProfileService.getAllProfile());
-        return "admin/adminCourseManager/listCoursePage";
+        return "admin/courseManager/listCoursePage";
     }
 
     @GetMapping("/listCourse/{option}/")
@@ -155,13 +155,13 @@ public class AdminController {
         }
         model.addAttribute("type", type);
         model.addAttribute("listTeacherProfile", teacherProfileService.getAllProfile());
-        return "admin/adminCourseManager/listCoursePage";
+        return "admin/courseManager/listCoursePage";
     }
 
     @PostMapping("/listCourse/approveCourse/{id}")
     public String approveCourse(@PathVariable Long id, @RequestParam("option") String option, @RequestParam("type") String type, Model model){
         courseService.approveCourse(id);
-        emailVerificationService.sendNoticeAboutCourse(id,"approveCourse");
+        emailService.sendNoticeAboutCourse(id,"approveCourse");
         if("null".equals(type)){
             if("null".equals(option)){
                 return "redirect:/admin/listCourse";
@@ -185,7 +185,7 @@ public class AdminController {
     @PostMapping("/listCourse/unlockCourse/{id}")
     public String unlockCourse(@PathVariable Long id, @RequestParam("option") String option, @RequestParam("type") String type, Model model){
         courseService.unlockCourse(id);
-        emailVerificationService.sendNoticeAboutCourse(id,"unlockCourse");
+        emailService.sendNoticeAboutCourse(id,"unlockCourse");
         if("null".equals(type)){
             if("null".equals(option)){
                 return "redirect:/admin/listCourse";
@@ -209,7 +209,7 @@ public class AdminController {
     @PostMapping("/listCourse/lockCourse/{id}")
     public String lockCourse(@PathVariable Long id, @RequestParam("option") String option, @RequestParam("type") String type, Model model){
         courseService.lockCourse(id);
-        emailVerificationService.sendNoticeAboutCourse(id,"lockCourse");
+        emailService.sendNoticeAboutCourse(id,"lockCourse");
         if("null".equals(type)){
             if("null".equals(option)){
                 return "redirect:/admin/listCourse";

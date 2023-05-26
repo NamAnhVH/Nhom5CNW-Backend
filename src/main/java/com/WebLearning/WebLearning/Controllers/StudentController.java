@@ -1,18 +1,16 @@
 package com.WebLearning.WebLearning.Controllers;
 
+import com.WebLearning.WebLearning.Email.EmailService;
 import com.WebLearning.WebLearning.FormData.StudentProfileDto;
-import com.WebLearning.WebLearning.Models.Account;
 import com.WebLearning.WebLearning.Service.AccountService;
 import com.WebLearning.WebLearning.Service.StudentProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Date;
 
 @Controller
 @RequestMapping(path = "/student")
@@ -22,6 +20,8 @@ public class StudentController {
     private StudentProfileService studentProfileService;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping
     public String studentPage(){
@@ -31,7 +31,7 @@ public class StudentController {
     @GetMapping("/profile")
     public String profilePage(Model model, @RequestParam String edit){
         model.addAttribute("user", studentProfileService.getCurrentAccountProfile(edit));
-        model.addAttribute("email", accountService.getEmail());
+        model.addAttribute("email", accountService.getEmailCurrentAccount());
         return "student/profileManager/profilePage";
     }
 
@@ -40,5 +40,6 @@ public class StudentController {
         studentProfileService.updateProfile(profileDto);
         return "redirect:/student/profile?edit=false";
     }
+
 
 }

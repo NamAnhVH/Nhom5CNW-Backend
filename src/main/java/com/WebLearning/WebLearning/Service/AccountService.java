@@ -9,8 +9,13 @@ import com.WebLearning.WebLearning.Repository.TeacherProfileRepository;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import com.WebLearning.WebLearning.FormData.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +34,9 @@ public class AccountService {
 
     @Autowired
     private AuthenticationFacade authenticationFacade;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
 
     public Account findByUsername(String username) {
         return accountRepository.findByUsername(username);
@@ -225,8 +233,32 @@ public class AccountService {
     }
 
 
-    public String getEmail() {
-        Account account = authenticationFacade.getAccount();
-        return account.getEmail();
+    public String getEmailCurrentAccount() {
+        return authenticationFacade.getAccount().getEmail();
+    }
+
+    public Account getCurrentAccount() {
+        return authenticationFacade.getAccount();
+    }
+
+    public boolean isAuthenticated() {
+        return authenticationFacade.isAuthenticated();
+    }
+
+    public void login(Account user) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        user.getUsername(),
+                        user.getPassword()
+                )
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    public void changeEmail(String email, String verificationCode) {
+        Account account = accountRepository.findByVerificationCode(verificationCode);
+        account.setEmail(email);
+        accountRepository.save(account);
+        authenticationFacade.getAccount().setEmail(email);
     }
 }

@@ -20,7 +20,5 @@ public class StudentProfileDto {
     private String hobby;
     private String achivement;
 
-
-
     private Long id;
 }

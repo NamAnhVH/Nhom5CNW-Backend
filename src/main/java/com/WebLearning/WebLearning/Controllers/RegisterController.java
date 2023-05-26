@@ -1,6 +1,6 @@
 package com.WebLearning.WebLearning.Controllers;
 
-import com.WebLearning.WebLearning.Email.EmailVerificationService;
+import com.WebLearning.WebLearning.Email.EmailService;
 import com.WebLearning.WebLearning.Service.AccountService;
 import com.WebLearning.WebLearning.FormData.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +18,14 @@ public class RegisterController {
     @Autowired
     private AccountService accountService;
     @Autowired
-    private EmailVerificationService emailVerificationService;
+    private EmailService emailService;
 
     @GetMapping("registerForm")
     //http://localhost:8080/register/registerForm
     public String registerForm(Model model) {
         //Hiện trang đăng ký
         model.addAttribute("newUser", new UserRegistrationDto());
-        return "allUser/register";
+        return "allUser/registerPage";
     }
     @PostMapping("registerForm")
     // action http://localhost:8080/register/registerForm
@@ -36,14 +36,14 @@ public class RegisterController {
                 if(accountService.isExistedEmail(newUser.getEmail())){
                     if(!accountService.isVerifiedByEmail(newUser.getEmail())) {
                         accountService.replaceAccountByEmail(newUser);
-                        emailVerificationService.sendVerificationEmailByEmail(newUser.getEmail());
+                        emailService.sendVerificationEmailByEmail(newUser.getEmail());
                         return "redirect:/register/registerForm?success=true";
                     } else {
                         return "redirect:/register/registerForm?existEmail=true";
                     }
                 } else {
                     accountService.replaceAccountByUsername(newUser);
-                    emailVerificationService.sendVerificationEmailByUsername(newUser.getUsername());
+                    emailService.sendVerificationEmailByUsername(newUser.getUsername());
                     return "redirect:/register/registerForm?success=true";
                 }
             } else {
@@ -53,13 +53,13 @@ public class RegisterController {
             if(accountService.isExistedEmail(newUser.getEmail())){
                 if(!accountService.isVerifiedByEmail(newUser.getEmail())) {
                     accountService.replaceAccountByEmail(newUser);
-                    emailVerificationService.sendVerificationEmailByEmail(newUser.getEmail());
+                    emailService.sendVerificationEmailByEmail(newUser.getEmail());
                     return "redirect:/register/registerForm?success=true";
                 }
                 return "redirect:/register/registerForm?existEmail=true";
             } else {
                 accountService.addAccount(newUser);
-                emailVerificationService.sendVerificationEmailByUsername(newUser.getUsername());
+                emailService.sendVerificationEmailByUsername(newUser.getUsername());
                 return "redirect:/register/registerForm?success=true";
             }
         }
@@ -69,7 +69,7 @@ public class RegisterController {
     public String verifyEmail(@RequestParam("code") String verificationCode, Model model) {
         try {
             // Xác minh email
-            if(emailVerificationService.verifyEmail(verificationCode)){
+            if(emailService.verifyEmail(verificationCode)){
                 model.addAttribute("verifiedSuccess", true);
             } else {
                 model.addAttribute("isVerified", true);
@@ -77,7 +77,7 @@ public class RegisterController {
         } catch (IllegalArgumentException e) {
             model.addAttribute("verifiedSuccess", false);
         }
-        return "allUser/register";
+        return "allUser/registerPage";
 
     }
 

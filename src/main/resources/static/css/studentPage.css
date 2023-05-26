@@ -126,8 +126,8 @@ button{
     flex-direction: column;
     height: auto;
     background-color: rgb(212, 212, 212);
-    padding: 3% 2%;
-    margin: -2% 3%;
+    padding: 3% 2% 3% 2%;
+    margin: 0 3%;
     border-radius: 10px;
     box-shadow: 0 1px 5px gray;
 }
@@ -220,4 +220,8 @@ button{
 #birthDate{
     margin: 20px 0;
     padding: 8px 10px;
+}
+
+.margin-left{
+    margin-left: 10px;
 }

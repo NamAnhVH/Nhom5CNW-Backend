@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thông tin tài khoản</title>
+  <link rel="stylesheet" href="/css/studentPage.css">
+</head>
+<body>
+<header id="header">
+  <div class="logo-container">
+    <a class="logo-head" title="Trang chủ" href="/homepage">
+      <img class="logo-header" src="/image/Hust-logo.jpg" alt="">
+    </a>
+  </div>
+  <div>
+    <ul class="action-tool">
+      <li class="btn"><a href="/homepage">Trang chủ</a></li>
+      <li class="btn"><a href="/admin/listCourse">Quản lý khoá học</a></li>
+      <li class="btn"><a href="/admin/listAccount">Quản lý tài khoản</a></li>
+      <li class="btn"><a href="/admin/listNews">Quản lý tin tức</a></li>
+      <li class="btn"><a href="/account">Thông tin tài khoản</a></li>
+    </ul>
+  </div>
+  <div>
+    <ul class="action-tool">
+      <li class="btn"><a th:href="@{/logout}" title="Đăng xuất">Đăng xuất</a></li>
+    </ul>
+  </div>
+</header>
+<section id="main">
+  <div id="left-side-main">
+    <div id="left-side-content">
+      <ul>
+        <li><a href="/account/">Thông tin tài khoản</a></li>
+        <li><a href="/account/changeEmail?waitEmail=false">Thay đổi tài khoản email</a></li>
+        <li><a href="/account/changePassword">Thay đổi mật khẩu</a></li>
+      </ul>
+    </div>
+  </div>
+  <!--        Hiển thị preview trang cá nhân-->
+  <div th:if="${accountPage}" class="right-side-main" th:object="${user}">
+    <div id="profile">
+      <div id="main-profile">
+        <div>
+          <p th:text="'Tên tài khoản:         ' + *{username}"></p>
+        </div>
+        <br>
+        <br>
+        <div>
+          <p th:text="'Tài khoản email:       ' + *{email}"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--        Hiển thị trang chỉnh sửa-->
+  <div th:if="${changeEmail}" class="right-side-main">
+    <div th:if="${param.waitEmail[0] == 'false'}">
+      <form action="/account/changeEmail" method="post">
+        <div>
+          <label for="email">Nhập tài khoản email mới: </label>
+          <input type="email" id="email" name="email" class="text-field-content margin-left" th:object="${email}" required>
+        </div>
+        <br>
+        <div>
+          <p th:if="${param.errorEmail}">Tài khoản email không hợp lệ</p>
+        </div>
+        <br>
+        <div id="btn">
+          <button type="submit" id="submit">Chỉnh sửa</button>
+        </div>
+      </form>
+    </div>
+    <div style="margin-top: 60px;">
+      <p th:if="${param.waitEmail[0] == 'true'}" style="font-size: 35px; text-align:center;">Vui lòng kiểm tra email để xác minh tài khoản</p>
+    </div>
+  </div>
+  <div th:if="${changePassword}" class="right-side-main">
+    <form action="/student/account/changePassword" method="post" th:object="${user}">
+
+    </form>
+  </div>
+</section>
+</body>
+<script>
+    document.getElementById("files").onchange = function () {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            // get loaded data and render thumbnail.
+            document.getElementById("avatar").src = e.target.result;
+        };
+
+        // read the image file as a data URL.
+        reader.readAsDataURL(this.files[0]);
+    };
+</script>
+</html>

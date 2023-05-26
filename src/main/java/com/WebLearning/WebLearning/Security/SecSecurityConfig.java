@@ -62,6 +62,7 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/index",
                         "/news/**",
                         "/course/**",
+                        "/account/**",
                         "/teacherProfile/**",
                         "/homepage").permitAll()
                     .antMatchers("/admin/**")

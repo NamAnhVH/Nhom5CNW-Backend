@@ -28,7 +28,7 @@ public class TeacherController {
     @GetMapping("/profile")
     public String teacherProfilePage(Model model) {
         model.addAttribute("user", teacherProfileService.getCurrentAccountProfile());
-        return "teacher/teacherProfileManager/profileManagerPage";
+        return "teacher/profileManager/profilePage";
     }
 
     @PostMapping("/profile/edit")
@@ -44,19 +44,19 @@ public class TeacherController {
     @GetMapping("/course/listCourse")
     public String listCoursePage(Model model){
         model.addAttribute("listCourse", courseService.getAllByCurrentAccount());
-        return "teacher/teacherCourseManager/listCoursePage";
+        return "teacher/courseManager/listCoursePage";
     }
 
     @GetMapping("/course/listCourse/unapprovedCourse")
     public String listUnapprovedCoursePage(Model model){
         model.addAttribute("listCourse", courseService.getAllUnapprovedCourseByCurrentTeacher());
-        return "teacher/teacherCourseManager/listCoursePage";
+        return "teacher/courseManager/listCoursePage";
     }
 
     @GetMapping("/course/addCourse")
     public String addCoursePage(Model model){
         model.addAttribute("newCourse", new CourseFormDto());
-        return "teacher/teacherCourseManager/addCoursePage";
+        return "teacher/courseManager/addCoursePage";
     }
 
     @PostMapping("/course/addCourse")
@@ -71,7 +71,7 @@ public class TeacherController {
             return "redirect:/teacher/course/listCourse";
         }
         model.addAttribute("course", courseService.getCourseById(id));
-        return "teacher/teacherCourseManager/previewCoursePage";
+        return "teacher/courseManager/previewCoursePage";
     }
 
     @GetMapping("/course/{id}/editCourse")
@@ -80,7 +80,7 @@ public class TeacherController {
             return "redirect:/teacher/course/listCourse";
         }
         model.addAttribute("course", courseService.getCourseById(id));
-        return "teacher/teacherCourseManager/editCoursePage";
+        return "teacher/courseManager/editCoursePage";
     }
 
     @PostMapping("/course/{id}/editCourse")

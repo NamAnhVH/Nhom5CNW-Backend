@@ -21,33 +21,23 @@ public class LoginController {
 
     @Autowired
     private AccountService accountService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private AuthenticationFacade authenticationFacade;
 
     @GetMapping("loginForm")
     //http://localhost:8080/login/loginForm
     public String loginForm(Model model) {
         //Hiện trang Đăng nhập
-        if (authenticationFacade.isAuthenticated()) {
+        if (accountService.isAuthenticated()) {
             return "redirect:/homepage";
         }
         model.addAttribute("newUser", new Account());
-        return "allUser/login";
+        return "allUser/loginPage";
     }
 
     @PostMapping("loginForm")
     // action http://localhost:8080/login/loginForm
     public String loginSubmit(@ModelAttribute("user") Account user, Model model) {
         try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            user.getUsername(),
-                            user.getPassword()
-                    )
-            );
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            accountService.login(user);
             return "redirect:/homepage";
         } catch (BadCredentialsException e) {
             model.addAttribute("error", "Thông tin đăng nhập không chính xác");
@@ -59,6 +49,6 @@ public class LoginController {
             model.addAttribute("error", "Tài khoản chưa được cấp quyền");
         }
         model.addAttribute("newUser", user);
-        return "allUser/login";
+        return "allUser/loginPage";
     }
 }

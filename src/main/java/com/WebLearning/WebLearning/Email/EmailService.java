@@ -5,6 +5,7 @@ import com.WebLearning.WebLearning.Models.Course;
 import com.WebLearning.WebLearning.Repository.AccountRepository;
 import com.WebLearning.WebLearning.Repository.CourseRepository;
 import com.WebLearning.WebLearning.Repository.TeacherProfileRepository;
+import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ import java.util.Properties;
 import java.util.UUID;
 
 @Service
-public class EmailVerificationService {
+public class EmailService {
 
     @Autowired
     private AccountRepository accountRepository;
@@ -26,8 +27,10 @@ public class EmailVerificationService {
     private CourseRepository courseRepository;
     @Autowired
     private TeacherProfileRepository teacherProfileRepository;
+    @Autowired
+    private AuthenticationFacade authenticationFacade;
 
-    public static final String path = "http://localhost:8080/register/verify";
+    public static final String path = "http://localhost:8080/";
 
     public Properties properties(){
         Properties prop = new Properties();
@@ -83,7 +86,7 @@ public class EmailVerificationService {
             String verificationCode = generateVerificationCode();
             account.setVerificationCode(verificationCode);
             accountRepository.save(account);
-            String content = "Xin chào, để hoàn tất đăng ký, vui lòng nhấp vào liên kết sau: " + path + "?code=" + verificationCode;
+            String content = "Xin chào, để hoàn tất đăng ký, vui lòng nhấp vào liên kết sau: " + path + "register/verify?code=" + verificationCode;
             message.setContent(content, "text/html; charset=utf-8");
 
             Transport.send(message);
@@ -193,6 +196,27 @@ public class EmailVerificationService {
     }
 
 
+    public void sendNoticeChangeEmailTo(String email) {
+        Account account = authenticationFacade.getAccount();
+        try {
+            Message message = new MimeMessage(session());
+            message.setFrom(new InternetAddress("Webhoctructuyen.vn", "WEB học trực tuyến"));
+            message.setRecipients(
+                    Message.RecipientType.TO,
+                    InternetAddress.parse(email)
+            );
+            message.setSubject("Xác minh tài khoản email");
+            String verificationCode = generateVerificationCode();
+            account.setVerificationCode(verificationCode);
+            accountRepository.save(account);
+            String content = "Xin chào, để hoàn tất việc chỉnh sửa email, vui lòng nhấp vào liên kết sau: " +
+                    path + "account/changeEmail/verify?email=" + email + "&code=" + verificationCode;
+            message.setContent(content, "text/html; charset=utf-8");
 
+            Transport.send(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
 

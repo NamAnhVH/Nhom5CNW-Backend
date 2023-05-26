@@ -1,7 +1,7 @@
 package com.WebLearning.WebLearning.Controllers;
 
+import com.WebLearning.WebLearning.Email.EmailService;
 import com.WebLearning.WebLearning.Models.News;
-import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import com.WebLearning.WebLearning.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,17 +23,16 @@ public class GuestController {
     private StudentProfileService studentProfileService;
     @Autowired
     private CourseService courseService;
-
     @Autowired
-    private AuthenticationFacade authenticationFacade;
+    private EmailService emailService;
 
     @GetMapping(value = {"/", "/homepage", "/homepage/null"})
     //http://localhost:8080/
     //http://localhost:8080/homepage
     //http://localhost:8080/homepage/null
     public String homepageGuest(Model model){
-        if(authenticationFacade.isAuthenticated()){
-            if(authenticationFacade.getAccount().getRole().equals("giáo viên")){
+        if(accountService.isAuthenticated()){
+            if(accountService.getCurrentAccount().getRole().equals("giáo viên")){
                 model.addAttribute("fullname", teacherProfileService.getFullname());
             } else {
                 model.addAttribute("fullname", studentProfileService.getFullname());
@@ -48,8 +47,8 @@ public class GuestController {
     @GetMapping("/news")
     //http://localhost:8080/news
     public String newsPage(Model model){
-        if(authenticationFacade.isAuthenticated()){
-            if(authenticationFacade.getAccount().getRole().equals("giáo viên")){
+        if(accountService.isAuthenticated()){
+            if(accountService.getCurrentAccount().getRole().equals("giáo viên")){
                 model.addAttribute("fullname", teacherProfileService.getFullname());
             } else {
                 model.addAttribute("fullname", studentProfileService.getFullname());
@@ -63,8 +62,8 @@ public class GuestController {
     @GetMapping("/news/{id}")
     //http://localhost:8080/news/{id}
     public String newsDetailPage(@PathVariable Long id, Model model) {
-        if(authenticationFacade.isAuthenticated()){
-            if(authenticationFacade.getAccount().getRole().equals("giáo viên")){
+        if(accountService.isAuthenticated()){
+            if(accountService.getCurrentAccount().getRole().equals("giáo viên")){
                 model.addAttribute("fullname", teacherProfileService.getFullname());
             } else {
                 model.addAttribute("fullname", studentProfileService.getFullname());
@@ -77,8 +76,8 @@ public class GuestController {
     @GetMapping("/teacherProfile")
     //http://localhost:8080/teacherProfile
     public String teacherProfilePage(Model model){
-        if(authenticationFacade.isAuthenticated()){
-            if(authenticationFacade.getAccount().getRole().equals("giáo viên")){
+        if(accountService.isAuthenticated()){
+            if(accountService.getCurrentAccount().getRole().equals("giáo viên")){
                 model.addAttribute("fullname", teacherProfileService.getFullname());
             } else {
                 model.addAttribute("fullname", studentProfileService.getFullname());
@@ -92,13 +91,13 @@ public class GuestController {
     @GetMapping("/teacherProfile/{id}")
     //http://localhost:8080/teacherProfile/{id}
     public String teacherProfileDetailPage(@PathVariable Long id, Model model) {
-        if(authenticationFacade.isAuthenticated()){
-            if(authenticationFacade.getAccount().getRole().equals("giáo viên")){
+        if(accountService.isAuthenticated()){
+            if(accountService.getCurrentAccount().getRole().equals("giáo viên")){
                 model.addAttribute("fullname", teacherProfileService.getFullname());
             } else {
                 model.addAttribute("fullname", studentProfileService.getFullname());
             }
-            if(authenticationFacade.getAccount().getRole().equals("admin")){
+            if(accountService.getCurrentAccount().getRole().equals("admin")){
                 model.addAttribute("profile", teacherProfileService.getById(id));
                 model.addAttribute("listCourse", courseService.getCourseByTeacher(id));
                 return "allUser/teacherProfilePage";
@@ -116,8 +115,8 @@ public class GuestController {
     @GetMapping("/course")
     //http://localhost:8080/course
     public String coursePage(Model model){
-        if(authenticationFacade.isAuthenticated()){
-            if(authenticationFacade.getAccount().getRole().equals("giáo viên")){
+        if(accountService.isAuthenticated()){
+            if(accountService.getCurrentAccount().getRole().equals("giáo viên")){
                 model.addAttribute("fullname", teacherProfileService.getFullname());
             } else {
                 model.addAttribute("fullname", studentProfileService.getFullname());
@@ -131,8 +130,8 @@ public class GuestController {
     @GetMapping("/course/")
     //http://localhost:8080/course?type=
     public String courseTypePage(@RequestParam("type") String type, Model model){
-        if(authenticationFacade.isAuthenticated()){
-            if(authenticationFacade.getAccount().getRole().equals("giáo viên")){
+        if(accountService.isAuthenticated()){
+            if(accountService.getCurrentAccount().getRole().equals("giáo viên")){
                 model.addAttribute("fullname", teacherProfileService.getFullname());
             } else {
                 model.addAttribute("fullname", studentProfileService.getFullname());
@@ -147,13 +146,13 @@ public class GuestController {
     @GetMapping("/course/{id}")
     //http://localhost:8080/course/{id}
     public String courseDetailPage(@PathVariable Long id, Model model) {
-        if(authenticationFacade.isAuthenticated()){
-            if(authenticationFacade.getAccount().getRole().equals("giáo viên")){
+        if(accountService.isAuthenticated()){
+            if(accountService.getCurrentAccount().getRole().equals("giáo viên")){
                 model.addAttribute("fullname", teacherProfileService.getFullname());
             } else {
                 model.addAttribute("fullname", studentProfileService.getFullname());
             }
-            if(authenticationFacade.getAccount().getRole().equals("admin")){
+            if(accountService.getCurrentAccount().getRole().equals("admin")){
                 model.addAttribute("course", courseService.getCourseById(id));
                 model.addAttribute("profile", teacherProfileService.getAllProfileTeachCourse(id));
                 model.addAttribute("listRelatedCourse", courseService.getCourseBySameType(id));
@@ -167,6 +166,53 @@ public class GuestController {
         model.addAttribute("profile", teacherProfileService.getAllProfileTeachCourse(id));
         model.addAttribute("listRelatedCourse", courseService.getCourseBySameType(id));
         return "allUser/coursePage";
+    }
+
+    @GetMapping("/account")
+    public String accountPage(Model model){
+        if(accountService.isAuthenticated()){
+            model.addAttribute("user", accountService.getCurrentAccount());
+            model.addAttribute("accountPage", "accountPage");
+            if(accountService.getCurrentAccount().getRole().equals("học sinh")){
+                return "student/accountManager/accountPage";
+            } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
+                return "teacher/accountManager/accountPage";
+            } else {
+                return "admin/accountManager/accountPage";
+            }
+        }
+        return "redirect:/homepage";
+    }
+
+    @GetMapping("/account/changeEmail")
+    public String changeEmailPage(Model model, @RequestParam String waitEmail){
+        if(accountService.isAuthenticated()){
+            model.addAttribute("email", new String());
+            model.addAttribute("changeEmail", "changeEmail");
+            if(accountService.getCurrentAccount().getRole().equals("học sinh")){
+                return "student/accountManager/accountPage";
+            } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
+                return "teacher/accountManager/accountPage";
+            } else {
+                return "admin/accountManager/accountPage";
+            }
+        }
+        return "redirect:/homepage";
+    }
+
+    @PostMapping("/account/changeEmail")
+    public String changeEmailAction(@ModelAttribute("email") String email){
+        if(!accountService.isExistedEmail(email)){
+            emailService.sendNoticeChangeEmailTo(email);
+            return "redirect:/account/changeEmail?waitEmail=true";
+        }
+        return "redirect:/account/changeEmail?errorEmail";
+    }
+
+    @GetMapping("/account/changeEmail/verify")
+    public String changeEmailVerify(@RequestParam("email") String email, @RequestParam("code") String verificationCode){
+        accountService.changeEmail(email,verificationCode);
+        return "redirect:/account";
     }
 
 }

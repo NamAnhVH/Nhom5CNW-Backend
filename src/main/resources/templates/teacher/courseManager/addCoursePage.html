@@ -4,45 +4,45 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chỉnh sửa khoá học</title>
+    <title>Thêm khoá học</title>
     <link rel="stylesheet" href="/css/teacherPage.css">
     <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 
 </head>
 <body>
-<header id="header">
-    <div class="logo-container">
-        <a class="logo-head" title="Trang chủ" href="/homepage">
-            <img class="logo-header" src="/image/Hust-logo.jpg" alt="">
-        </a>
-    </div>
-    <div>
-        <ul class="action-tool">
-            <li class="btn"><a href="/homepage">Trang chủ</a></li>
-            <li class="btn"><a href="/teacher/course/listCourse">Quản lý khoá học</a></li>
-            <li class="btn"><a href="/teacher/profile">Thông tin cá nhân</a></li>
-        </ul>
-    </div>
-    <div>
-        <ul class="action-tool">
-            <li class="btn"><a th:href="@{/logout}" title="Đăng xuất">Đăng xuất</a></li>
-        </ul>
-    </div>
-
-</header>
+    <header id="header">
+        <div class="logo-container">
+            <a class="logo-head" title="Trang chủ" href="/homepage">
+                <img class="logo-header" src="/image/Hust-logo.jpg" alt="">
+            </a>
+        </div>
+        <div>
+            <ul class="action-tool">
+                <li class="btn"><a href="/homepage">Trang chủ</a></li>
+                <li class="btn"><a href="/teacher/course/listCourse">Quản lý khoá học</a></li>
+                <li class="btn"><a href="/teacher/profile">Thông tin cá nhân</a></li>
+                <li class="btn"><a href="/account">Thông tin tài khoản</a></li>
+            </ul>
+        </div>
+        <div>
+            <ul class="action-tool">
+                <li class="btn"><a th:href="@{/logout}" title="Đăng xuất">Đăng xuất</a></li>
+            </ul>
+        </div>
+        
+    </header>
     <section id="main">
         <div id="left-side-main">
             <div id="left-side-content">
                 <ul>
-                    <li><a th:href="${'/teacher/course/' + course.id +'/previewCourse'}">Trang xem trước khoá học</a></li>
-                    <li><a th:href="${'/teacher/course/' + course.id +'/editCourse'}">Chỉnh sửa khoá học</a></li>
-                    <li><a href="/teacher/course/addLesson">Thêm bài giảng</a></li>
-                    <li><a href="/teacher/course/manageLesson">Quản lý bài giảng</a></li>
+                    <li><a href="/teacher/course/listCourse">Danh sách khoá học</a></li>
+                    <li><a href="/teacher/course/listCourse/unapprovedCourse">Danh sách khoá học đang chờ phê duyệt</a></li>
+                    <li><a href="/teacher/course/addCourse">Tạo khoá học mới</a></li>
                 </ul>
             </div>
         </div>
         <div class="right-side-main">
-            <form method="post" enctype="multipart/form-data" th:action="${'/teacher/course/' + course.id +'/editCourse'}" th:object="${course}">
+            <form method="post" enctype="multipart/form-data" action="/teacher/course/addCourse" th:object="${newCourse}">
                 <div>
                     <label for="name">Tên khoá học</label><br>
                     <input type="text" id="name" name="name" class="text-field-content" th:field="*{name}" required>
@@ -61,7 +61,7 @@
                 <div>
                     <img id="image-course">
                     <br>
-                    <input type="file" name="image-course" id="files" accept="image/*" th:field="*{image}">
+                    <input type="file" name="image-course" id="files" accept="image/*" th:field="*{image}" required>
                 </div>
                 <br>
                 <div>
@@ -104,29 +104,28 @@
                 </select>
                 <br>
                 <div id="btn">
-                    <button type="submit" id="submit">Chỉnh sửa</button>
-                    <button type="submit" th:formaction="${'/teacher/course/' + course.id + '/deleteCourse'}">Xoá khoá học</button>
+                    <button type="submit" id="submit">Đăng tải</button>
                 </div>
             </form>
         </div>
     </section>
 </body>
-    <script>
-        document.getElementById("files").onchange = function () {
-            var reader = new FileReader();
+<script>
+    document.getElementById("files").onchange = function () {
+        var reader = new FileReader();
 
-            reader.onload = function (e) {
-                // get loaded data and render thumbnail.
-                document.getElementById("image-course").src = e.target.result;
-            };
-
-            // read the image file as a data URL.
-            reader.readAsDataURL(this.files[0]);
+        reader.onload = function (e) {
+            // get loaded data and render thumbnail.
+            document.getElementById("image-course").src = e.target.result;
         };
-    </script>
-    <script>
-        CKEDITOR.replace('description', {
-            height: 560,
-        });
-    </script>
+
+        // read the image file as a data URL.
+        reader.readAsDataURL(this.files[0]);
+    };
+</script>
+<script>
+    CKEDITOR.replace('description', {
+        height: 560,
+    });
+</script>
 </html>
