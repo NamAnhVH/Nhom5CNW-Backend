@@ -225,3 +225,15 @@ button{
 .margin-left{
     margin-left: 10px;
 }
+
+.btn-account{
+    display:flex;
+    flex-direction: row;
+}
+
+.btn-account button{
+    width: 100px;
+    height: 30px;
+    padding: 5px;
+    margin: 5px 5px 5px 0;
+}

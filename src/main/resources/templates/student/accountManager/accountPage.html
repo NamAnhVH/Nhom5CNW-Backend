@@ -8,92 +8,140 @@
   <link rel="stylesheet" href="/css/studentPage.css">
 </head>
 <body>
-<header id="header">
-  <div class="logo-container">
-    <a class="logo-head" title="Trang chủ" href="/homepage">
-      <img class="logo-header" src="/image/Hust-logo.jpg" alt="">
-    </a>
-  </div>
-  <div>
-    <ul class="action-tool">
-      <li class="btn"><a href="/homepage">Trang chủ</a></li>
-      <li class="btn"><a href="/admin/listCourse">Tiến độ học</a></li>
-      <li class="btn"><a href="/admin/listAccount">Các khoá học</a></li>
-      <li class="btn"><a href="/student/profile?edit=false">Thông tin cá nhân</a></li>
-      <li class="btn"><a href="/account">Thông tin tài khoản</a></li>
-    </ul>
-  </div>
-  <div>
-    <ul class="action-tool">
-      <li class="btn"><a th:href="@{/logout}" title="Đăng xuất">Đăng xuất</a></li>
-    </ul>
-  </div>
-</header>
-<section id="main">
-  <div id="left-side-main">
-    <div id="left-side-content">
-      <ul>
-        <li><a href="/account/">Thông tin tài khoản</a></li>
-        <li><a href="/account/changeEmail?waitEmail=false">Thay đổi tài khoản email</a></li>
-        <li><a href="/account/changePassword">Thay đổi mật khẩu</a></li>
-      </ul>
-    </div>
-  </div>
-  <!--        Hiển thị preview trang cá nhân-->
-  <div th:if="${accountPage}" class="right-side-main" th:object="${user}">
-    <div id="profile">
-      <div id="main-profile">
+    <header id="header">
+        <div class="logo-container">
+            <a class="logo-head" title="Trang chủ" href="/homepage">
+                <img class="logo-header" src="/image/Hust-logo.jpg" alt="">
+            </a>
+        </div>
         <div>
-          <p th:text="'Tên tài khoản:         ' + *{username}"></p>
+            <ul class="action-tool">
+                <li class="btn"><a href="/homepage">Trang chủ</a></li>
+                <li class="btn"><a href="/admin/listCourse">Tiến độ học</a></li>
+                <li class="btn"><a href="/admin/listAccount">Các khoá học</a></li>
+                <li class="btn"><a href="/student/profile?edit=false">Thông tin cá nhân</a></li>
+                <li class="btn"><a href="/account">Thông tin tài khoản</a></li>
+            </ul>
         </div>
-        <br>
-        <br>
         <div>
-          <p th:text="'Tài khoản email:       ' + *{email}"></p>
+            <ul class="action-tool">
+                <li class="btn"><a th:href="@{/logout}" title="Đăng xuất">Đăng xuất</a></li>
+            </ul>
         </div>
-      </div>
-    </div>
-  </div>
-  <!--        Hiển thị trang chỉnh sửa-->
-  <div th:if="${changeEmail}" class="right-side-main">
-    <div th:if="${param.waitEmail[0] == 'false'}">
-      <form action="/account/changeEmail" method="post">
-        <div>
-          <label for="email">Nhập tài khoản email mới: </label>
-          <input type="email" id="email" name="email" class="text-field-content margin-left" th:object="${email}" required>
+    </header>
+    <section id="main">
+        <div id="left-side-main">
+            <div id="left-side-content">
+                <ul>
+                    <li><a href="/account/">Thông tin tài khoản</a></li>
+                    <li><a href="/account/changeEmail?waitEmail=false">Thay đổi tài khoản email</a></li>
+                    <li><a href="/account/checkPassword">Thay đổi mật khẩu</a></li>
+                </ul>
+            </div>
         </div>
-        <br>
-        <div>
-          <p th:if="${param.errorEmail}">Tài khoản email không hợp lệ</p>
+        <!--        Hiển thị preview trang cá nhân-->
+        <div th:if="${accountPage}" class="right-side-main">
+            <div id="profile">
+                <div id="main-profile">
+                    <div>
+                        <p th:text="'Tên tài khoản:         ' + ${username}"></p>
+                    </div>
+                    <br>
+                    <br>
+                    <div>
+                        <p th:text="'Tài khoản email:       ' + ${email}"></p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <br>
-        <div id="btn">
-          <button type="submit" id="submit">Chỉnh sửa</button>
+        <!--        Hiển thị trang chỉnh sửa-->
+        <div th:if="${changeEmail}" class="right-side-main">
+            <div th:if="${param.waitEmail[0] == 'false'}">
+                <form action="/account/changeEmail" method="post">
+                    <div>
+                        <label for="email">Nhập tài khoản email mới: </label>
+                        <input type="email" id="email" name="email" class="text-field-content margin-left" th:object="${email}" required>
+                    </div>
+                    <br>
+                    <div>
+                        <p th:if="${param.errorEmail}">Tài khoản email không hợp lệ</p>
+                    </div>
+                    <br>
+                    <div class="btn-account">
+                        <button type="submit">Chỉnh sửa</button>
+                    </div>
+              </form>
+            </div>
+            <div style="margin-top: 60px;">
+                <p th:if="${param.waitEmail[0] == 'true'}" style="font-size: 35px; text-align:center;">Vui lòng kiểm tra email để xác minh tài khoản</p>
+            </div>
         </div>
-      </form>
-    </div>
-    <div style="margin-top: 60px;">
-      <p th:if="${param.waitEmail[0] == 'true'}" style="font-size: 35px; text-align:center;">Vui lòng kiểm tra email để xác minh tài khoản</p>
-    </div>
-  </div>
-  <div th:if="${changePassword}" class="right-side-main">
-    <form action="/student/account/changePassword" method="post" th:object="${user}">
+        <div th:if="${checkPassword}" class="right-side-main">
+            <form action="/account/checkPassword" method="post">
+                <label for="checkPassword">Nhập mật khẩu cũ: </label>
+                <input type="password" id="checkPassword" name="checkPassword" class="text-field-content margin-left" th:object="${checkPassword}" required>
+                <br>
+                <div>
+                    <p th:if="${param.checkError}">Mật khẩu không đúng</p>
+                </div>
+                <div class="btn-account">
+                    <button type="submit">Kiểm tra</button>
+                </div>
+            </form>
 
-    </form>
-  </div>
-</section>
+        </div>
+        <div th:if="${changePassword}" class="right-side-main">
+            <form action="/account/changePassword" method="post" th:unless="${param.success}" onsubmit="return validateForm()">
+                <label for="newPassword">Vui lòng nhập mật khẩu mới:</label><br>
+                <input type="password" id="newPassword" name="newPassword" class="text-field-content" th:object="${newPassword}" placeholder="Mật khẩu mới" required><br>
+                <input type="password" id="checkNewPassword" name="checkPassword" class="text-field-content" placeholder="Xác nhận lại mật khẩu" required>
+                <br>
+              <div id="error-message" style="display: none;"></div>
+              <div class="btn-account">
+                    <button type="submit">Kiểm tra</button>
+                </div>
+            </form>
+            <script>
+                function validateForm() {
+                    var password = document.getElementById("newPassword").value;
+                    var confirmPassword = document.getElementById("checkNewPassword").value;
+                    var errorMessage = document.getElementById("error-message");
+
+                    if (password.length < 8 || !/^[a-zA-Z0-9]+$/.test(password)) {
+                        errorMessage.innerText = "Mật khẩu phải gồm ít nhất 8 ký tự và không có ký tự đặc biệt.";
+                        errorMessage.style.display = "block";
+                        return false;
+                    }
+
+                    if (password !== confirmPassword) {
+                        errorMessage.innerText = "Mật khẩu xác nhận không khớp.";
+                        errorMessage.style.display = "block";
+                        return false;
+                    }
+
+                    errorMessage.style.display = "none";
+                }
+            </script>
+        </div>
+        <div th:if="${param.success}" class="right-side-main">
+            <div style="margin-top: 60px;">
+                <p style="font-size: 35px; text-align:center;">Thay đổi mật khẩu thành công</p>
+            </div>
+        </div>
+    </section>
 </body>
-<script>
-    document.getElementById("files").onchange = function () {
-        var reader = new FileReader();
+    <script>
+        document.getElementById("files").onchange = function () {
+            var reader = new FileReader();
 
-        reader.onload = function (e) {
-            // get loaded data and render thumbnail.
-            document.getElementById("avatar").src = e.target.result;
+            reader.onload = function (e) {
+                // get loaded data and render thumbnail.
+                document.getElementById("avatar").src = e.target.result;
+            };
+
+            // read the image file as a data URL.
+            reader.readAsDataURL(this.files[0]);
         };
+    </script>
 
-        // read the image file as a data URL.
-        reader.readAsDataURL(this.files[0]);
-    };
-</script>
 </html>

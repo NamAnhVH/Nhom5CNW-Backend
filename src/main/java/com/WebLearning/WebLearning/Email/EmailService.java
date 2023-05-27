@@ -64,7 +64,7 @@ public class EmailService {
             String verificationCode = generateVerificationCode();
             account.setVerificationCode(verificationCode);
             accountRepository.save(account);
-            String content = "Xin chào, để hoàn tất đăng ký, vui lòng nhấp vào liên kết sau: " + path + "?code=" + verificationCode;
+            String content = "Xin chào, để hoàn tất đăng ký, vui lòng nhấp vào liên kết sau: " + path + "register/verify?code=" + verificationCode;
             message.setContent(content, "text/html; charset=utf-8");
 
             Transport.send(message);
@@ -210,9 +210,9 @@ public class EmailService {
             account.setVerificationCode(verificationCode);
             accountRepository.save(account);
             String content = "Xin chào, để hoàn tất việc chỉnh sửa email, vui lòng nhấp vào liên kết sau: " +
-                    path + "account/changeEmail/verify?email=" + email + "&code=" + verificationCode;
+                    path + "account/changeEmail/verify?code=" + verificationCode;
             message.setContent(content, "text/html; charset=utf-8");
-
+            authenticationFacade.getAccount().setEmail(email);
             Transport.send(message);
         } catch (Exception e) {
             e.printStackTrace();

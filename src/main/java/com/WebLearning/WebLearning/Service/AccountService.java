@@ -14,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -234,7 +235,8 @@ public class AccountService {
 
 
     public String getEmailCurrentAccount() {
-        return authenticationFacade.getAccount().getEmail();
+        Account currentAccount = accountRepository.findByUsername(authenticationFacade.getAccount().getUsername());
+        return currentAccount.getEmail();
     }
 
     public Account getCurrentAccount() {
@@ -255,10 +257,21 @@ public class AccountService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    public void changeEmail(String email, String verificationCode) {
+    public void changeEmail(String verificationCode) {
         Account account = accountRepository.findByVerificationCode(verificationCode);
-        account.setEmail(email);
+        account.setEmail(authenticationFacade.getAccount().getEmail());
         accountRepository.save(account);
-        authenticationFacade.getAccount().setEmail(email);
+    }
+
+    public boolean checkPassword(String checkPassword) {
+        String encodePassword = authenticationFacade.getAccount().getPassword();
+        return new BCryptPasswordEncoder().matches(checkPassword,encodePassword);
+    }
+
+    public void setNewPassword(String newPassword) {
+        Account currentAccount = accountRepository.findByUsername(authenticationFacade.getAccount().getUsername());
+        currentAccount.setPassword(new BCryptPasswordEncoder().encode(newPassword));
+        authenticationFacade.getAccount().setPassword(currentAccount.getPassword());
+        accountRepository.save(currentAccount);
     }
 }

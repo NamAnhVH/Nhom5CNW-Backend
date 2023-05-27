@@ -171,7 +171,8 @@ public class GuestController {
     @GetMapping("/account")
     public String accountPage(Model model){
         if(accountService.isAuthenticated()){
-            model.addAttribute("user", accountService.getCurrentAccount());
+            model.addAttribute("username", accountService.getCurrentAccount().getUsername());
+            model.addAttribute("email", accountService.getEmailCurrentAccount());
             model.addAttribute("accountPage", "accountPage");
             if(accountService.getCurrentAccount().getRole().equals("học sinh")){
                 return "student/accountManager/accountPage";
@@ -185,7 +186,7 @@ public class GuestController {
     }
 
     @GetMapping("/account/changeEmail")
-    public String changeEmailPage(Model model, @RequestParam String waitEmail){
+    public String changeEmailPage(Model model){
         if(accountService.isAuthenticated()){
             model.addAttribute("email", new String());
             model.addAttribute("changeEmail", "changeEmail");
@@ -210,9 +211,71 @@ public class GuestController {
     }
 
     @GetMapping("/account/changeEmail/verify")
-    public String changeEmailVerify(@RequestParam("email") String email, @RequestParam("code") String verificationCode){
-        accountService.changeEmail(email,verificationCode);
+    public String changeEmailVerify(@RequestParam("code") String verificationCode){
+        accountService.changeEmail(verificationCode);
         return "redirect:/account";
+    }
+
+    @GetMapping("/account/checkPassword")
+    public String checkPasswordPage(Model model){
+        if(accountService.isAuthenticated()){
+            model.addAttribute("checkPassword", new String());
+            if(accountService.getCurrentAccount().getRole().equals("học sinh")){
+                return "student/accountManager/accountPage";
+            } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
+                return "teacher/accountManager/accountPage";
+            } else {
+                return "admin/accountManager/accountPage";
+            }
+        }
+        return "redirect:/homepage";
+    }
+
+    @PostMapping("/account/checkPassword")
+    public String checkPasswordAction(@ModelAttribute("checkPassword") String checkPassword){
+        if(accountService.checkPassword(checkPassword)){
+            return "redirect:/account/changePassword?oldPassword=" + checkPassword;
+        }
+        return "redirect:/account/checkPassword?checkError";
+    }
+
+    @GetMapping("/account/changePassword")
+    public String changePasswordPage(@RequestParam String oldPassword, Model model){
+        if(accountService.isAuthenticated()){
+            if(accountService.checkPassword(oldPassword)){
+                model.addAttribute("changePassword", "changePassword");
+                model.addAttribute("newPassword", new String());
+                if(accountService.getCurrentAccount().getRole().equals("học sinh")){
+                    return "student/accountManager/accountPage";
+                } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
+                    return "teacher/accountManager/accountPage";
+                } else {
+                    return "admin/accountManager/accountPage";
+                }
+            }
+            return "redirect:/account/checkPassword";
+        }
+        return "redirect:/homepage";
+    }
+
+    @PostMapping("/account/changePassword")
+    public String changePasswordAction(@ModelAttribute("newPassword") String newPassword) {
+        accountService.setNewPassword(newPassword);
+        return "redirect:/account/changePassword/?success";
+    }
+
+    @GetMapping("/account/changePassword/")
+    public String changePasswordSuccess(){
+        if(accountService.isAuthenticated()){
+                if(accountService.getCurrentAccount().getRole().equals("học sinh")){
+                    return "student/accountManager/accountPage";
+                } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
+                    return "teacher/accountManager/accountPage";
+                } else {
+                    return "admin/accountManager/accountPage";
+                }
+            }
+        return "redirect:/homepage";
     }
 
 }
