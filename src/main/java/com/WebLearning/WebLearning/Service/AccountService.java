@@ -1,5 +1,6 @@
 package com.WebLearning.WebLearning.Service;
 
+import com.WebLearning.WebLearning.FormData.ForgetPasswordDto;
 import com.WebLearning.WebLearning.Models.Account;
 import com.WebLearning.WebLearning.Models.StudentProfile;
 import com.WebLearning.WebLearning.Models.TeacherProfile;
@@ -273,5 +274,19 @@ public class AccountService {
         currentAccount.setPassword(new BCryptPasswordEncoder().encode(newPassword));
         authenticationFacade.getAccount().setPassword(currentAccount.getPassword());
         accountRepository.save(currentAccount);
+    }
+
+    public boolean checkAccount(ForgetPasswordDto forgetPasswordDto) {
+        Account account = accountRepository.findByUsernameAndEmail(forgetPasswordDto.getUsername(),forgetPasswordDto.getEmail());
+        if(account != null){
+            return true;
+        }
+        return false;
+    }
+
+    public void setNewPassword(String newPassword, String code) {
+        Account account = accountRepository.findByVerificationCode(code);
+        account.setPassword(new BCryptPasswordEncoder().encode(newPassword));
+        accountRepository.save(account);
     }
 }

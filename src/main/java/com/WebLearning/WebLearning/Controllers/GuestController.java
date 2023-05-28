@@ -1,6 +1,7 @@
 package com.WebLearning.WebLearning.Controllers;
 
 import com.WebLearning.WebLearning.Email.EmailService;
+import com.WebLearning.WebLearning.FormData.ForgetPasswordDto;
 import com.WebLearning.WebLearning.Models.News;
 import com.WebLearning.WebLearning.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -189,7 +190,7 @@ public class GuestController {
     public String changeEmailPage(Model model){
         if(accountService.isAuthenticated()){
             model.addAttribute("email", new String());
-            model.addAttribute("changeEmail", "changeEmail");
+            model.addAttribute("changeEmailPage", true);
             if(accountService.getCurrentAccount().getRole().equals("học sinh")){
                 return "student/accountManager/accountPage";
             } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
@@ -202,12 +203,30 @@ public class GuestController {
     }
 
     @PostMapping("/account/changeEmail")
-    public String changeEmailAction(@ModelAttribute("email") String email){
+    public String changeEmailAction(@ModelAttribute("email") String email, Model model){
         if(!accountService.isExistedEmail(email)){
             emailService.sendNoticeChangeEmailTo(email);
-            return "redirect:/account/changeEmail?waitEmail=true";
+//            return "redirect:/account/changeEmail?waitEmail=true";
+            model.addAttribute("changeEmailPage", true);
+            model.addAttribute("waitEmail", true);
+            if(accountService.getCurrentAccount().getRole().equals("học sinh")){
+                return "student/accountManager/accountPage";
+            } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
+                return "teacher/accountManager/accountPage";
+            } else {
+                return "admin/accountManager/accountPage";
+            }
         }
-        return "redirect:/account/changeEmail?errorEmail";
+        model.addAttribute("email", email);
+        model.addAttribute("changeEmailPage", true);
+        model.addAttribute("errorEmail", true);
+        if(accountService.getCurrentAccount().getRole().equals("học sinh")){
+            return "student/accountManager/accountPage";
+        } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
+            return "teacher/accountManager/accountPage";
+        } else {
+            return "admin/accountManager/accountPage";
+        }
     }
 
     @GetMapping("/account/changeEmail/verify")
@@ -219,6 +238,7 @@ public class GuestController {
     @GetMapping("/account/checkPassword")
     public String checkPasswordPage(Model model){
         if(accountService.isAuthenticated()){
+            model.addAttribute("checkPasswordPage", true);
             model.addAttribute("checkPassword", new String());
             if(accountService.getCurrentAccount().getRole().equals("học sinh")){
                 return "student/accountManager/accountPage";
@@ -232,50 +252,37 @@ public class GuestController {
     }
 
     @PostMapping("/account/checkPassword")
-    public String checkPasswordAction(@ModelAttribute("checkPassword") String checkPassword){
+    public String checkPasswordAction(@ModelAttribute("checkPassword") String checkPassword, Model model){
         if(accountService.checkPassword(checkPassword)){
-            return "redirect:/account/changePassword?oldPassword=" + checkPassword;
+            model.addAttribute("changePasswordPage", true);
+            model.addAttribute("newPassword", new String());
+        } else {
+            model.addAttribute("checkPasswordPage", true);
+            model.addAttribute("checkPassword", checkPassword);
+            model.addAttribute("checkError", true);
         }
-        return "redirect:/account/checkPassword?checkError";
-    }
-
-    @GetMapping("/account/changePassword")
-    public String changePasswordPage(@RequestParam String oldPassword, Model model){
-        if(accountService.isAuthenticated()){
-            if(accountService.checkPassword(oldPassword)){
-                model.addAttribute("changePassword", "changePassword");
-                model.addAttribute("newPassword", new String());
-                if(accountService.getCurrentAccount().getRole().equals("học sinh")){
-                    return "student/accountManager/accountPage";
-                } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
-                    return "teacher/accountManager/accountPage";
-                } else {
-                    return "admin/accountManager/accountPage";
-                }
-            }
-            return "redirect:/account/checkPassword";
+        if(accountService.getCurrentAccount().getRole().equals("học sinh")){
+            return "student/accountManager/accountPage";
+        } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
+            return "teacher/accountManager/accountPage";
+        } else {
+            return "admin/accountManager/accountPage";
         }
-        return "redirect:/homepage";
     }
 
     @PostMapping("/account/changePassword")
-    public String changePasswordAction(@ModelAttribute("newPassword") String newPassword) {
+    public String changePasswordAction(@ModelAttribute("newPassword") String newPassword, Model model) {
         accountService.setNewPassword(newPassword);
-        return "redirect:/account/changePassword/?success";
+        model.addAttribute("success", true);
+        if(accountService.getCurrentAccount().getRole().equals("học sinh")){
+            return "student/accountManager/accountPage";
+        } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
+            return "teacher/accountManager/accountPage";
+        } else {
+            return "admin/accountManager/accountPage";
+        }
     }
 
-    @GetMapping("/account/changePassword/")
-    public String changePasswordSuccess(){
-        if(accountService.isAuthenticated()){
-                if(accountService.getCurrentAccount().getRole().equals("học sinh")){
-                    return "student/accountManager/accountPage";
-                } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
-                    return "teacher/accountManager/accountPage";
-                } else {
-                    return "admin/accountManager/accountPage";
-                }
-            }
-        return "redirect:/homepage";
-    }
+
 
 }

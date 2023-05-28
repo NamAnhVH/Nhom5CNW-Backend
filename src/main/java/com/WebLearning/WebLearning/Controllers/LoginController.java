@@ -1,5 +1,7 @@
 package com.WebLearning.WebLearning.Controllers;
 
+import com.WebLearning.WebLearning.Email.EmailService;
+import com.WebLearning.WebLearning.FormData.ForgetPasswordDto;
 import com.WebLearning.WebLearning.Models.Account;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import com.WebLearning.WebLearning.Service.AccountService;
@@ -9,10 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(path = "login")
@@ -21,6 +20,8 @@ public class LoginController {
 
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping("loginForm")
     //http://localhost:8080/login/loginForm
@@ -51,4 +52,37 @@ public class LoginController {
         model.addAttribute("newUser", user);
         return "allUser/loginPage";
     }
+
+    @GetMapping("/forgetPassword")
+    public String forgetPasswordPage(Model model){
+        model.addAttribute("checkAccount", new ForgetPasswordDto());
+        return "allUser/forgetPasswordPage";
+    }
+
+    @PostMapping("/checkAccount")
+    public String checkAccountAction(@ModelAttribute("checkAccount") ForgetPasswordDto forgetPasswordDto, Model model){
+        if(accountService.checkAccount(forgetPasswordDto)){
+            emailService.sendVerificationChangePasswordToEmail(forgetPasswordDto.getEmail());
+            model.addAttribute("labelThongBao","success");
+            return "allUser/forgetPasswordPage";
+        }
+        model.addAttribute("error", "Thông tin tài khoản không hợp lệ");
+        model.addAttribute("checkAccount", forgetPasswordDto);
+        return "allUser/forgetPasswordPage";
+    }
+
+    @GetMapping("/forgetPassword/")
+    public String changePasswordPage(@RequestParam("code") String code, Model model){
+        model.addAttribute("code",code);
+        model.addAttribute("newPassword", new String());
+        return "allUser/forgetPasswordPage";
+    }
+
+    @PostMapping("/forgetPassword/changePassword")
+    public String changePasswordAction(@RequestParam("code") String code, @ModelAttribute("newPassword") String newPassword, Model model){
+        accountService.setNewPassword(newPassword, code);
+        model.addAttribute("success", true);
+        return "allUser/forgetPasswordPage";
+    }
+
 }

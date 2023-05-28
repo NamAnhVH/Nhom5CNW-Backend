@@ -22,14 +22,14 @@
                 </li>
             </ul>
     </div>
-    <div id="main">
+    <div class="main">
         <p th:text="${labelThongBao}" style = {margin: 10px;} ></p>
         <form class="form-sign-in" action="#" th:action="@{/login/loginForm}" th:object="${newUser}" method="post">
             <div class="sign-in__header">
                 <h3 class="sign-in__heading">Đăng nhập vào tài khoản của bạn</h3>
             </div>
             <div class="sign-in__box">
-                <input type="text" class="sign-in__input" placeholder="Tên tài khoản" name="username" th:field="*{username}">
+                <input type="text" class="sign-in__input" placeholder="Tên tài khoản hoặc email" name="username" th:field="*{username}">
                 <input type="password" class="sign-in__input" placeholder="Mật khẩu" name="password" th:field="*{password}">
             </div>
             
@@ -52,7 +52,7 @@
                 <p th:text="${error}"></p>
             </div>
             <div class="sign-in__forgot">
-                <a href="" class="forgot-password">Quên mật khẩu?</a>
+                <a href="/login/forgetPassword" class="forgot-password">Quên mật khẩu?</a>
             </div>
         </form>
     </div>

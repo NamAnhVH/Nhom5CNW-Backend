@@ -23,7 +23,7 @@
         </ul>
     </div>
     <div id="main">
-        <div class="sign-up__header" th:unless="${param.success}" th:if="${newUser}">
+        <div class="sign-up__header" th:if="${newUser}">
             <h3 class="sign-up__heading">Tạo tài khoản của bạn</h3>
             <form class="form-sign-up" action="#" th:action="@{/register/registerForm}" th:object="${newUser}" method="post" onsubmit="return validateForm()">
 
@@ -60,10 +60,10 @@
                     <button type="submit" value="Đăng ký" class="sign-up-button">Đăng ký</button>
                 </div>
                 <div id="error-message" class="sign-up__alert" style="display: none;"></div>
-                <div th:if="${param.existAccount}" class="sign-up__alert">
+                <div th:if="${existAccount}" class="sign-up__alert">
                     <p>Tài khoản đã tồn tại, xin mời đăng ký lại</p>
                 </div>
-                <div th:if="${param.existEmail}" class="sign-up__alert">
+                <div th:if="${existEmail}" class="sign-up__alert">
                     <p>Tài khoản email đã tồn tại, xin mời đăng ký lại</p>
                 </div>
                 <div class="sign-up__haveaccount">
@@ -100,7 +100,7 @@
                 }
             </script>
         </div>
-        <div th:if="${param.success}" class="labelThongBao">
+        <div th:if="${success}" class="labelThongBao">
             <p>Xin chúc mừng! Bạn đã đăng ký thành công.</p>
             <p>Hãy kiên nhẫn đợi tin nhắn xác thực tài khoản sẽ được gửi đến hộp thư của bạn trong thời gian sớm nhất.</p>
         </div>

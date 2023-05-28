@@ -37,30 +37,40 @@ public class RegisterController {
                     if(!accountService.isVerifiedByEmail(newUser.getEmail())) {
                         accountService.replaceAccountByEmail(newUser);
                         emailService.sendVerificationEmailByEmail(newUser.getEmail());
-                        return "redirect:/register/registerForm?success=true";
+                        model.addAttribute("success", true);
+                        return "allUser/registerPage";
                     } else {
-                        return "redirect:/register/registerForm?existEmail=true";
+                        model.addAttribute("newUser", newUser);
+                        model.addAttribute("existEmail", true);
+                        return "allUser/registerPage";
                     }
                 } else {
                     accountService.replaceAccountByUsername(newUser);
                     emailService.sendVerificationEmailByUsername(newUser.getUsername());
-                    return "redirect:/register/registerForm?success=true";
+                    model.addAttribute("success", true);
+                    return "allUser/registerPage";
                 }
             } else {
-                return "redirect:/register/registerForm?existAccount=true";
+                model.addAttribute("newUser", newUser);
+                model.addAttribute("existAccount", true);
+                return "allUser/registerPage";
             }
         } else {
             if(accountService.isExistedEmail(newUser.getEmail())){
                 if(!accountService.isVerifiedByEmail(newUser.getEmail())) {
                     accountService.replaceAccountByEmail(newUser);
                     emailService.sendVerificationEmailByEmail(newUser.getEmail());
-                    return "redirect:/register/registerForm?success=true";
+                    model.addAttribute("success", true);
+                    return "allUser/registerPage";
                 }
-                return "redirect:/register/registerForm?existEmail=true";
+                model.addAttribute("newUser", newUser);
+                model.addAttribute("existEmail", true);
+                return "allUser/registerPage";
             } else {
                 accountService.addAccount(newUser);
                 emailService.sendVerificationEmailByUsername(newUser.getUsername());
-                return "redirect:/register/registerForm?success=true";
+                model.addAttribute("success", true);
+                return "allUser/registerPage";
             }
         }
     }

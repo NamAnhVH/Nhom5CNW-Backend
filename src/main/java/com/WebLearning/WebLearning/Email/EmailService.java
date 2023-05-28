@@ -218,5 +218,27 @@ public class EmailService {
             e.printStackTrace();
         }
     }
+
+    public void sendVerificationChangePasswordToEmail(String email) {
+        Account account = accountRepository.findByEmail(email);
+        try {
+            Message message = new MimeMessage(session());
+            message.setFrom(new InternetAddress("Webhoctructuyen.vn", "WEB học trực tuyến"));
+            message.setRecipients(
+                    Message.RecipientType.TO,
+                    InternetAddress.parse(account.getEmail())
+            );
+            message.setSubject("Xác minh tài khoản");
+            String verificationCode = generateVerificationCode();
+            account.setVerificationCode(verificationCode);
+            accountRepository.save(account);
+            String content = "Xin chào, để thay đổi mật khẩu mới, vui lòng nhấp vào liên kết sau: " + path + "login/forgetPassword/?verifySuccess&code=" + verificationCode;
+            message.setContent(content, "text/html; charset=utf-8");
+
+            Transport.send(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
 

@@ -34,7 +34,7 @@
     <div id="left-side-content">
       <ul>
         <li><a href="/account/">Thông tin tài khoản</a></li>
-        <li><a href="/account/changeEmail?waitEmail=false">Thay đổi tài khoản email</a></li>
+        <li><a href="/account/changeEmail">Thay đổi tài khoản email</a></li>
         <li><a href="/account/checkPassword">Thay đổi mật khẩu</a></li>
       </ul>
     </div>
@@ -55,8 +55,8 @@
     </div>
   </div>
   <!--        Hiển thị trang chỉnh sửa-->
-  <div th:if="${changeEmail}" class="right-side-main">
-    <div th:if="${param.waitEmail[0] == 'false'}">
+  <div th:if="${changeEmailPage}" class="right-side-main">
+    <div th:unless="${waitEmail}">
       <form action="/account/changeEmail" method="post">
         <div>
           <label for="email">Nhập tài khoản email mới: </label>
@@ -64,7 +64,7 @@
         </div>
         <br>
         <div>
-          <p th:if="${param.errorEmail}">Tài khoản email không hợp lệ</p>
+          <p th:if="${errorEmail}">Tài khoản email không hợp lệ</p>
         </div>
         <br>
         <div id="btn">
@@ -73,24 +73,24 @@
       </form>
     </div>
     <div style="margin-top: 60px;">
-      <p th:if="${param.waitEmail[0] == 'true'}" style="font-size: 35px; text-align:center;">Vui lòng kiểm tra email để xác minh tài khoản</p>
+      <p th:if="${waitEmail}" style="font-size: 35px; text-align:center;">Vui lòng kiểm tra email để xác minh tài khoản</p>
     </div>
   </div>
-  <div th:if="${checkPassword}" class="right-side-main">
+  <div th:if="${checkPasswordPage}" class="right-side-main">
     <form action="/account/checkPassword" method="post">
       <label for="checkPassword">Nhập mật khẩu cũ: </label>
       <input type="password" id="checkPassword" name="checkPassword" class="text-field-content margin-left" th:object="${checkPassword}" required>
       <br>
       <div>
-        <p th:if="${param.checkError}">Mật khẩu không đúng</p>
+        <p th:if="${checkError}">Mật khẩu không đúng</p>
       </div>
       <div class="btn-account">
         <button type="submit">Kiểm tra</button>
       </div>
     </form>
   </div>
-  <div th:if="${changePassword}" class="right-side-main">
-    <form action="/account/changePassword" method="post" th:unless="${param.success}" onsubmit="return validateForm()">
+  <div th:if="${changePasswordPage}" class="right-side-main">
+    <form action="/account/changePassword" method="post" onsubmit="return validateForm()">
       <label for="newPassword">Vui lòng nhập mật khẩu mới:</label><br>
       <input type="password" id="newPassword" name="newPassword" class="text-field-content" th:object="${newPassword}" placeholder="Mật khẩu mới" required><br>
       <input type="password" id="checkNewPassword" name="checkPassword" class="text-field-content" placeholder="Xác nhận lại mật khẩu" required>
@@ -122,7 +122,7 @@
         }
     </script>
   </div>
-  <div th:if="${param.success}" class="right-side-main">
+  <div th:if="${success}" class="right-side-main">
     <div style="margin-top: 60px;">
       <p style="font-size: 35px; text-align:center;">Thay đổi mật khẩu thành công</p>
     </div>
