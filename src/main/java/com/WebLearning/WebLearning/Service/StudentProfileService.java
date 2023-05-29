@@ -2,7 +2,11 @@ package com.WebLearning.WebLearning.Service;
 
 import com.WebLearning.WebLearning.FormData.StudentProfileDto;
 import com.WebLearning.WebLearning.Models.Account;
+import com.WebLearning.WebLearning.Models.Course;
+import com.WebLearning.WebLearning.Models.CourseComment;
 import com.WebLearning.WebLearning.Models.StudentProfile;
+import com.WebLearning.WebLearning.Repository.CourseCommentRepository;
+import com.WebLearning.WebLearning.Repository.CourseRepository;
 import com.WebLearning.WebLearning.Repository.StudentProfileRepository;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -22,6 +26,10 @@ public class StudentProfileService {
     private AuthenticationFacade authenticationFacade;
     @Autowired
     private StudentProfileRepository studentProfileRepository;
+    @Autowired
+    private CourseRepository courseRepository;
+    @Autowired
+    private CourseCommentRepository courseCommentRepository;
 
     public String getFullname() {
         Account currentAccount = authenticationFacade.getAccount();
@@ -83,4 +91,25 @@ public class StudentProfileService {
         return dateFormat.parse(dateString);
     }
 
+    public void enrollCourse(Long id) {
+        Course course = courseRepository.findById(id).get();
+        StudentProfile studentProfile = studentProfileRepository.findByAccountId(authenticationFacade.getAccount().getId());
+        studentProfile.getCourses().add(course);
+
+        studentProfileRepository.save(studentProfile);
+        courseRepository.save(course);
+    }
+
+    public boolean isEnrolled(Long id) {
+        StudentProfile studentProfile = studentProfileRepository.findByAccountId(authenticationFacade.getAccount().getId());
+        return studentProfileRepository.isEnrolled(studentProfile.getId(), id);
+    }
+
+    public boolean isComment(Long id) {
+        CourseComment comment = courseCommentRepository.findByStudentProfileIdAndCourseId(authenticationFacade.getAccount().getId(), id);
+        if(comment != null){
+            return true;
+        }
+        return false;
+    }
 }

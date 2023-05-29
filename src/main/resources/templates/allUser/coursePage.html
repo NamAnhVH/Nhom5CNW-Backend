@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${course.name}"></title>
     <link rel="stylesheet" href="/css/contentPage.css">
-
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 </head>
 <body>
 <section id="header-section">
@@ -33,7 +33,6 @@
     <div sec:authorize="isAuthenticated()" id="isLogin">
         <div sec:authorize="hasRole('ROLE_admin')">
             <a th:href="@{/admin}" th:text="${fullname}" class="username-login"></a>
-
         </div>
         <div sec:authorize="hasRole('ROLE_giáo viên')">
             <a th:href="@{/teacher}" th:text="${fullname}" class="username-login"></a>
@@ -56,7 +55,7 @@
             <p th:text="${course.introduction}"></p>
             <p><strong>Ngày đăng tải khoá học:</strong> <em th:text="${course.time}"></em></p>
             <div sec:authorize="hasRole('ROLE_học sinh')">
-                <form method="post">
+                <form method="post" th:action="'/student/enrollCourse/' + ${course.id}" th:unless="${isEnrolled}">
                     <button type="submit" value="submit">Đăng ký khoá học</button>
                 </form>
             </div>
@@ -72,6 +71,7 @@
             <li><a href="#description">Mô tả khoá học</a></li>
             <li><a href="#list-lesson">Đề cương khoá học</a></li>
             <li><a href="#teacher-course">Giáo viên giảng dạy</a></li>
+            <li><a href="#comment-course">Đánh giá khoá học</a></li>
             <li><a href="#related-course">Các khoá học liên quan</a></li>
         </ul>
     </div>
@@ -95,6 +95,37 @@
             </a>
         </div>
     </div>
+    <div id="comment-course">
+        <h1>Đánh giá khoá học</h1>
+        <div>
+            <p th:text="${totalRate}"></p>
+        </div>
+        <div th:each="comment: ${listComment}">
+            <p th:text="${comment.fullname}"></p>
+            <p th:text="${comment.time}"></p>
+            <p th:text="${comment.rate}"></p>
+            <p th:utext="${comment.comment ?: ''}"></p>
+        </div>
+        <div sec:authorize="hasRole('ROLE_học sinh')" th:if="${isEnrolled}">
+            <form th:action="'/student/comment/' + ${course.id}" method="post" th:object="${newComment}" th:unless="${isComment}">
+                <label for="rate">Đánh giá khoá học: </label>
+                <select name="rate" id="rate" th:field="*{rate}">
+                    <option value="5" th:selected="*{rate == '5'}">5</option>
+                    <option value="4" th:selected="*{rate == '4'}">4</option>
+                    <option value="3" th:selected="*{rate == '3'}">3</option>
+                    <option value="2" th:selected="*{rate == '2'}">2</option>
+                    <option value="1" th:selected="*{rate == '1'}">1</option>
+                    <option value="0" th:selected="*{rate == '0'}">0</option>
+                </select>
+                <br>
+                <label>Bình luận khoá học: </label><br><br>
+                <textarea id="comment" name="comment" th:field="*{comment}"></textarea>
+                <div id="btn">
+                    <button type="submit" id="submit">Bình luận</button>
+                </div>
+            </form>
+        </div>
+    </div>
     <div id="related-course">
         <h1>Danh sách khoá học liên quan</h1>
         <div class="list">
@@ -116,4 +147,9 @@
     <h1>Thông tin liên hệ</h1>
 </section>
 </body>
+    <script>
+        CKEDITOR.replace('comment', {
+            height: 200,
+        });
+    </script>
 </html>

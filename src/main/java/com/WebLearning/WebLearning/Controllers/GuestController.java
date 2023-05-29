@@ -1,7 +1,9 @@
 package com.WebLearning.WebLearning.Controllers;
 
 import com.WebLearning.WebLearning.Email.EmailService;
+import com.WebLearning.WebLearning.FormData.CourseCommentDto;
 import com.WebLearning.WebLearning.FormData.ForgetPasswordDto;
+import com.WebLearning.WebLearning.Models.CourseComment;
 import com.WebLearning.WebLearning.Models.News;
 import com.WebLearning.WebLearning.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ public class GuestController {
     private CourseService courseService;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private CourseCommentService courseCommentService;
 
     @GetMapping(value = {"/", "/homepage", "/homepage/null"})
     //http://localhost:8080/
@@ -163,8 +167,21 @@ public class GuestController {
         if(!courseService.isApprovedAndUnlocked(id)){
             return "redirect:/homepage";
         }
+        if(accountService.isAuthenticated()){
+            if(accountService.getCurrentAccount().getRole().equals("học sinh")){
+                if(studentProfileService.isEnrolled(id)){
+                    model.addAttribute("isEnrolled", true);
+                    if(studentProfileService.isComment(id)){
+                        model.addAttribute("isComment", true);
+                    } else {
+                        model.addAttribute("newComment", new CourseCommentDto());
+                    }
+                }
+            }
+        }
         model.addAttribute("course", courseService.getCourseById(id));
         model.addAttribute("profile", teacherProfileService.getAllProfileTeachCourse(id));
+        model.addAttribute("listComment", courseCommentService.getAllCommentByCourseId(id));
         model.addAttribute("listRelatedCourse", courseService.getCourseBySameType(id));
         return "allUser/coursePage";
     }

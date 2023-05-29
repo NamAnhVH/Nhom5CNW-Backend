@@ -1,8 +1,11 @@
 package com.WebLearning.WebLearning.Controllers;
 
 import com.WebLearning.WebLearning.Email.EmailService;
+import com.WebLearning.WebLearning.FormData.CourseCommentDto;
 import com.WebLearning.WebLearning.FormData.StudentProfileDto;
 import com.WebLearning.WebLearning.Service.AccountService;
+import com.WebLearning.WebLearning.Service.CourseCommentService;
+import com.WebLearning.WebLearning.Service.CourseService;
 import com.WebLearning.WebLearning.Service.StudentProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +25,9 @@ public class StudentController {
     private AccountService accountService;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private CourseCommentService courseCommentService;
+
 
     @GetMapping
     public String studentPage(){
@@ -39,6 +45,18 @@ public class StudentController {
     public String editProfile(@ModelAttribute StudentProfileDto profileDto) throws IOException, ParseException {
         studentProfileService.updateProfile(profileDto);
         return "redirect:/student/profile?edit=false";
+    }
+
+    @PostMapping("/enrollCourse/{id}")
+    public String enrollCourseAction(@PathVariable Long id){
+        studentProfileService.enrollCourse(id);
+        return "redirect:/course/" + id;
+    }
+
+    @PostMapping("/comment/{id}")
+    public String commentAction(@PathVariable Long id, @ModelAttribute("newComment") CourseCommentDto courseCommentDto){
+        courseCommentService.addComment(courseCommentDto, id);
+        return "redirect:/course/" + id;
     }
 
 

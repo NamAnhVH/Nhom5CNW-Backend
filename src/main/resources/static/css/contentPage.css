@@ -382,10 +382,7 @@ button{
     margin: 0 20px;
 }
 
-#teacher-course h1{
-    margin: 0;
-    font-size: 40px;
-}
+
 
 
 .items{
@@ -429,6 +426,32 @@ button{
 
 #teacher-course{
     margin: 0 15%;
+}
+
+#teacher-course h1{
+    margin: 0;
+    font-size: 40px;
+}
+
+#comment-course{
+    margin: 0 15%;
+}
+
+#comment-course h1{
+    margin: 0;
+    font-size: 40px;
+}
+
+
+#comment-course label{
+    font-size: 20px;
+    margin: 0 10px;
+}
+
+#rate{
+    padding: 0 10px;
+    margin: 10px 10px;
+    font-size: 18px;
 }
 
 #related-course{
@@ -475,4 +498,16 @@ button{
     object-fit:cover;
     flex-grow: 1;
     border-radius: 10px;
+}
+
+#btn{
+    display:flex;
+    flex-direction: row;
+}
+
+#btn button{
+    width: 100px;
+    height: 30px;
+    padding: 5px;
+    margin: 5px 5px 5px 0;
 }
