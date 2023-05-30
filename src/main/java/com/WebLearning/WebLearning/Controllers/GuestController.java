@@ -2,8 +2,6 @@ package com.WebLearning.WebLearning.Controllers;
 
 import com.WebLearning.WebLearning.Email.EmailService;
 import com.WebLearning.WebLearning.FormData.CourseCommentDto;
-import com.WebLearning.WebLearning.FormData.ForgetPasswordDto;
-import com.WebLearning.WebLearning.Models.CourseComment;
 import com.WebLearning.WebLearning.Models.News;
 import com.WebLearning.WebLearning.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,7 +158,7 @@ public class GuestController {
             if(accountService.getCurrentAccount().getRole().equals("admin")){
                 model.addAttribute("course", courseService.getCourseById(id));
                 model.addAttribute("profile", teacherProfileService.getAllProfileTeachCourse(id));
-                model.addAttribute("listRelatedCourse", courseService.getCourseBySameType(id));
+                model.addAttribute("listRelatedCourse", courseService.getTop3CourseBySameType(id));
                 return "allUser/coursePage";
             }
         }
@@ -173,6 +171,7 @@ public class GuestController {
                     model.addAttribute("isEnrolled", true);
                     if(studentProfileService.isComment(id)){
                         model.addAttribute("isComment", true);
+                        model.addAttribute("userComment", courseCommentService.getCommentByCurrentUser(id));
                     } else {
                         model.addAttribute("newComment", new CourseCommentDto());
                     }
@@ -181,8 +180,9 @@ public class GuestController {
         }
         model.addAttribute("course", courseService.getCourseById(id));
         model.addAttribute("profile", teacherProfileService.getAllProfileTeachCourse(id));
+        model.addAttribute("averageRate", courseCommentService.calAverageRate(id));
         model.addAttribute("listComment", courseCommentService.getAllCommentByCourseId(id));
-        model.addAttribute("listRelatedCourse", courseService.getCourseBySameType(id));
+        model.addAttribute("listRelatedCourse", courseService.getTop3CourseBySameType(id));
         return "allUser/coursePage";
     }
 

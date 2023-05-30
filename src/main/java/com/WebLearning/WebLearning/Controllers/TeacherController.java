@@ -2,6 +2,8 @@ package com.WebLearning.WebLearning.Controllers;
 
 import com.WebLearning.WebLearning.FormData.CourseFormDto;
 import com.WebLearning.WebLearning.FormData.TeacherProfileDto;
+import com.WebLearning.WebLearning.Models.Account;
+import com.WebLearning.WebLearning.Service.AccountService;
 import com.WebLearning.WebLearning.Service.CourseService;
 import com.WebLearning.WebLearning.Service.TeacherProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class TeacherController {
     private TeacherProfileService teacherProfileService;
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private AccountService accountService;
 
     @GetMapping
     public String teacherPage() {
@@ -93,5 +97,11 @@ public class TeacherController {
     public String deleteCourseAction(@PathVariable Long id){
         courseService.deleteCourse(id);
         return "redirect:/teacher/course/listCourse";
+    }
+
+    @PostMapping("account/deleteAccount")
+    public String deleteAccountAction(){
+        accountService.deleteTeacherAccount();
+        return "redirect:/logout";
     }
 }

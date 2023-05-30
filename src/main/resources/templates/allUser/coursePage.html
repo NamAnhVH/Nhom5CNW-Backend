@@ -98,16 +98,11 @@
     <div id="comment-course">
         <h1>Đánh giá khoá học</h1>
         <div>
-            <p th:text="${totalRate}"></p>
+            <p class="averageRate">Đánh giá chung: <em th:text="${averageRate ?: 'Chưa có đánh giá nào'}"></em></p>
         </div>
-        <div th:each="comment: ${listComment}">
-            <p th:text="${comment.fullname}"></p>
-            <p th:text="${comment.time}"></p>
-            <p th:text="${comment.rate}"></p>
-            <p th:utext="${comment.comment ?: ''}"></p>
-        </div>
-        <div sec:authorize="hasRole('ROLE_học sinh')" th:if="${isEnrolled}">
-            <form th:action="'/student/comment/' + ${course.id}" method="post" th:object="${newComment}" th:unless="${isComment}">
+        <button onclick="toggleDiv()" th:if="${isComment}" id="edit-btn">Chỉnh sửa bình luận</button>
+        <div id="myDiv" style="display:none;" th:if="${isEnrolled}">
+            <form th:action="'/student/editComment/' + ${course.id}" method="post" th:object="${userComment}" th:if="${isComment}">
                 <label for="rate">Đánh giá khoá học: </label>
                 <select name="rate" id="rate" th:field="*{rate}">
                     <option value="5" th:selected="*{rate == '5'}">5</option>
@@ -116,6 +111,48 @@
                     <option value="2" th:selected="*{rate == '2'}">2</option>
                     <option value="1" th:selected="*{rate == '1'}">1</option>
                     <option value="0" th:selected="*{rate == '0'}">0</option>
+                </select>
+                <br>
+                <label>Bình luận khoá học: </label><br><br>
+                <textarea id="comment" name="comment" th:field="*{comment}"></textarea>
+                <div id="btn">
+                    <button type="submit" id="submit">Chỉnh sửa</button>
+                </div>
+            </form>
+        </div>
+        <div th:each="comment: ${listComment}" class="comment">
+            <div id="avatar-comment">
+                <img th:src="${comment.base64Avatar}">
+            </div>
+            <p th:text="${comment.fullname}" style="font-weight: bold;"></p>
+            <div>
+                <div style="display: flex;">
+                    <p th:text="'Đánh giá: ' + ${comment.rate} + ' sao'"></p>
+                    <p th:text="${comment.time}"></p>
+                </div>
+                <p th:utext="${comment.comment ?: ''}"></p>
+            </div>
+        </div>
+        <script>
+            function toggleDiv() {
+                var div = document.getElementById('myDiv');
+                if (div.style.display === 'none') {
+                    div.style.display = 'block';
+                } else {
+                    div.style.display = 'none';
+                }
+            }
+        </script>
+        <div sec:authorize="hasRole('ROLE_học sinh')" th:if="${isEnrolled}">
+            <form th:action="'/student/comment/' + ${course.id}" method="post" th:object="${newComment}" th:unless="${isComment}">
+                <label for="rate">Đánh giá khoá học: </label>
+                <select name="rate" id="rate" th:field="*{rate}">
+                    <option value="5">5</option>
+                    <option value="4">4</option>
+                    <option value="3">3</option>
+                    <option value="2">2</option>
+                    <option value="1">1</option>
+                    <option value="0">0</option>
                 </select>
                 <br>
                 <label>Bình luận khoá học: </label><br><br>

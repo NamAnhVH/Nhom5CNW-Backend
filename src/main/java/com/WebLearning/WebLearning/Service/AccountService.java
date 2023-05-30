@@ -2,11 +2,10 @@ package com.WebLearning.WebLearning.Service;
 
 import com.WebLearning.WebLearning.FormData.ForgetPasswordDto;
 import com.WebLearning.WebLearning.Models.Account;
+import com.WebLearning.WebLearning.Models.Course;
 import com.WebLearning.WebLearning.Models.StudentProfile;
 import com.WebLearning.WebLearning.Models.TeacherProfile;
-import com.WebLearning.WebLearning.Repository.AccountRepository;
-import com.WebLearning.WebLearning.Repository.StudentProfileRepository;
-import com.WebLearning.WebLearning.Repository.TeacherProfileRepository;
+import com.WebLearning.WebLearning.Repository.*;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import com.WebLearning.WebLearning.FormData.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.ArrayList;
@@ -35,9 +34,36 @@ public class AccountService {
     private StudentProfileRepository studentProfileRepository;
 
     @Autowired
+    private CourseRepository courseRepository;
+
+    @Autowired
+    private CourseCommentRepository courseCommentRepository;
+    @Autowired
     private AuthenticationFacade authenticationFacade;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Transactional
+    public void deleteStudentAccount() {
+        Account account = authenticationFacade.getAccount();
+        StudentProfile studentProfile = studentProfileRepository.findByAccountId(account.getId());
+        courseCommentRepository.deleteByStudentProfileId(studentProfile.getId());
+        studentProfile.getCourses().clear();
+        studentProfileRepository.delete(studentProfile);
+        accountRepository.deleteById(account.getId());
+    }
+
+    @Transactional
+    public void deleteTeacherAccount() {
+        Account account = authenticationFacade.getAccount();
+        TeacherProfile teacherProfile = teacherProfileRepository.findByAccountId(account.getId());
+        List<Course> listCourse = courseRepository.findByTeacherId(teacherProfile.getId());
+        for(Course course : listCourse){
+            courseCommentRepository.deleteByCourseId(course.getId());
+            courseRepository.delete(course);
+        }
+        teacherProfileRepository.delete(teacherProfile);
+        accountRepository.deleteById(account.getId());
+    }
 
 
     public Account findByUsername(String username) {
@@ -289,4 +315,6 @@ public class AccountService {
         account.setPassword(new BCryptPasswordEncoder().encode(newPassword));
         accountRepository.save(account);
     }
+
+
 }

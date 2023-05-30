@@ -3,7 +3,9 @@ package com.WebLearning.WebLearning.Models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -37,6 +39,6 @@ public class Course {
     private TeacherProfile teacher;
 
     @ManyToMany(mappedBy = "courses")
-    private Set<StudentProfile> students = new HashSet<>();
+    private List<StudentProfile> students = new ArrayList<>();
 
 }

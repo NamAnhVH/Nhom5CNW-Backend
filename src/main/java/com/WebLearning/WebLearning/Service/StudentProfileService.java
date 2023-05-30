@@ -94,10 +94,12 @@ public class StudentProfileService {
     public void enrollCourse(Long id) {
         Course course = courseRepository.findById(id).get();
         StudentProfile studentProfile = studentProfileRepository.findByAccountId(authenticationFacade.getAccount().getId());
-        studentProfile.getCourses().add(course);
-
-        studentProfileRepository.save(studentProfile);
+        if(!studentProfile.getCourses().contains(course)){
+            studentProfile.getCourses().add(course);
+            course.getStudents().add(studentProfile);
+        }
         courseRepository.save(course);
+        studentProfileRepository.save(studentProfile);
     }
 
     public boolean isEnrolled(Long id) {
@@ -106,7 +108,8 @@ public class StudentProfileService {
     }
 
     public boolean isComment(Long id) {
-        CourseComment comment = courseCommentRepository.findByStudentProfileIdAndCourseId(authenticationFacade.getAccount().getId(), id);
+        StudentProfile studentProfile = studentProfileRepository.findByAccountId(authenticationFacade.getAccount().getId());
+        CourseComment comment = courseCommentRepository.findByStudentProfileIdAndCourseId(studentProfile.getId(), id);
         if(comment != null){
             return true;
         }

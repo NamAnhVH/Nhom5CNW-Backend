@@ -36,6 +36,16 @@
                     <li><a href="/account/">Thông tin tài khoản</a></li>
                     <li><a href="/account/changeEmail">Thay đổi tài khoản email</a></li>
                     <li><a href="/account/checkPassword">Thay đổi mật khẩu</a></li>
+                    <li><a onclick="event.preventDefault(); submitForm()" style="cursor: pointer;">Xoá tài khoản</a></li>
+                    <script>
+                        function submitForm() {
+                            var form = document.createElement("form");
+                            form.method = "POST";
+                            form.action = "/student/account/deleteAccount";
+                            document.body.appendChild(form);
+                            form.submit();
+                        }
+                    </script>
                 </ul>
             </div>
         </div>

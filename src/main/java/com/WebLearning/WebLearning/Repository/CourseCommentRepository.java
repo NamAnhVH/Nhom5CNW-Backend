@@ -10,7 +10,13 @@ import java.util.List;
 public interface CourseCommentRepository extends JpaRepository<CourseComment, Long> {
 
 
+    void deleteByStudentProfileId(Long id);
+
     List<CourseComment> findByCourseId(Long id);
 
     CourseComment findByStudentProfileIdAndCourseId(Long id, Long id1);
+
+    List<CourseComment> findByCourseIdOrderByTimeDesc(Long id);
+
+    void deleteByCourseId(Long id);
 }

@@ -1,7 +1,6 @@
 package com.WebLearning.WebLearning.Service;
 
 import com.WebLearning.WebLearning.FormData.CourseFormDto;
-import com.WebLearning.WebLearning.Models.Account;
 import com.WebLearning.WebLearning.Models.Course;
 import com.WebLearning.WebLearning.Models.TeacherProfile;
 import com.WebLearning.WebLearning.Repository.CourseRepository;
@@ -183,10 +182,10 @@ public class CourseService {
         return listCourseDto;
     }
 
-    public List<CourseFormDto> getCourseBySameType(Long id) {
+    public List<CourseFormDto> getTop3CourseBySameType(Long id) {
         List<CourseFormDto> listCourseDto = new ArrayList<>();
         Course course = courseRepository.findById(id).get();
-        List<Course> listCourse = courseRepository.findByCourseType(course.getCourseType());
+        List<Course> listCourse = courseRepository.findTop3ByCourseTypeOrderByIdDesc(course.getCourseType());
         for (Course relatedCourse: listCourse){
             if(relatedCourse.getId() != course.getId()){
                 CourseFormDto courseDto = new CourseFormDto();

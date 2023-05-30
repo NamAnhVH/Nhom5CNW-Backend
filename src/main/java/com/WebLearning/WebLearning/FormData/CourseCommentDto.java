@@ -11,4 +11,5 @@ public class CourseCommentDto {
     private String time;
     private String rate;
     private String comment;
+    private String base64Avatar;
 }

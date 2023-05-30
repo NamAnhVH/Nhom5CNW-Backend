@@ -3,9 +3,7 @@ package com.WebLearning.WebLearning.Models;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @Entity
@@ -42,7 +40,7 @@ public class StudentProfile {
     @JoinTable(name = "student_courses",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
-    private Set<Course> courses = new HashSet<>();
+    private List<Course> courses = new ArrayList<>();
 
 
 }

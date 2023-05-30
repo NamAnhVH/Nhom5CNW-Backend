@@ -5,7 +5,6 @@ import com.WebLearning.WebLearning.FormData.CourseCommentDto;
 import com.WebLearning.WebLearning.FormData.StudentProfileDto;
 import com.WebLearning.WebLearning.Service.AccountService;
 import com.WebLearning.WebLearning.Service.CourseCommentService;
-import com.WebLearning.WebLearning.Service.CourseService;
 import com.WebLearning.WebLearning.Service.StudentProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -59,5 +58,16 @@ public class StudentController {
         return "redirect:/course/" + id;
     }
 
+    @PostMapping("/editComment/{id}")
+    public String editCommentAction(@PathVariable Long id, @ModelAttribute("userComment") CourseCommentDto courseCommentDto){
+        courseCommentService.updateComment(courseCommentDto, id);
+        return "redirect:/course/" + id;
+    }
+
+    @PostMapping("/account/deleteAccount")
+    public String deleteAccountAction(){
+        accountService.deleteStudentAccount();
+        return "redirect:/logout";
+    }
 
 }
