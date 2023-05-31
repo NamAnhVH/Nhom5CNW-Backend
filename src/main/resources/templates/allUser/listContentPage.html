@@ -14,10 +14,9 @@
             <a href="/homepage">
                 <img src="/image/Hust-logo.jpg" alt="Logo" id="logo-header" title="Quay về trang chủ">
             </a>
-            <form>
+            <form action="/course/findCourse" method="post">
                 <img src="/image/search-button.png" id="search-button">
-                <input type="text" placeholder="Tìm kiếm khoá học" id="search-text">
-
+                <input type="text" placeholder="Tìm kiếm khoá học" name="findCourse" id="search-text" th:object="${findCourse}">
             </form>
         </div>
         <ul id="header-link">

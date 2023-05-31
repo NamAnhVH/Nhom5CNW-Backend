@@ -41,6 +41,7 @@ public class GuestController {
                 model.addAttribute("fullname", studentProfileService.getFullname());
             }
         }
+        model.addAttribute("findCourse", new String());
         model.addAttribute("listNews", newsService.getTopSixNews());
         model.addAttribute("listTeacherProfile", teacherProfileService.getTopSixTeacherApprovedAndUnlocked());
         model.addAttribute("listCourse", courseService.getTopSixCourseApprovedAndUnlocked());
@@ -57,6 +58,7 @@ public class GuestController {
                 model.addAttribute("fullname", studentProfileService.getFullname());
             }
         }
+        model.addAttribute("findCourse", new String());
         model.addAttribute("listNews", newsService.getAll());
         model.addAttribute("newsPage", "Tin tức sự kiện");
         return "allUser/listContentPage";
@@ -72,8 +74,8 @@ public class GuestController {
                 model.addAttribute("fullname", studentProfileService.getFullname());
             }
         }
-        News news = newsService.getNewsById(id);
-        model.addAttribute("news", news);
+        model.addAttribute("news", newsService.getNewsById(id));
+        model.addAttribute("findCourse", new String());
         return "allUser/newsPage";
     }
     @GetMapping("/teacherProfile")
@@ -86,6 +88,7 @@ public class GuestController {
                 model.addAttribute("fullname", studentProfileService.getFullname());
             }
         }
+        model.addAttribute("findCourse", new String());
         model.addAttribute("listTeacherProfile", teacherProfileService.getAllByRoleAndApprovedAndUnlocked("giáo viên"));
         model.addAttribute("profilePage","Danh sách giảng viên");
         return "allUser/listContentPage";
@@ -101,6 +104,7 @@ public class GuestController {
                 model.addAttribute("fullname", studentProfileService.getFullname());
             }
             if(accountService.getCurrentAccount().getRole().equals("admin")){
+                model.addAttribute("findCourse", new String());
                 model.addAttribute("profile", teacherProfileService.getById(id));
                 model.addAttribute("listCourse", courseService.getCourseByTeacher(id));
                 return "allUser/teacherProfilePage";
@@ -110,6 +114,7 @@ public class GuestController {
         if(!teacherProfileService.isApprovedAndUnlocked(id)){
             return "redirect:/homepage";
         }
+        model.addAttribute("findCourse", new String());
         model.addAttribute("profile", teacherProfileService.getById(id));
         model.addAttribute("listCourse", courseService.getCourseByTeacher(id));
         return "allUser/teacherProfilePage";
@@ -125,8 +130,24 @@ public class GuestController {
                 model.addAttribute("fullname", studentProfileService.getFullname());
             }
         }
+        model.addAttribute("findCourse", new String());
         model.addAttribute("listCourse", courseService.getAllCourseApprovedAndUnlocked());
         model.addAttribute("coursePage", "Danh sách khoá học");
+        return "allUser/listContentPage";
+    }
+
+    @PostMapping("/course/findCourse")
+    public String findCourseAction(@ModelAttribute("findCourse") String findCourse, Model model){
+        if(accountService.isAuthenticated()){
+            if(accountService.getCurrentAccount().getRole().equals("giáo viên")){
+                model.addAttribute("fullname", teacherProfileService.getFullname());
+            } else {
+                model.addAttribute("fullname", studentProfileService.getFullname());
+            }
+        }
+        model.addAttribute("findCourse", new String());
+        model.addAttribute("listCourse", courseService.getCourseByFindCourse(findCourse));
+        model.addAttribute("coursePage",true);
         return "allUser/listContentPage";
     }
 
@@ -140,6 +161,7 @@ public class GuestController {
                 model.addAttribute("fullname", studentProfileService.getFullname());
             }
         }
+        model.addAttribute("findCourse", new String());
         model.addAttribute("type", type);
         model.addAttribute("listCourse", courseService.getCourseByType(type));
         model.addAttribute("coursePage", "Danh sách khoá học");
@@ -156,6 +178,7 @@ public class GuestController {
                 model.addAttribute("fullname", studentProfileService.getFullname());
             }
             if(accountService.getCurrentAccount().getRole().equals("admin")){
+                model.addAttribute("findCourse", new String());
                 model.addAttribute("course", courseService.getCourseById(id));
                 model.addAttribute("profile", teacherProfileService.getAllProfileTeachCourse(id));
                 model.addAttribute("listRelatedCourse", courseService.getTop3CourseBySameType(id));
@@ -178,6 +201,7 @@ public class GuestController {
                 }
             }
         }
+        model.addAttribute("findCourse", new String());
         model.addAttribute("course", courseService.getCourseById(id));
         model.addAttribute("profile", teacherProfileService.getAllProfileTeachCourse(id));
         model.addAttribute("averageRate", courseCommentService.calAverageRate(id));

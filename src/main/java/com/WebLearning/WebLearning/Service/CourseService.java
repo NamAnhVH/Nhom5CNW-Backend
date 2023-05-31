@@ -214,4 +214,21 @@ public class CourseService {
         }
         return listCourseDto;
     }
+
+    public List<CourseFormDto> getCourseByFindCourse(String findCourse) {
+        List<Course> listCourse = courseRepository.findAll();
+        List<CourseFormDto> listCourseDto = new ArrayList<>();
+        for(Course course: listCourse){
+            if(course.getName().contains(findCourse)){
+                CourseFormDto courseDto = new CourseFormDto();
+                courseDto.setName(course.getName());
+                courseDto.setBase64Image("data:image/png;base64," + Base64.encodeBase64String(course.getImage()));
+                courseDto.setIntroduction(course.getIntroduction());
+                courseDto.setTime(course.getTime());
+                courseDto.setId(course.getId());
+                listCourseDto.add(courseDto);
+            }
+        }
+        return listCourseDto;
+    }
 }
