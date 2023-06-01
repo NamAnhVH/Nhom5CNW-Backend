@@ -9,7 +9,6 @@ import java.util.List;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
-//    ModelUser findByUsernameAndPassword(String username);
 
     Account findByUsername(String username);
 

@@ -9,7 +9,8 @@ import java.util.List;
 @Repository
 public interface NewsRepository extends JpaRepository<News, Long> {
 
-    List<News> findTop6ByOrderByIdDesc();
 
-    List<News> findByOrderByIdDesc();
+    List<News> findByOrderByTimeDesc();
+
+    List<News> findTop6ByOrderByTimeDesc();
 }

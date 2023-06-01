@@ -35,10 +35,10 @@
         <div id="left-side-main">
             <div id="left-side-content">
                 <ul>
-                    <li><a th:href="${'/teacher/course/' + course.id +'/previewCourse'}">Trang xem trước khoá học</a></li>
-                    <li><a th:href="${'/teacher/course/' + course.id +'/editCourse'}">Chỉnh sửa khoá học</a></li>
-                    <li><a href="/teacher/course/addLesson">Thêm bài giảng</a></li>
-                    <li><a href="/teacher/course/manageLesson">Quản lý bài giảng</a></li>
+                    <li><a th:href="${'/teacher/course/' + course.id + '/previewCourse'}">Trang xem trước khoá học</a></li>
+                    <li><a th:href="${'/teacher/course/' + course.id + '/editCourse'}">Chỉnh sửa khoá học</a></li>
+                    <li><a th:href="${'/teacher/course/' + course.id + '/addLecture'}">Thêm bài giảng</a></li>
+                    <li><a th:href="${'/teacher/course/' + course.id + '/manageLecture'}">Quản lý bài giảng</a></li>
                 </ul>
             </div>
         </div>
@@ -47,10 +47,6 @@
                 <div>
                     <label for="name">Tên khoá học</label><br>
                     <input type="text" id="name" name="name" class="text-field-content" th:field="*{name}" required>
-                </div>
-                <div>
-                    <label for="time">Ngày đăng tải</label><br>
-                    <input type="text" id="time" name="time" class="text-field-content" th:field="*{time}" required>
                 </div>
                 <div>
                     <label for="introduction">Giới thiệu khoá học</label><br>
@@ -104,7 +100,7 @@
                     <option value="Tiền tiểu học">Tiền tiểu học</option>
                 </select>
                 <br>
-                <div id="btn">
+                <div class="btn-form">
                     <button type="submit" id="submit">Chỉnh sửa</button>
                     <button type="submit" th:formaction="${'/teacher/course/' + course.id + '/deleteCourse'}">Xoá khoá học</button>
                 </div>

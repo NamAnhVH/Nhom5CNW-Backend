@@ -5,13 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class NewsFormDto {
-
+public class LectureFormDto {
+    private int number;
     private String title;
-    private String time;
-    private String imagePage;
     private String description;
-    private String detail;
+    private String urlVideo;
 
     private Long id;
 

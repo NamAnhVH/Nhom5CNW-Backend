@@ -1,5 +1,6 @@
 package com.WebLearning.WebLearning.FormData;
 
+import com.WebLearning.WebLearning.Models.TeacherProfile;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +14,9 @@ public class CourseFormDto {
     private String introduction;
     private String description;
     private String courseType;
+    private boolean approved;
+    private boolean locked;
+    private TeacherProfile teacher;
 
     private Long id;
 }

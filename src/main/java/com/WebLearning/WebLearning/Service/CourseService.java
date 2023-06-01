@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class CourseService {
         Course course = new Course();
         course.setName(newCourse.getName());
         course.setImage(newCourse.getImage().getBytes());
-        course.setTime(newCourse.getTime());
+        course.setTime(LocalDateTime.now());
         course.setIntroduction(newCourse.getIntroduction());
         course.setDescription(newCourse.getDescription());
         course.setCourseType(newCourse.getCourseType());
@@ -37,32 +39,79 @@ public class CourseService {
         courseRepository.save(course);
     }
 
-    public List<Course> getAll() {
-        return courseRepository.findAll();
+    public List<CourseFormDto> getAll() {
+        List<Course> listCourse = courseRepository.findAll();
+        List<CourseFormDto> listCourseDto = new ArrayList<>();
+        for(Course course: listCourse){
+            CourseFormDto courseDto = new CourseFormDto();
+            courseDto.setName(course.getName());
+            courseDto.setTime(formatLocalDateTimeToString(course.getTime()));
+            courseDto.setApproved(course.isApproved());
+            courseDto.setLocked(course.isLocked());
+            courseDto.setCourseType(course.getCourseType());
+            courseDto.setTeacher(course.getTeacher());
+            courseDto.setId(course.getId());
+            listCourseDto.add(courseDto);
+        }
+        return listCourseDto;
     }
 
-    public List<Course> getCourseByOption(String option) {
+    public List<CourseFormDto> getCourseByOption(String option) {
         List<Course> listCourse = new ArrayList<>();
         if(option.equals("unapprovedCourse")){
             listCourse = courseRepository.findByApprovedFalse();
         } else if (option.equals("lockedCourse")) {
             listCourse = courseRepository.findByLockedTrue();
         }
-        return listCourse;
+        List<CourseFormDto> listCourseDto = new ArrayList<>();
+        for(Course course: listCourse){
+            CourseFormDto courseDto = new CourseFormDto();
+            courseDto.setName(course.getName());
+            courseDto.setTime(formatLocalDateTimeToString(course.getTime()));
+            courseDto.setApproved(course.isApproved());
+            courseDto.setLocked(course.isLocked());
+            courseDto.setCourseType(course.getCourseType());
+            courseDto.setTeacher(course.getTeacher());
+            listCourseDto.add(courseDto);
+        }
+        return listCourseDto;
     }
 
-    public List<Course> getCourseByCourseType(String type) {
-        return courseRepository.findByCourseType(type);
+    public List<CourseFormDto> getCourseByCourseType(String type) {
+        List<Course> listCourse = courseRepository.findByCourseType(type);
+        List<CourseFormDto> listCourseDto = new ArrayList<>();
+        for(Course course: listCourse){
+            CourseFormDto courseDto = new CourseFormDto();
+            courseDto.setName(course.getName());
+            courseDto.setTime(formatLocalDateTimeToString(course.getTime()));
+            courseDto.setApproved(course.isApproved());
+            courseDto.setLocked(course.isLocked());
+            courseDto.setCourseType(course.getCourseType());
+            courseDto.setTeacher(course.getTeacher());
+            listCourseDto.add(courseDto);
+        }
+        return listCourseDto;
     }
 
-    public List<Course> findCourseByOptionAndCourseType(String option, String type) {
+    public List<CourseFormDto> findCourseByOptionAndCourseType(String option, String type) {
         List<Course> listCourse = new ArrayList<>();
         if(option.equals("unapprovedCourse")){
             listCourse = courseRepository.findByCourseTypeAndApprovedFalse(type);
         } else if (option.equals("lockedCourse")) {
             listCourse = courseRepository.findByCourseTypeAndLockedTrue(type);
         }
-        return listCourse;
+        List<CourseFormDto> listCourseDto = new ArrayList<>();
+        for(Course course: listCourse){
+            CourseFormDto courseDto = new CourseFormDto();
+            courseDto.setName(course.getName());
+            courseDto.setTime(formatLocalDateTimeToString(course.getTime()));
+            courseDto.setApproved(course.isApproved());
+            courseDto.setLocked(course.isLocked());
+            courseDto.setCourseType(course.getCourseType());
+            courseDto.setTeacher(course.getTeacher());
+            listCourseDto.add(courseDto);
+        }
+        return listCourseDto;
     }
 
     public void approveCourse(Long id) {
@@ -83,9 +132,21 @@ public class CourseService {
         courseRepository.save(course);
     }
 
-    public List<Course> getAllByCurrentAccount() {
+    public List<CourseFormDto> getAllByCurrentAccount() {
         TeacherProfile currentTeacher = teacherProfileRepository.findByAccountId(authenticationFacade.getAccount().getId());
-        return courseRepository.findByTeacherId(currentTeacher.getId());
+        List<Course> listCourse = courseRepository.findByTeacherId(currentTeacher.getId());
+        List<CourseFormDto> listCourseDto = new ArrayList<>();
+        for(Course course: listCourse){
+            CourseFormDto courseDto = new CourseFormDto();
+            courseDto.setName(course.getName());
+            courseDto.setTime(formatLocalDateTimeToString(course.getTime()));
+            courseDto.setApproved(course.isApproved());
+            courseDto.setLocked(course.isLocked());
+            courseDto.setCourseType(course.getCourseType());
+            courseDto.setId(course.getId());
+            listCourseDto.add(courseDto);
+        }
+        return listCourseDto;
     }
 
     public CourseFormDto getCourseById(Long id) {
@@ -95,7 +156,7 @@ public class CourseService {
         courseDto.setBase64Image("data:image/png;base64," + Base64.encodeBase64String(course.getImage()));
         courseDto.setIntroduction(course.getIntroduction());
         courseDto.setDescription(course.getDescription());
-        courseDto.setTime(course.getTime());
+        courseDto.setTime(formatLocalDateTimeToString(course.getTime()));
         courseDto.setId(course.getId());
         return courseDto;
     }
@@ -106,9 +167,21 @@ public class CourseService {
         return course.getTeacher().getId() == currentTeacher.getId();
     }
 
-    public List<Course> getAllUnapprovedCourseByCurrentTeacher() {
+    public List<CourseFormDto> getAllUnapprovedCourseByCurrentTeacher() {
         TeacherProfile currentTeacher = teacherProfileRepository.findByAccountId(authenticationFacade.getAccount().getId());
-        return courseRepository.findByApprovedFalseAndTeacherId(currentTeacher.getId());
+        List<Course> listCourse = courseRepository.findByApprovedFalseAndTeacherId(currentTeacher.getId());
+        List<CourseFormDto> listCourseDto = new ArrayList<>();
+        for(Course course: listCourse){
+            CourseFormDto courseDto = new CourseFormDto();
+            courseDto.setName(course.getName());
+            courseDto.setTime(formatLocalDateTimeToString(course.getTime()));
+            courseDto.setApproved(course.isApproved());
+            courseDto.setLocked(course.isLocked());
+            courseDto.setCourseType(course.getCourseType());
+            courseDto.setId(course.getId());
+            listCourseDto.add(courseDto);
+        }
+        return listCourseDto;
     }
 
     public void updateCourse(Long id, CourseFormDto courseDto) throws IOException {
@@ -117,7 +190,6 @@ public class CourseService {
         if(!courseDto.getImage().isEmpty()){
             course.setImage(courseDto.getImage().getBytes());
         }
-        course.setTime(courseDto.getTime());
         course.setIntroduction(courseDto.getIntroduction());
         course.setDescription(courseDto.getDescription());
         course.setCourseType(courseDto.getCourseType());
@@ -141,7 +213,7 @@ public class CourseService {
             courseDto.setName(course.getName());
             courseDto.setBase64Image("data:image/png;base64," + Base64.encodeBase64String(course.getImage()));
             courseDto.setIntroduction(course.getIntroduction());
-            courseDto.setTime(course.getTime());
+            courseDto.setTime(formatLocalDateTimeToString(course.getTime()));
             courseDto.setId(course.getId());
             listCourseDto.add(courseDto);
         }
@@ -156,7 +228,7 @@ public class CourseService {
             courseDto.setName(course.getName());
             courseDto.setBase64Image("data:image/png;base64," + Base64.encodeBase64String(course.getImage()));
             courseDto.setIntroduction(course.getIntroduction());
-            courseDto.setTime(course.getTime());
+            courseDto.setTime(formatLocalDateTimeToString(course.getTime()));
             courseDto.setId(course.getId());
             listCourseDto.add(courseDto);
         }
@@ -175,7 +247,7 @@ public class CourseService {
             courseDto.setName(course.getName());
             courseDto.setBase64Image("data:image/png;base64," + Base64.encodeBase64String(course.getImage()));
             courseDto.setIntroduction(course.getIntroduction());
-            courseDto.setTime(course.getTime());
+            courseDto.setTime(formatLocalDateTimeToString(course.getTime()));
             courseDto.setId(course.getId());
             listCourseDto.add(courseDto);
         }
@@ -192,7 +264,7 @@ public class CourseService {
                 courseDto.setName(relatedCourse.getName());
                 courseDto.setBase64Image("data:image/png;base64," + Base64.encodeBase64String(relatedCourse.getImage()));
                 courseDto.setIntroduction(relatedCourse.getIntroduction());
-                courseDto.setTime(relatedCourse.getTime());
+                courseDto.setTime(formatLocalDateTimeToString(course.getTime()));
                 courseDto.setId(relatedCourse.getId());
                 listCourseDto.add(courseDto);
             }
@@ -201,14 +273,14 @@ public class CourseService {
     }
 
     public List<CourseFormDto> getCourseByTeacher(Long id) {
-        List<Course> listCourse = courseRepository.findByTeacherId(id);
+        List<Course> listCourse = courseRepository.findByTeacherIdAndApprovedTrueAndLockedFalse(id);
         List<CourseFormDto> listCourseDto = new ArrayList<>();
         for (Course course: listCourse){
             CourseFormDto courseDto = new CourseFormDto();
             courseDto.setName(course.getName());
             courseDto.setBase64Image("data:image/png;base64," + Base64.encodeBase64String(course.getImage()));
             courseDto.setIntroduction(course.getIntroduction());
-            courseDto.setTime(course.getTime());
+            courseDto.setTime(formatLocalDateTimeToString(course.getTime()));
             courseDto.setId(course.getId());
             listCourseDto.add(courseDto);
         }
@@ -224,11 +296,17 @@ public class CourseService {
                 courseDto.setName(course.getName());
                 courseDto.setBase64Image("data:image/png;base64," + Base64.encodeBase64String(course.getImage()));
                 courseDto.setIntroduction(course.getIntroduction());
-                courseDto.setTime(course.getTime());
+                courseDto.setTime(formatLocalDateTimeToString(course.getTime()));
                 courseDto.setId(course.getId());
                 listCourseDto.add(courseDto);
             }
         }
         return listCourseDto;
+    }
+
+    public String formatLocalDateTimeToString(LocalDateTime time){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDateTime roundedTime = time.withNano(0);
+        return roundedTime.format(formatter);
     }
 }

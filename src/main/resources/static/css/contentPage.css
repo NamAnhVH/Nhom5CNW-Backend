@@ -424,6 +424,36 @@ button{
     margin: 0 5%;
 }
 
+#list-lecture{
+    margin: 2% 15%;
+}
+
+#list-lecture h1{
+    margin: 0 0 20px 0;
+    font-size: 40px;
+}
+
+.lecture{
+    max-width: 60%;
+    margin: -1px 25px 0 25px;
+    border: 1px solid gray;
+    padding: 5px 20px;
+    display: flex;
+}
+
+.lecture strong{
+    font-size: 25px;
+}
+
+.lecture em{
+    margin: 0 20px;
+    font-size: 25px;
+}
+
+.lecture a{
+    color: black;
+}
+
 #teacher-course{
     margin: 0 15%;
 }

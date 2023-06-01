@@ -47,10 +47,6 @@
                     <input type="text" id="tieu-de" name="tieu-de" class="text-field-content" th:field="*{title}">
                 </div>
                 <div>
-                    <label for="thoi-gian">Ngày bài viết</label><br>
-                    <input type="text" id="thoi-gian" name="thoi-gian" class="text-field-content" th:field="*{time}">
-                </div>
-                <div>
                     <label>Hình ảnh</label>
                 </div>
                 <div>
@@ -66,7 +62,9 @@
                 <div id="content">
                     <textarea id="detail" name="detail" th:field="*{detail}"></textarea>
                 </div>
-                <button type="submit" id="submit">Đăng tải</button>
+                <div id="btn">
+                    <button type="submit" id="submit">Đăng tải</button>
+                </div>
             </form>
         </div>
     </section>

@@ -29,7 +29,7 @@
                 <li class="btn"><a th:href="@{/logout}" title="Đăng xuất">Đăng xuất</a></li>
             </ul>
         </div>
-        
+
     </header>
     <section id="main">
         <div id="left-side-main">
@@ -44,19 +44,15 @@
         <div class="right-side-main">
             <form method="post" enctype="multipart/form-data" action="/teacher/course/addCourse" th:object="${newCourse}">
                 <div>
-                    <label for="name">Tên khoá học</label><br>
+                    <label for="name">Tên khoá học: </label><br>
                     <input type="text" id="name" name="name" class="text-field-content" th:field="*{name}" required>
                 </div>
                 <div>
-                    <label for="time">Ngày đăng tải</label><br>
-                    <input type="text" id="time" name="time" class="text-field-content" th:field="*{time}" required>
-                </div>
-                <div>
-                    <label for="introduction">Giới thiệu khoá học</label><br>
+                    <label for="introduction">Giới thiệu khoá học: </label><br>
                     <input type="text" id="introduction" name="introduction" class="text-field-content" th:field="*{introduction}" required>
                 </div>
                 <div>
-                    <label>Hình ảnh</label>
+                    <label>Hình ảnh: </label>
                 </div>
                 <div>
                     <img id="image-course">
@@ -65,7 +61,7 @@
                 </div>
                 <br>
                 <div>
-                    <label for="description">Mô tả khoá học</label><br><br>
+                    <label for="description">Mô tả khoá học: </label><br><br>
                     <textarea id="description" name="description" th:field="*{description}" required></textarea>
                 </div>
                 <br>

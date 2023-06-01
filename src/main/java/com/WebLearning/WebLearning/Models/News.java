@@ -3,6 +3,7 @@ package com.WebLearning.WebLearning.Models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -16,7 +17,7 @@ public class News {
     @Column(unique = true)
     private String title;
     @Column
-    private String time;
+    private LocalDateTime time;
     @Column
     private String imagePage;
     @Column(columnDefinition = "TEXT")

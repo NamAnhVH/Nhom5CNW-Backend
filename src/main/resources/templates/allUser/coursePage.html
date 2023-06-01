@@ -69,7 +69,7 @@
     <div class="list-container">
         <ul class="row-list">
             <li><a href="#description">Mô tả khoá học</a></li>
-            <li><a href="#list-lesson">Đề cương khoá học</a></li>
+            <li><a href="#list-lecture">Đề cương khoá học</a></li>
             <li><a href="#teacher-course">Giáo viên giảng dạy</a></li>
             <li><a href="#comment-course">Đánh giá khoá học</a></li>
             <li><a href="#related-course">Các khoá học liên quan</a></li>
@@ -78,8 +78,18 @@
     <div id="description" th:utext="${course.description}">
 
     </div>
-    <div id="list-lesson">
-
+    <div id="list-lecture">
+        <h1>Đề cương khoá học</h1>
+        <div th:each="lecture: ${listLecture}" class="lecture" th:unless="${isEnrolled}">
+            <strong th:text="'Bài ' + ${lecture.number} + ': '"></strong>
+            <em th:text="${lecture.title}"></em>
+        </div>
+        <div th:each="lecture: ${listLecture}" class="lecture" th:if="${isEnrolled}">
+            <a href="">
+                <strong th:text="'Bài ' + ${lecture.number} + ': '"></strong>
+                <em th:text="${lecture.title}"></em>
+            </a>
+        </div>
     </div>
     <div id="teacher-course">
         <h1> Giáo viên giảng dạy</h1>

@@ -2,7 +2,6 @@ package com.WebLearning.WebLearning.Controllers;
 
 import com.WebLearning.WebLearning.Email.EmailService;
 import com.WebLearning.WebLearning.FormData.NewsFormDto;
-import com.WebLearning.WebLearning.Models.News;
 import com.WebLearning.WebLearning.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,7 +43,7 @@ public class AdminController {
     @PostMapping("/addNews")
     public String addNewsAction(@ModelAttribute NewsFormDto news) throws IOException {
         newsService.addNews(news);
-        return "redirect:/admin";
+        return "redirect:/admin/listNews";
     }
 
     @GetMapping("/listNews")
@@ -55,8 +54,7 @@ public class AdminController {
 
     @GetMapping("/editNews/{id}")
     public String editNewsPage(@PathVariable Long id, Model model){
-        News news = newsService.getNewsById(id);
-        model.addAttribute("news", news);
+        model.addAttribute("news", newsService.getNewsById(id));
         return "admin/newsManager/editNewsPage";
     }
 

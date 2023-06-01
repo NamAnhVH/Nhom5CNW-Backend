@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thêm khoá học</title>
+    <title>Quản lý bài giảng</title>
     <link rel="stylesheet" href="/css/teacherPage.css">
-    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
-
 </head>
 <body>
     <header id="header">
@@ -29,18 +27,37 @@
                 <li class="btn"><a th:href="@{/logout}" title="Đăng xuất">Đăng xuất</a></li>
             </ul>
         </div>
-        
     </header>
     <section id="main">
         <div id="left-side-main">
             <div id="left-side-content">
                 <ul>
-                    <li><a href="/teacher/course/previewCourse">Trang xem trước khoá học</a></li>
-                    <li><a href="/teacher/course/editCourse">Chỉnh sửa khoá học</a></li>
-                    <li><a href="/teacher/course/addLesson">Thêm bài giảng</a></li>
-                    <li><a href="/teacher/course/manageLesson">Quản lý bài giảng</a></li>
+                    <li><a th:href="${'/teacher/course/' + id + '/previewCourse'}">Trang xem trước khoá học</a></li>
+                    <li><a th:href="${'/teacher/course/' + id + '/editCourse'}">Chỉnh sửa khoá học</a></li>
+                    <li><a th:href="${'/teacher/course/' + id + '/addLecture'}">Thêm bài giảng</a></li>
+                    <li><a th:href="${'/teacher/course/' + id + '/manageLecture'}">Quản lý bài giảng</a></li>
                 </ul>
             </div>
+        </div>
+        <div class="right-side-main">
+            <table>
+                <tr>
+                    <th style="width:15%;">STT</th>
+                    <th style="width:50%;">Tên bài giảng</th>
+                    <th style="width:9%;"></th>
+                </tr>
+                <tr th:each="lecture: ${listLecture}">
+                    <td style="text-align:center;">
+                        <p th:text="'Bài ' + ${lecture.number}"></p>
+                    </td>
+                    <td>
+                        <p th:text="${lecture.title}"></p>
+                    </td>
+                    <td>
+                        <a th:href="${'/teacher/course/' + id + '/manageLecture/' + lecture.id}">Chỉnh sửa</a>
+                    </td>
+                </tr>
+            </table>
         </div>
     </section>
 </body>

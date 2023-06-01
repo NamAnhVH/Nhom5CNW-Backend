@@ -2,7 +2,6 @@ package com.WebLearning.WebLearning.Controllers;
 
 import com.WebLearning.WebLearning.Email.EmailService;
 import com.WebLearning.WebLearning.FormData.CourseCommentDto;
-import com.WebLearning.WebLearning.Models.News;
 import com.WebLearning.WebLearning.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +23,8 @@ public class GuestController {
     private StudentProfileService studentProfileService;
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private LectureService lectureService;
     @Autowired
     private EmailService emailService;
     @Autowired
@@ -180,7 +181,10 @@ public class GuestController {
             if(accountService.getCurrentAccount().getRole().equals("admin")){
                 model.addAttribute("findCourse", new String());
                 model.addAttribute("course", courseService.getCourseById(id));
+                model.addAttribute("listLecture", lectureService.getLectureByCourseId(id));
                 model.addAttribute("profile", teacherProfileService.getAllProfileTeachCourse(id));
+                model.addAttribute("averageRate", courseCommentService.calAverageRate(id));
+                model.addAttribute("listComment", courseCommentService.getAllCommentByCourseId(id));
                 model.addAttribute("listRelatedCourse", courseService.getTop3CourseBySameType(id));
                 return "allUser/coursePage";
             }
@@ -203,6 +207,7 @@ public class GuestController {
         }
         model.addAttribute("findCourse", new String());
         model.addAttribute("course", courseService.getCourseById(id));
+        model.addAttribute("listLecture", lectureService.getLectureByCourseId(id));
         model.addAttribute("profile", teacherProfileService.getAllProfileTeachCourse(id));
         model.addAttribute("averageRate", courseCommentService.calAverageRate(id));
         model.addAttribute("listComment", courseCommentService.getAllCommentByCourseId(id));

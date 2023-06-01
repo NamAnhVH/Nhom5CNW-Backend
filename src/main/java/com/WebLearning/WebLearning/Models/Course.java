@@ -3,6 +3,7 @@ package com.WebLearning.WebLearning.Models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,7 +24,7 @@ public class Course {
     @Column
     private byte[] image;
     @Column
-    private String time;
+    private LocalDateTime time;
     @Column(columnDefinition = "TEXT")
     private String introduction;
     @Column(columnDefinition = "TEXT")

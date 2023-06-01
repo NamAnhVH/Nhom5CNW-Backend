@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm bài giảng</title>
+    <link rel="stylesheet" href="/css/teacherPage.css">
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+
+</head>
+<body>
+    <header id="header">
+        <div class="logo-container">
+            <a class="logo-head" title="Trang chủ" href="/homepage">
+                <img class="logo-header" src="/image/Hust-logo.jpg" alt="">
+            </a>
+        </div>
+        <div>
+            <ul class="action-tool">
+                <li class="btn"><a href="/homepage">Trang chủ</a></li>
+                <li class="btn"><a href="/teacher/course/listCourse">Quản lý khoá học</a></li>
+                <li class="btn"><a href="/teacher/profile">Thông tin cá nhân</a></li>
+                <li class="btn"><a href="/account">Thông tin tài khoản</a></li>
+            </ul>
+        </div>
+        <div>
+            <ul class="action-tool">
+                <li class="btn"><a th:href="@{/logout}" title="Đăng xuất">Đăng xuất</a></li>
+            </ul>
+        </div>
+    </header>
+    <section id="main">
+        <div id="left-side-main">
+            <div id="left-side-content">
+                <ul>
+                    <li><a th:href="${'/teacher/course/' + id + '/previewCourse'}">Trang xem trước khoá học</a></li>
+                    <li><a th:href="${'/teacher/course/' + id + '/editCourse'}">Chỉnh sửa khoá học</a></li>
+                    <li><a th:href="${'/teacher/course/' + id + '/addLecture'}">Thêm bài giảng</a></li>
+                    <li><a th:href="${'/teacher/course/' + id + '/manageLecture'}">Quản lý bài giảng</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="right-side-main">
+            <form method="post" th:action="'/teacher/course/'+ ${id} +'/addLecture'" th:object="${newLecture}">
+                <div>
+                    <label for="name">Tên bài giảng: </label><br>
+                    <input type="text" id="name" name="name" class="text-field-content" th:field="*{title}" required>
+                </div>
+                <div>
+                    <label for="description">Mô tả bài giảng</label><br><br>
+                    <textarea id="description" name="description" th:field="*{description}" required></textarea>
+                </div>
+                <br>
+                <br>
+                <label for="urlVideo">Đường dẫn video: </label>
+                <input type="text" name="urlVideo" id="urlVideo" class="text-field-content" th:field="*{urlVideo}">
+                <div class="btn-form">
+                    <button type="submit" id="submit">Đăng tải</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</body>
+<script>
+    CKEDITOR.replace('description', {
+        height: 200,
+    });
+</script>
+</html>

@@ -184,6 +184,24 @@ button{
     border-radius: 50%;
 }
 
+.btn-form{
+    display:flex;
+    flex-direction: row;
+}
+
+.btn-form button{
+    width: 100px;
+    height: 30px;
+    padding: 5px;
+    margin: 5px 5px 5px 0;
+}
+
+.btn-function{
+    padding: 5px 10px;
+    margin: 10px 0;
+    font-size: 15px;
+}
+
 #btn{
     display:flex;
     flex-direction: row;
@@ -332,4 +350,26 @@ button{
 
 #description p{
     margin: 10px 25px;
+}
+
+#list-lecture h1{
+    font-size: 20px;
+    margin: 0 20px 10px 20px;
+}
+
+.lecture{
+    max-width: 60%;
+    margin: -1px 25px 0 25px;
+    border: 1px solid gray;
+    padding: 5px 20px;
+    display: flex;
+}
+
+.lecture strong{
+    font-size: 18px;
+}
+
+.lecture em{
+    margin: 0 15px;
+    font-size: 18px;
 }
