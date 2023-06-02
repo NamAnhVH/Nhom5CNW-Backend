@@ -1,6 +1,6 @@
 package com.WebLearning.WebLearning.Controllers;
 
-import com.WebLearning.WebLearning.Email.EmailService;
+import com.WebLearning.WebLearning.Service.EmailService;
 import com.WebLearning.WebLearning.Service.AccountService;
 import com.WebLearning.WebLearning.FormData.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;

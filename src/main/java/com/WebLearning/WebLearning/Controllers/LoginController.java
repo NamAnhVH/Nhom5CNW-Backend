@@ -1,6 +1,6 @@
 package com.WebLearning.WebLearning.Controllers;
 
-import com.WebLearning.WebLearning.Email.EmailService;
+import com.WebLearning.WebLearning.Service.EmailService;
 import com.WebLearning.WebLearning.FormData.ForgetPasswordDto;
 import com.WebLearning.WebLearning.Models.Account;
 import com.WebLearning.WebLearning.Service.AccountService;

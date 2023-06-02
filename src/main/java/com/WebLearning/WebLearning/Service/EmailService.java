@@ -1,4 +1,4 @@
-package com.WebLearning.WebLearning.Email;
+package com.WebLearning.WebLearning.Service;
 
 import com.WebLearning.WebLearning.Models.Account;
 import com.WebLearning.WebLearning.Models.Course;

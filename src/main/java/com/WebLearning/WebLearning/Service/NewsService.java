@@ -25,6 +25,7 @@ public class NewsService {
         newsDto.setTitle(news.getTitle());
         newsDto.setImagePage(news.getImagePage());
         newsDto.setDetail(news.getDetail());
+        newsDto.setId(news.getId());
         return newsDto;
     }
 

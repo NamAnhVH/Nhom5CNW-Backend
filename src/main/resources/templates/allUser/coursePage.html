@@ -55,7 +55,7 @@
             <p th:text="${course.introduction}"></p>
             <p><strong>Ngày đăng tải khoá học:</strong> <em th:text="${course.time}"></em></p>
             <div sec:authorize="hasRole('ROLE_học sinh')">
-                <form method="post" th:action="'/student/enrollCourse/' + ${course.id}" th:unless="${isEnrolled}">
+                <form method="post" th:action="'/course/' + ${course.id} + '/enrollCourse'" th:unless="${isEnrolled}">
                     <button type="submit" value="submit">Đăng ký khoá học</button>
                 </form>
             </div>
@@ -85,7 +85,7 @@
             <em th:text="${lecture.title}"></em>
         </div>
         <div th:each="lecture: ${listLecture}" class="lecture" th:if="${isEnrolled}">
-            <a href="">
+            <a th:href="'/course/' + ${course.id} + '/lecture/' + ${lecture.id}">
                 <strong th:text="'Bài ' + ${lecture.number} + ': '"></strong>
                 <em th:text="${lecture.title}"></em>
             </a>
@@ -112,7 +112,7 @@
         </div>
         <button onclick="toggleDiv()" th:if="${isComment}" id="edit-btn">Chỉnh sửa bình luận</button>
         <div id="myDiv" style="display:none;" th:if="${isEnrolled}">
-            <form th:action="'/student/editComment/' + ${course.id}" method="post" th:object="${userComment}" th:if="${isComment}">
+            <form th:action="'/course/' + ${course.id} + '/editComment'" method="post" th:object="${userComment}" th:if="${isComment}">
                 <label for="rate">Đánh giá khoá học: </label>
                 <select name="rate" id="rate" th:field="*{rate}">
                     <option value="5" th:selected="*{rate == '5'}">5</option>
@@ -154,7 +154,7 @@
             }
         </script>
         <div sec:authorize="hasRole('ROLE_học sinh')" th:if="${isEnrolled}">
-            <form th:action="'/student/comment/' + ${course.id}" method="post" th:object="${newComment}" th:unless="${isComment}">
+            <form th:action="'/course/' + ${course.id} + '/comment'" method="post" th:object="${newComment}" th:unless="${isComment}">
                 <label for="rate">Đánh giá khoá học: </label>
                 <select name="rate" id="rate" th:field="*{rate}">
                     <option value="5">5</option>

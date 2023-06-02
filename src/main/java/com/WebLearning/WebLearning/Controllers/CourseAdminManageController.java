@@ -1,121 +1,26 @@
 package com.WebLearning.WebLearning.Controllers;
 
-import com.WebLearning.WebLearning.Email.EmailService;
-import com.WebLearning.WebLearning.FormData.NewsFormDto;
-import com.WebLearning.WebLearning.Service.*;
+import com.WebLearning.WebLearning.Service.CourseService;
+import com.WebLearning.WebLearning.Service.EmailService;
+import com.WebLearning.WebLearning.Service.TeacherProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 @Controller
-@RequestMapping(path = "/admin")
-public class AdminController {
-    @Autowired
-    private NewsService newsService;
-    @Autowired
-    private AccountService accountService;
-    @Autowired
-    private TeacherProfileService teacherProfileService;
-    @Autowired
-    private StudentProfileService studentProfileService;
+@RequestMapping("/admin")
+public class CourseAdminManageController {
+
     @Autowired
     private CourseService courseService;
     @Autowired
+    private TeacherProfileService teacherProfileService;
+    @Autowired
     private EmailService emailService;
-
-    @GetMapping
-    public String adminPage(){
-        return "admin/adminPage";
-    }
-
-    @GetMapping("/addNews")
-    //http://localhost:8080/admin/addNews
-    public String addNewsPage(Model model){
-        model.addAttribute("news", new NewsFormDto());
-        return "admin/newsManager/addNewsPage";
-    }
-
-    @PostMapping("/addNews")
-    public String addNewsAction(@ModelAttribute NewsFormDto news) throws IOException {
-        newsService.addNews(news);
-        return "redirect:/admin/listNews";
-    }
-
-    @GetMapping("/listNews")
-    public String listNewsPage(Model model){
-        model.addAttribute("listNews", newsService.getAll());
-        return "admin/newsManager/listNewsPage";
-    }
-
-    @GetMapping("/editNews/{id}")
-    public String editNewsPage(@PathVariable Long id, Model model){
-        model.addAttribute("news", newsService.getNewsById(id));
-        return "admin/newsManager/editNewsPage";
-    }
-
-    @PostMapping("/editNews/{id}")
-    public String editNewsAction(@PathVariable Long id, @ModelAttribute NewsFormDto news){
-        newsService.updateNews(id, news);
-        return "redirect:/admin/listNews";
-    }
-
-    @PostMapping("/deleteNews/{id}")
-    public String deleteNews(@PathVariable Long id){
-        newsService.deleteNews(id);
-        return "redirect:/admin/listNews";
-    }
-
-    @GetMapping("/listAccount")
-    public String listAllAccountPage(Model model){
-        model.addAttribute("listAccount", accountService.getAccountByRoleNotAndVerified("admin"));
-        model.addAttribute("listTeacherProfile", teacherProfileService.getAllProfile());
-        model.addAttribute("listStudentProfile", studentProfileService.getAllProfile());
-        return "admin/accountManager/listAccountPage";
-    }
-
-    @GetMapping("/listAccount/{option}")
-    public String listAccountPage(@PathVariable String option, Model model){
-        model.addAttribute("option", option);
-        model.addAttribute("listAccount", accountService.getAccountByOptionAndVerified(option));
-        model.addAttribute("listTeacherProfile", teacherProfileService.getAllProfile());
-        model.addAttribute("listStudentProfile", studentProfileService.getAllProfile());
-        return "admin/accountManager/listAccountPage";
-    }
-
-    @PostMapping("/listAccount/approveAccount/{id}")
-    public String approveAccount(@PathVariable Long id, @RequestParam("option") String option){
-        accountService.approveAccount(id);
-        emailService.sendNoticeTo(id,"approveAccount");
-        if("null".equals(option)){
-            return "redirect:/admin/listAccount";
-        }
-        return "redirect:/admin/listAccount/" + option;
-    }
-
-    @PostMapping("/listAccount/lockAccount/{id}")
-    public String lockAccount(@PathVariable Long id, @RequestParam("option") String option){
-        accountService.lockAccount(id);
-        emailService.sendNoticeTo(id,"lockAccount");
-        if("null".equals(option)){
-            return "redirect:/admin/listAccount";
-        }
-        return "redirect:/admin/listAccount/" + option;
-    }
-
-    @PostMapping("/listAccount/unlockAccount/{id}")
-    public String unlockAccount(@PathVariable Long id, @RequestParam("option") String option){
-        accountService.unlockAccount(id);
-        emailService.sendNoticeTo(id,"unlockAccount");
-        if("null".equals(option)){
-            return "redirect:/admin/listAccount";
-        }
-        return "redirect:/admin/listAccount/" + option;
-    }
 
     @GetMapping("/listCourse")
     public String listAllCoursePage(Model model){
@@ -227,6 +132,4 @@ public class AdminController {
             }
         }
     }
-
-
 }

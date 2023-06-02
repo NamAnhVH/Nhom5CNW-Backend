@@ -20,15 +20,17 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     List<Course> findByCourseTypeAndLockedTrue(String type);
 
-    List<Course> findTop6ByApprovedTrueAndLockedFalseOrderByIdDesc();
-
-    List<Course> findByApprovedTrueAndLockedFalseOrderByIdDesc();
-
     List<Course> findByTeacherId(Long id);
 
     List<Course> findByApprovedFalseAndTeacherId(Long id);
 
-    List<Course> findTop3ByCourseTypeOrderByIdDesc(String courseType);
-
     List<Course> findByTeacherIdAndApprovedTrueAndLockedFalse(Long id);
+
+    List<Course> findTop6ByApprovedTrueAndLockedFalseAndTeacherAccountLockedFalseOrderByTimeDesc();
+
+    List<Course> findByApprovedTrueAndLockedFalseAndTeacherAccountLockedFalseOrderByTimeDesc();
+
+    List<Course> findByCourseTypeAndApprovedTrueAndLockedFalseAndTeacherAccountLockedFalseOrderByTimeDesc(String type);
+
+    List<Course> findTop3ByCourseTypeAndApprovedTrueAndLockedFalseAndTeacherAccountLockedFalseOrderByTimeDesc(String courseType);
 }
