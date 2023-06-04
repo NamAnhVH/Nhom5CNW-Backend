@@ -8,6 +8,10 @@ import com.WebLearning.WebLearning.Repository.LectureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,13 +22,24 @@ public class LectureService {
     @Autowired
     private LectureRepository lectureRepository;
 
-    public void addLecture(Long courseId, LectureFormDto lectureDto) {
+    public void addLecture(Long courseId, LectureFormDto lectureDto) throws IOException {
         Course course = courseRepository.findById(courseId).get();
         Lecture lecture = new Lecture();
         lecture.setCourse(course);
         lecture.setTitle(lectureDto.getTitle());
         lecture.setDescription(lectureDto.getDescription());
-        lecture.setUrlVideo(lectureDto.getUrlVideo());
+        if(!lectureDto.getVideo().isEmpty()){
+            File directory = new File("videos");
+            String path = directory.getPath() + "/" + lectureDto.getVideo().getOriginalFilename();
+            File file = new File(path);
+            if (! directory.exists()) {
+                directory.mkdir();
+            }
+            try (OutputStream os = new FileOutputStream(file)) {
+                os.write(lectureDto.getVideo().getBytes());
+            }
+            lecture.setUrlVideo(path);
+        }
         lectureRepository.save(lecture);
     }
 
@@ -53,15 +68,35 @@ public class LectureService {
         return lectureDto;
     }
 
-    public void updateLecture(Long lectureId, LectureFormDto lectureDto) {
+    public void updateLecture(Long lectureId, LectureFormDto lectureDto) throws IOException {
         Lecture lecture = lectureRepository.findById(lectureId).get();
         lecture.setTitle(lectureDto.getTitle());
         lecture.setDescription(lectureDto.getDescription());
-        lecture.setUrlVideo(lectureDto.getUrlVideo());
+        if(!lectureDto.getVideo().isEmpty()){
+            if(!lecture.getUrlVideo().equals("")){
+                File oldVideo = new File(lecture.getUrlVideo());
+                oldVideo.delete();
+            }
+            File directory = new File("videos");
+            String path = directory.getPath() + "/" + lectureDto.getVideo().getOriginalFilename();
+            File file = new File(path);
+            if (! directory.exists()) {
+                directory.mkdir();
+            }
+            try (OutputStream os = new FileOutputStream(file)) {
+                os.write(lectureDto.getVideo().getBytes());
+            }
+            lecture.setUrlVideo(path);
+        }
         lectureRepository.save(lecture);
     }
 
     public void deleteLecture(Long lectureId) {
+        Lecture lecture = lectureRepository.findById(lectureId).get();
+        if(!lecture.getUrlVideo().equals("")){
+            File oldVideo = new File(lecture.getUrlVideo());
+            oldVideo.delete();
+        }
         lectureRepository.deleteById(lectureId);
     }
 }

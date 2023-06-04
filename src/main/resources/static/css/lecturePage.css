@@ -177,3 +177,49 @@ button{
     font-size: 15px;
     padding: 0 10px 0 0;
 }
+
+.main-section{
+    display: flex;
+    justify-content: space-between;
+}
+
+.content{
+    margin: 1% 5%;
+}
+
+.list-lecture{
+    margin: 80px 30px;
+    border: 1px solid gray;
+}
+
+.list-lecture ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.list-lecture li{
+    margin: -1px -1px 0 -1px;
+    padding: 10px 20px;
+    border: 1px solid gray;
+}
+
+.list-lecture a{
+    color: black;
+    font-size: 20px;
+}
+
+.list-lecture em{
+    max-width: 95%;
+}
+
+#contact-section {
+    background-color: #EAEAF4;
+    height: 10vh;
+    justify-content: center;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 150px 200px;
+}

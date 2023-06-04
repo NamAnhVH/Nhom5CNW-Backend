@@ -42,7 +42,7 @@
             </div>
         </div>
         <div class="right-side-main">
-            <form method="post" th:action="'/teacher/course/'+ ${id} +'/addLecture'" th:object="${newLecture}">
+            <form method="post" th:action="'/teacher/course/'+ ${id} +'/addLecture'" enctype="multipart/form-data" th:object="${newLecture}">
                 <div>
                     <label for="name">Tên bài giảng: </label><br>
                     <input type="text" id="name" name="name" class="text-field-content" th:field="*{title}" required>
@@ -53,8 +53,8 @@
                 </div>
                 <br>
                 <br>
-                <label for="urlVideo">Đường dẫn video: </label>
-                <input type="text" name="urlVideo" id="urlVideo" class="text-field-content" th:field="*{urlVideo}">
+                <label>Video bài giảng: </label>
+                <input type="file" name="video" id="files" accept="image/*" th:field="*{video}">
                 <div class="btn-form">
                     <button type="submit" id="submit">Đăng tải</button>
                 </div>

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @Controller
 @RequestMapping("/teacher/course/{courseId}")
 public class LectureManageController {
@@ -28,7 +30,7 @@ public class LectureManageController {
     }
 
     @PostMapping("/addLecture")
-    public String addLectureAction(@PathVariable("courseId") Long id, @ModelAttribute LectureFormDto lectureFormDto){
+    public String addLectureAction(@PathVariable("courseId") Long id, @ModelAttribute LectureFormDto lectureFormDto) throws IOException {
         lectureService.addLecture(id, lectureFormDto);
         return "redirect:/teacher/course/" + id + "/previewCourse";
     }
@@ -54,7 +56,7 @@ public class LectureManageController {
     }
 
     @PostMapping("/manageLecture/{lectureId}/editLecture")
-    public String editLectureAction(@PathVariable("courseId") Long courseId, @PathVariable("lectureId") Long lectureId, @ModelAttribute("lecture") LectureFormDto lectureFormDto){
+    public String editLectureAction(@PathVariable("courseId") Long courseId, @PathVariable("lectureId") Long lectureId, @ModelAttribute("lecture") LectureFormDto lectureFormDto) throws IOException {
         lectureService.updateLecture(lectureId, lectureFormDto);
         return "redirect:/teacher/course/" + courseId + "/manageLecture";
     }

@@ -50,13 +50,24 @@
             <a href="/homepage"><p>Trang chủ</p></a><p>/</p><a th:href="'/course/' + ${course.id}"><p th:text="${course.name}"></p></a><p>/</p><p th:text="${lecture.title}"></p>
         </div>
     </section>
-    <section id="main-section" th:object="${lecture}">
-        <video width="320" height="240" controls>
-            <source th:src="*{urlVideo}">
-        </video>
-<!--        <div th:utext="*{imagePage}" class="image-page"></div>-->
-<!--        <h2 th:text="*{description}" class="description"></h2>-->
-<!--        <div id="content" th:utext="*{detail}"></div>-->
+    <section class="main-section" th:object="${lecture}">
+        <div class="content">
+            <h1 th:text="*{title}"></h1>
+            <video width="1280" height="720" controls th:unless="${lecture.urlVideo == ''}">
+                <source th:src="'/course/' + ${course.id} + '/lecture/' + ${lectureId} +'/videosrc'">
+            </video>
+            <p th:utext="*{description}"></p>
+        </div>
+        <div class="list-lecture">
+            <ul>
+               <li th:each="lectures: ${listLecture}">
+                   <a th:href="'/course/' + ${course.id} + '/lecture/' + ${lectures.id}">
+                       <strong th:text="'Bài ' + ${lectures.number} + ': '"></strong>
+                       <em th:text="${lectures.title}"></em>
+                   </a>
+               </li>
+            </ul>
+        </div>
     </section>
 <section id="contact-section">
     <h1>Thông tin liên hệ</h1>
