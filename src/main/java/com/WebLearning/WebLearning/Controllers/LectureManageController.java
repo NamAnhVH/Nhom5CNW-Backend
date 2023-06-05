@@ -31,6 +31,9 @@ public class LectureManageController {
 
     @PostMapping("/addLecture")
     public String addLectureAction(@PathVariable("courseId") Long id, @ModelAttribute LectureFormDto lectureFormDto) throws IOException {
+        if(!courseService.isAccessAllowed(id)){
+            return "redirect:/teacher/course/listCourse";
+        }
         lectureService.addLecture(id, lectureFormDto);
         return "redirect:/teacher/course/" + id + "/previewCourse";
     }
@@ -57,12 +60,18 @@ public class LectureManageController {
 
     @PostMapping("/manageLecture/{lectureId}/editLecture")
     public String editLectureAction(@PathVariable("courseId") Long courseId, @PathVariable("lectureId") Long lectureId, @ModelAttribute("lecture") LectureFormDto lectureFormDto) throws IOException {
+        if(!courseService.isAccessAllowed(courseId)){
+            return "redirect:/teacher/course/listCourse";
+        }
         lectureService.updateLecture(lectureId, lectureFormDto);
         return "redirect:/teacher/course/" + courseId + "/manageLecture";
     }
 
     @PostMapping("/manageLecture/{lectureId}/deleteLecture")
     public String deleteLectureAction(@PathVariable("courseId") Long courseId, @PathVariable("lectureId") Long lectureId){
+        if(!courseService.isAccessAllowed(courseId)){
+            return "redirect:/teacher/course/listCourse";
+        }
         lectureService.deleteLecture(lectureId);
         return "redirect:/teacher/course/" + courseId + "/manageLecture";
     }

@@ -59,7 +59,7 @@
                     <button type="submit" th:formaction="${'/teacher/course/' + id + '/manageLecture/' + lecture.id + '/deleteLecture'}">Xoá bài giảng</button>
                 </div>
             </form>
-            <form method="post" th:action="'/teacher/course/'+ ${id} +'/manageLecture/' + ${lecture.id} + '/addQuiz'">
+            <form method="get" th:action="'/teacher/course/'+ ${id} +'/manageLecture/' + ${lecture.id} + '/addQuiz'">
                 <div class="btn-form">
                     <button type="submit" style="width: 205px;">Thêm câu hỏi bài tập</button>
                 </div>

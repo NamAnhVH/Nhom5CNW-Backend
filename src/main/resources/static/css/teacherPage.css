@@ -373,3 +373,38 @@ button{
     margin: 0 15px;
     font-size: 18px;
 }
+
+.quiz{
+    padding: 0 20px;
+    font-size: 20px;
+}
+
+.quiz button{
+    padding: 4px 10px;
+    width: 105px;
+}
+
+.quiz-field-content{
+    resize: none;
+    width: 100%;
+    height: 140px;
+
+}
+
+.answer-field-content{
+    resize: none;
+    width: 75%;
+    height: 50px;
+    margin: -21px 0;
+}
+
+.select-answer{
+    padding: 5px 10px;
+}
+
+.addQuiz-btn{
+    width: 105px;
+    padding: 5px 10px;
+    margin: 5px 20px;
+}
+

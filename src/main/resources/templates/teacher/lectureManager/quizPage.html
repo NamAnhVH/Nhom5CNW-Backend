@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm bài giảng</title>
+    <link rel="stylesheet" href="/css/teacherPage.css">
+</head>
+<body>
+<header id="header">
+    <div class="logo-container">
+        <a class="logo-head" title="Trang chủ" href="/homepage">
+            <img class="logo-header" src="/image/Hust-logo.jpg" alt="">
+        </a>
+    </div>
+    <div>
+        <ul class="action-tool">
+            <li class="btn"><a href="/homepage">Trang chủ</a></li>
+            <li class="btn"><a href="/teacher/course/listCourse">Quản lý khoá học</a></li>
+            <li class="btn"><a href="/teacher/profile">Thông tin cá nhân</a></li>
+            <li class="btn"><a href="/account">Thông tin tài khoản</a></li>
+        </ul>
+    </div>
+    <div>
+        <ul class="action-tool">
+            <li class="btn"><a th:href="@{/logout}" title="Đăng xuất">Đăng xuất</a></li>
+        </ul>
+    </div>
+</header>
+<section id="main">
+    <div id="left-side-main">
+        <div id="left-side-content">
+            <ul>
+                <li><a th:href="${'/teacher/course/' + id + '/previewCourse'}">Trang xem trước khoá học</a></li>
+                <li><a th:href="${'/teacher/course/' + id + '/editCourse'}">Chỉnh sửa khoá học</a></li>
+                <li><a th:href="${'/teacher/course/' + id + '/addLecture'}">Thêm bài giảng</a></li>
+                <li><a th:href="${'/teacher/course/' + id + '/manageLecture'}">Quản lý bài giảng</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="right-side-main">
+        <div th:each="quiz: ${listQuiz}" class="quiz">
+            <div th:id="'quiz' + ${quiz.id}">
+                <p th:text="'Câu số ' + ${quiz.number} + ': ' +${quiz.question}"></p>
+                <p th:text="'a. ' + ${quiz.answer1}" th:unless="${quiz.answer1 == ''}"></p>
+                <p th:text="'b. ' + ${quiz.answer2}" th:unless="${quiz.answer2 == ''}"></p>
+                <p th:text="'c. ' + ${quiz.answer3}" th:unless="${quiz.answer3 == ''}"></p>
+                <p th:text="'d. ' + ${quiz.answer4}" th:unless="${quiz.answer4 == ''}"></p>
+                <p th:if="${quiz.correctAnswer == 'answer1'}" th:text="'Đáp án đúng: a. ' + ${quiz.answer1}"></p>
+                <p th:if="${quiz.correctAnswer == 'answer2'}" th:text="'Đáp án đúng: b. ' + ${quiz.answer2}"></p>
+                <p th:if="${quiz.correctAnswer == 'answer3'}" th:text="'Đáp án đúng: c. ' + ${quiz.answer3}"></p>
+                <p th:if="${quiz.correctAnswer == 'answer4'}" th:text="'Đáp án đúng: d. ' + ${quiz.answer4}"></p>
+            </div>
+            <button th:onclick="'editQuiz('+${quiz.id}+')'">Sửa câu hỏi</button>
+            <form th:action="'/teacher/course/'+ ${courseId} +'/manageLecture/' + ${lectureId} + '/deleteQuiz/' + ${quiz.id}" method="post">
+                <button type="submit">Xoá câu hỏi</button>
+            </form>
+            <div th:id="'editQuiz' + ${quiz.id}" style="display:none;">
+                <form th:action="'/teacher/course/'+ ${courseId} +'/manageLecture/' + ${lectureId} + '/editQuiz/' + ${quiz.id}" method="post" th:object="${editQuiz}">
+                    <label for="editQuestion">Câu hỏi: </label>
+                    <textarea type="text" name="editQuestion" id="editQuestion" class="quiz-field-content" th:field="*{question}" required></textarea><br><br>
+                    <label for="editAnswer1">Đáp án 1:</label>
+                    <textarea type="text" name="editAnswer1" id="editAnswer1" th:field="*{answer1}" class="answer-field-content" required></textarea><br><br>
+                    <label for="editAnswer2">Đáp án 2:</label>
+                    <textarea type="text" name="editAnswer2" id="editAnswer2" th:field="*{answer1}" class="answer-field-content" required></textarea><br><br>
+                    <label for="editAnswer3">Đáp án 3:</label>
+                    <textarea type="text" name="editAnswer3" id="editAnswer3" th:field="*{answer1}" class="answer-field-content" required></textarea><br><br>
+                    <label for="editAnswer4">Đáp án 4:</label>
+                    <textarea type="text" name="editAnswer4" id="editAnswer4" th:field="*{answer1}" class="answer-field-content" required></textarea><br><br>
+                    <label for="editCorrectAnswer">Đáp án đúng:</label>
+                    <select name="editCorrectAnswer" id="editCorrectAnswer" th:field="*{correctAnswer}" class="select-answer">
+                        <option value="answer1">Đáp án 1</option>
+                        <option value="answer2">Đáp án 2</option>
+                        <option value="answer3">Đáp án 3</option>
+                        <option value="answer4">Đáp án 4</option>
+                    </select><br><br>
+                    <button type="submit">Lưu câu hỏi</button>
+                </form>
+            </div>
+            <script>
+                function editQuiz(id) {
+                    var editQuiz = document.getElementById('editQuiz' + id)
+                    if (editQuiz.style.display === 'none') {
+                        editQuiz.style.display = 'block';
+                    } else {
+                        editQuiz.style.display = 'none';
+                    }
+                }
+            </script>
+        </div>
+        <button onclick="toggleDiv()" class="addQuiz-btn">Thêm câu hỏi</button>
+        <div id="myDiv" style="display:none;" class="quiz">
+            <form th:action="'/teacher/course/'+ ${courseId} +'/manageLecture/' + ${lectureId} + '/addQuiz'" method="post" th:object="${newQuiz}">
+                <label for="question">Câu hỏi:</label>
+                <textarea type="text" name="question" id="question" th:field="*{question}" class="quiz-field-content" required></textarea><br><br>
+                <label for="answer1">Đáp án 1:</label>
+                <textarea type="text" name="answer1" id="answer1" th:field="*{answer1}" class="answer-field-content" required></textarea><br><br>
+                <label for="answer2">Đáp án 2:</label>
+                <textarea type="text" name="answer2" id="answer2" th:field="*{answer1}" class="answer-field-content" required></textarea><br><br>
+                <label for="answer3">Đáp án 3:</label>
+                <textarea type="text" name="answer3" id="answer3" th:field="*{answer1}" class="answer-field-content" required></textarea><br><br>
+                <label for="answer4">Đáp án 4:</label>
+                <textarea type="text" name="answer4" id="answer4" th:field="*{answer1}" class="answer-field-content" required></textarea><br><br>
+                <label for="correctAnswer">Đáp án đúng:</label>
+                <select name="correctAnswer" id="correctAnswer" th:field="*{correctAnswer}" class="select-answer">
+                    <option value="answer1">Đáp án 1</option>
+                    <option value="answer2">Đáp án 2</option>
+                    <option value="answer3">Đáp án 3</option>
+                    <option value="answer4">Đáp án 4</option>
+                </select>
+                <br>
+                <button type="submit">Lưu câu hỏi</button>
+            </form>
+        </div>
+        <script>
+            function toggleDiv() {
+                var div = document.getElementById('myDiv');
+                if (div.style.display === 'none') {
+                    div.style.display = 'block';
+                } else {
+                    div.style.display = 'none';
+                }
+            }
+        </script>
+    </div>
+</section>
+</body>
+</html>
