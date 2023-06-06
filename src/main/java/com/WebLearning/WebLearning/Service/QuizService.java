@@ -1,5 +1,6 @@
 package com.WebLearning.WebLearning.Service;
 
+import com.WebLearning.WebLearning.FormData.AnswerFormDto;
 import com.WebLearning.WebLearning.FormData.QuizFormDto;
 import com.WebLearning.WebLearning.Models.Lecture;
 import com.WebLearning.WebLearning.Models.Quiz;
@@ -65,5 +66,17 @@ public class QuizService {
 
     public void deleteQuiz(Long quizId) {
         quizRepository.deleteById(quizId);
+    }
+
+    public String calGrade(AnswerFormDto answerDto, Long lectureId) {
+        List<Quiz> listQuiz = quizRepository.findByLectureId(lectureId);
+        List<String> listAnswer = answerDto.getAnswers();
+        float grade = 0;
+        for(int i = 0; i < listAnswer.size(); i++){
+            if(listAnswer.get(i).equals(listQuiz.get(i).getCorrectAnswer() + ',')){
+                grade++;
+            }
+        }
+        return String.valueOf(Math.round((grade*10/listAnswer.size()) * 100.0)/ 100.0);
     }
 }

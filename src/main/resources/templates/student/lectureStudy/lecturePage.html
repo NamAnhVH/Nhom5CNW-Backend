@@ -53,10 +53,54 @@
     <section class="main-section" th:object="${lecture}">
         <div class="content">
             <h1 th:text="*{title}"></h1>
-            <video width="1280" height="720" controls th:unless="${lecture.urlVideo == ''}">
+            <video width="1280" height="720" controls th:if="${lecture.urlVideo}">
                 <source th:src="'/course/' + ${course.id} + '/lecture/' + ${lectureId} +'/videosrc'">
             </video>
             <p th:utext="*{description}"></p>
+            <h2 th:unless="${listQuiz.size == 0}">Câu hỏi ôn tập</h2>
+            <form th:action="'/course/' + ${course.id} + '/lecture/' + ${lectureId} + '/submit'" method="post" th:object="${answers}" th:if="${answers}" th:unless="${isSubmit}">
+                <div th:each="quiz, quizStat: ${listQuiz}">
+                    <p><strong th:text="'Câu ' + ${quiz.number} + ': ' + ${quiz.question}"></strong></p>
+                    <div class="answer-radio">
+                        <input type="radio" th:field="*{answers[__${quizStat.index}__]}" value="answer1" onclick="updateHiddenField(this)" th:unless="${quiz.answer1 == ''}">
+                        <p th:text="${quiz.answer1}"></p>
+                    </div>
+                    <div class="answer-radio">
+                        <input type="radio" th:field="*{answers[__${quizStat.index}__]}" value="answer2" onclick="updateHiddenField(this)" th:unless="${quiz.answer2 == ''}">
+                        <p th:text="${quiz.answer2}"></p>
+                    </div>
+                    <div class="answer-radio">
+                        <input type="radio" th:field="*{answers[__${quizStat.index}__]}" value="answer3" onclick="updateHiddenField(this)" th:unless="${quiz.answer3 == ''}">
+                        <p th:text="${quiz.answer3}"></p>
+                    </div>
+                    <div class="answer-radio">
+                        <input type="radio" th:field="*{answers[__${quizStat.index}__]}" value="answer4" onclick="updateHiddenField(this)" th:unless="${quiz.answer4 == ''}">
+                        <p th:text="${quiz.answer4}"></p>
+                    </div>
+                    <input type="hidden" th:field="*{answers[__${quizStat.index}__]}" th:value="${''}">
+                </div>
+                <button type="submit" class="btn-submit" th:unless="${listQuiz.size == 0}">Nộp bài</button>
+            </form>
+            <script>
+                function updateHiddenField(radio) {
+                    var hiddenField = radio.parentNode.nextElementSibling;
+                    hiddenField.value = radio.checked ? radio.value : '';
+                }
+            </script>
+            <div th:if="${isSubmit}">
+                <h2 th:text="'Điểm số: ' + ${grade}"></h2>
+                <div th:each="quiz, quizStat: ${listQuiz}">
+                    <p><strong th:text="'Câu ' + ${quiz.number} + ': ' + ${quiz.question}"></strong></p>
+                    <p th:text="'a. ' + ${quiz.answer1}" th:unless="${quiz.answer1 == ''}" class="answer"></p>
+                    <p th:text="'b. ' + ${quiz.answer2}" th:unless="${quiz.answer2 == ''}" class="answer"></p>
+                    <p th:text="'c. ' + ${quiz.answer3}" th:unless="${quiz.answer3 == ''}" class="answer"></p>
+                    <p th:text="'d. ' + ${quiz.answer4}" th:unless="${quiz.answer4 == ''}" class="answer"></p>
+                    <p th:if="${quiz.correctAnswer == 'answer1'}" th:text="'Đáp án đúng: a. ' + ${quiz.answer1}"></p>
+                    <p th:if="${quiz.correctAnswer == 'answer2'}" th:text="'Đáp án đúng: b. ' + ${quiz.answer2}"></p>
+                    <p th:if="${quiz.correctAnswer == 'answer3'}" th:text="'Đáp án đúng: c. ' + ${quiz.answer3}"></p>
+                    <p th:if="${quiz.correctAnswer == 'answer4'}" th:text="'Đáp án đúng: d. ' + ${quiz.answer4}"></p>
+                </div>
+            </div>
         </div>
         <div class="list-lecture">
             <ul>

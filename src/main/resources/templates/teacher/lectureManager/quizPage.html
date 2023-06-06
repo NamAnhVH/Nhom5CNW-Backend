@@ -42,6 +42,7 @@
     <div class="right-side-main">
         <div th:each="quiz: ${listQuiz}" class="quiz">
             <div th:id="'quiz' + ${quiz.id}">
+                <br>
                 <p th:text="'Câu số ' + ${quiz.number} + ': ' +${quiz.question}"></p>
                 <p th:text="'a. ' + ${quiz.answer1}" th:unless="${quiz.answer1 == ''}"></p>
                 <p th:text="'b. ' + ${quiz.answer2}" th:unless="${quiz.answer2 == ''}"></p>
@@ -63,11 +64,11 @@
                     <label for="editAnswer1">Đáp án 1:</label>
                     <textarea type="text" name="editAnswer1" id="editAnswer1" th:field="*{answer1}" class="answer-field-content" required></textarea><br><br>
                     <label for="editAnswer2">Đáp án 2:</label>
-                    <textarea type="text" name="editAnswer2" id="editAnswer2" th:field="*{answer1}" class="answer-field-content" required></textarea><br><br>
+                    <textarea type="text" name="editAnswer2" id="editAnswer2" th:field="*{answer2}" class="answer-field-content" required></textarea><br><br>
                     <label for="editAnswer3">Đáp án 3:</label>
-                    <textarea type="text" name="editAnswer3" id="editAnswer3" th:field="*{answer1}" class="answer-field-content" required></textarea><br><br>
+                    <textarea type="text" name="editAnswer3" id="editAnswer3" th:field="*{answer3}" class="answer-field-content" required></textarea><br><br>
                     <label for="editAnswer4">Đáp án 4:</label>
-                    <textarea type="text" name="editAnswer4" id="editAnswer4" th:field="*{answer1}" class="answer-field-content" required></textarea><br><br>
+                    <textarea type="text" name="editAnswer4" id="editAnswer4" th:field="*{answer4}" class="answer-field-content" required></textarea><br><br>
                     <label for="editCorrectAnswer">Đáp án đúng:</label>
                     <select name="editCorrectAnswer" id="editCorrectAnswer" th:field="*{correctAnswer}" class="select-answer">
                         <option value="answer1">Đáp án 1</option>
@@ -97,11 +98,11 @@
                 <label for="answer1">Đáp án 1:</label>
                 <textarea type="text" name="answer1" id="answer1" th:field="*{answer1}" class="answer-field-content" required></textarea><br><br>
                 <label for="answer2">Đáp án 2:</label>
-                <textarea type="text" name="answer2" id="answer2" th:field="*{answer1}" class="answer-field-content" required></textarea><br><br>
+                <textarea type="text" name="answer2" id="answer2" th:field="*{answer2}" class="answer-field-content" required></textarea><br><br>
                 <label for="answer3">Đáp án 3:</label>
-                <textarea type="text" name="answer3" id="answer3" th:field="*{answer1}" class="answer-field-content" required></textarea><br><br>
+                <textarea type="text" name="answer3" id="answer3" th:field="*{answer3}" class="answer-field-content" required></textarea><br><br>
                 <label for="answer4">Đáp án 4:</label>
-                <textarea type="text" name="answer4" id="answer4" th:field="*{answer1}" class="answer-field-content" required></textarea><br><br>
+                <textarea type="text" name="answer4" id="answer4" th:field="*{answer4}" class="answer-field-content" required></textarea><br><br>
                 <label for="correctAnswer">Đáp án đúng:</label>
                 <select name="correctAnswer" id="correctAnswer" th:field="*{correctAnswer}" class="select-answer">
                     <option value="answer1">Đáp án 1</option>

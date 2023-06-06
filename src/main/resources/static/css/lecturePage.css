@@ -223,3 +223,21 @@ button{
     margin: 0;
     padding: 150px 200px;
 }
+
+.answer-radio{
+    display: flex;
+    margin: 10px 20px;
+}
+
+.answer-radio p{
+    margin: 1px 0 -1px 15px;
+}
+
+.btn-submit {
+    padding: 5px 10px;
+    margin: 10px 0;
+}
+
+.answer{
+    margin: 5px 20px;
+}

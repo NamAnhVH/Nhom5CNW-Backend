@@ -1,11 +1,9 @@
 package com.WebLearning.WebLearning.Controllers;
 
+import com.WebLearning.WebLearning.FormData.AnswerFormDto;
 import com.WebLearning.WebLearning.FormData.LectureFormDto;
 import com.WebLearning.WebLearning.Models.Lecture;
-import com.WebLearning.WebLearning.Service.AccountService;
-import com.WebLearning.WebLearning.Service.CourseService;
-import com.WebLearning.WebLearning.Service.LectureService;
-import com.WebLearning.WebLearning.Service.StudentProfileService;
+import com.WebLearning.WebLearning.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
@@ -27,6 +25,8 @@ public class LectureStudyController {
     private CourseService courseService;
     @Autowired
     private LectureService lectureService;
+    @Autowired
+    private QuizService quizService;
 
     @GetMapping("/lecture/{lectureId}")
     public String lecturePage(@PathVariable("courseId") Long courseId, @PathVariable("lectureId") Long lectureId, Model model){
@@ -36,12 +36,34 @@ public class LectureStudyController {
                     model.addAttribute("fullname", studentProfileService.getFullname());
                     model.addAttribute("course", courseService.getCourseById(courseId));
                     model.addAttribute("lecture", lectureService.getLectureById(lectureId));
+                    model.addAttribute("listQuiz", quizService.getQuizByLectureId(lectureId));
+                    model.addAttribute("answers", new AnswerFormDto());
                     model.addAttribute("listLecture", lectureService.getLectureByCourseId(courseId));
                     return "student/lectureStudy/lecturePage";
                 }
             }
         }
         return "redirect:/course/" + courseId;
+    }
+
+    @PostMapping("/lecture/{lectureId}/submit")
+    public String submitQuiz(@PathVariable("courseId") Long courseId, @PathVariable("lectureId") Long lectureId, @ModelAttribute AnswerFormDto answerFormDto, Model model){
+        if(accountService.isAuthenticated()){
+            if(accountService.getCurrentAccount().getRole().equals("học sinh")){
+                if(studentProfileService.isEnrolled(courseId)){
+                    model.addAttribute("grade", quizService.calGrade(answerFormDto, lectureId));
+                    model.addAttribute("fullname", studentProfileService.getFullname());
+                    model.addAttribute("course", courseService.getCourseById(courseId));
+                    model.addAttribute("lecture", lectureService.getLectureById(lectureId));
+                    model.addAttribute("listQuiz", quizService.getQuizByLectureId(lectureId));
+                    model.addAttribute("isSubmit", true);
+                    model.addAttribute("listLecture", lectureService.getLectureByCourseId(courseId));
+                    return "student/lectureStudy/lecturePage";
+                }
+            }
+        }
+        return "redirect:/course/" + courseId;
+
     }
 
     @GetMapping(value = "/lecture/{lectureId}/videosrc", produces = "video/mp4")
