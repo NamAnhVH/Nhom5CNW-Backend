@@ -84,4 +84,5 @@ public class LectureStudyController {
         response.sendRedirect("/homepage");
         return null;
     }
+
 }

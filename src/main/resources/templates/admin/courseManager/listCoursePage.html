@@ -74,8 +74,9 @@
                     <option value="Lớp 1">Lớp 1</option>
                     <option value="Tiền tiểu học">Tiền tiểu học</option>
                 </select>
-                <button th:if="${option}" th:formaction="${'/admin/listCourse/' + option + '/'}"  type="submit">Tìm kiếm</button>
-                <button th:unless="${option}" formaction="/admin/listCourse/" type="submit">Tìm kiếm</button>
+                <input name="teacher" style="padding:5px 10px;" placeholder="Tên giáo viên">
+                <button th:if="${option}" th:formaction="${'/admin/listCourse/' + option + '/'}"  type="submit" style="padding:5px 10px; margin: 0 10px;">Tìm kiếm</button>
+                <button th:unless="${option}" formaction="/admin/listCourse/" type="submit" style="padding:5px 10px; margin: 0 10px;">Tìm kiếm</button>
             </form>
         </div>
         <table class="content-table">

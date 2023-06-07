@@ -237,3 +237,29 @@ button{
     padding: 5px;
     margin: 5px 5px 5px 0;
 }
+
+.content-table a{
+    display: inherit;
+}
+
+.content-table p {
+    font-size: 15px;
+    margin: 10px
+}
+
+.confirmation {
+      display: none; /* Ẩn thẻ div mặc định */
+      position: fixed; /* Đặt vị trí cố định */
+      top: 50%; /* Di chuyển lên trên 50% */
+      left: 50%; /* Di chuyển qua phải 50% */
+      transform: translate(-50%, -50%); /* Dịch chuyển ngược lại 50% kích thước của chính nó */
+      background-color: #f1f1f1;
+      padding: 20px;
+      opacity: 1; /* Độ mờ ban đầu là 1 */
+      z-index: 999; /* Đưa thẻ div lên trên các phần tử khác */
+      transition: opacity 0.5s; /* Áp dụng hiệu ứng chuyển đổi cho độ mờ */
+    }
+
+.faded {
+    opacity: 0.3; /* Độ mờ của các phần tử bị ảnh hưởng */
+}

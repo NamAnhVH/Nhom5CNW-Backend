@@ -1,9 +1,13 @@
 package com.WebLearning.WebLearning.Service;
 
+import com.WebLearning.WebLearning.FormData.CourseCommentDto;
 import com.WebLearning.WebLearning.FormData.CourseFormDto;
+import com.WebLearning.WebLearning.Models.Account;
 import com.WebLearning.WebLearning.Models.Course;
+import com.WebLearning.WebLearning.Models.StudentProfile;
 import com.WebLearning.WebLearning.Models.TeacherProfile;
 import com.WebLearning.WebLearning.Repository.CourseRepository;
+import com.WebLearning.WebLearning.Repository.StudentProfileRepository;
 import com.WebLearning.WebLearning.Repository.TeacherProfileRepository;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -25,6 +29,8 @@ public class CourseService {
     private CourseRepository courseRepository;
     @Autowired
     private TeacherProfileRepository teacherProfileRepository;
+    @Autowired
+    private StudentProfileRepository studentProfileRepository;
 
     public void addCourse(CourseFormDto newCourse) throws IOException {
         Course course = new Course();
@@ -308,5 +314,60 @@ public class CourseService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDateTime roundedTime = time.withNano(0);
         return roundedTime.format(formatter);
+    }
+
+    public List<CourseFormDto> getCourseByStudent() {
+        Account account = authenticationFacade.getAccount();
+        StudentProfile studentProfile = studentProfileRepository.findByAccountId(account.getId());
+        List<Course> listCourse = courseRepository.findByStudentsIdAndApprovedTrueAndLockedFalseAndTeacherAccountLockedFalse(studentProfile.getId());
+        List<CourseFormDto> listCourseDto = new ArrayList<>();
+        for(Course course: listCourse){
+            CourseFormDto courseDto = new CourseFormDto();
+            courseDto.setId(course.getId());
+            courseDto.setName(course.getName());
+            courseDto.setTime(formatLocalDateTimeToString(course.getTime()));
+            courseDto.setCourseType(course.getCourseType());
+            courseDto.setTeacher(course.getTeacher());
+            listCourseDto.add(courseDto);
+        }
+        return listCourseDto;
+    }
+
+    public List<CourseFormDto> getCourseByFindTeacher(String teacher) {
+        List<Course> listCourse = courseRepository.findAll();
+        List<CourseFormDto> listCourseDto = new ArrayList<>();
+        for(Course course: listCourse){
+            if(course.getTeacher().getFullname().contains(teacher)){
+                CourseFormDto courseDto = new CourseFormDto();
+                courseDto.setName(course.getName());
+                courseDto.setTime(formatLocalDateTimeToString(course.getTime()));
+                courseDto.setId(course.getId());
+                courseDto.setTeacher(course.getTeacher());
+                courseDto.setCourseType(course.getCourseType());
+                courseDto.setApproved(course.isApproved());
+                courseDto.setLocked(course.isLocked());
+                listCourseDto.add(courseDto);
+            }
+        }
+        return listCourseDto;
+    }
+
+    public List<CourseFormDto> getCourseByCourseTypeAndFindTeacher(String type, String teacher) {
+        List<Course> listCourse = courseRepository.findByCourseType(type);
+        List<CourseFormDto> listCourseDto = new ArrayList<>();
+        for(Course course: listCourse){
+            if(course.getTeacher().getFullname().contains(teacher)){
+                CourseFormDto courseDto = new CourseFormDto();
+                courseDto.setName(course.getName());
+                courseDto.setTime(formatLocalDateTimeToString(course.getTime()));
+                courseDto.setId(course.getId());
+                courseDto.setTeacher(course.getTeacher());
+                courseDto.setCourseType(course.getCourseType());
+                courseDto.setApproved(course.isApproved());
+                courseDto.setLocked(course.isLocked());
+                listCourseDto.add(courseDto);
+            }
+        }
+        return listCourseDto;
     }
 }

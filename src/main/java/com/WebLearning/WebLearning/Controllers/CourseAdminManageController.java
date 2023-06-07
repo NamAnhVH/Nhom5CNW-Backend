@@ -30,11 +30,19 @@ public class CourseAdminManageController {
     }
 
     @GetMapping("/listCourse/")
-    public String listAllCourseByTypePage(@RequestParam("type") String type, Model model){
+    public String listAllCourseByTypePage(@RequestParam("type") String type, @RequestParam("teacher") String teacher, Model model){
         if ("".equals(type)){
-            model.addAttribute("listCourse", courseService.getAll());
+            if("".equals(teacher)){
+                model.addAttribute("listCourse", courseService.getAll());
+            } else {
+                model.addAttribute("listCourse", courseService.getCourseByFindTeacher(teacher));
+            }
         } else {
-            model.addAttribute("listCourse", courseService.getCourseByCourseType(type));
+            if("".equals(teacher)){
+                model.addAttribute("listCourse", courseService.getCourseByCourseType(type));
+            } else {
+                model.addAttribute("listCourse", courseService.getCourseByCourseTypeAndFindTeacher(type, teacher));
+            }
         }
         model.addAttribute("type", type);
         model.addAttribute("listTeacherProfile", teacherProfileService.getAllProfile());
