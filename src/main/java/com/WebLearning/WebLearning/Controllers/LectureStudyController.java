@@ -41,6 +41,14 @@ public class LectureStudyController {
                     model.addAttribute("listLecture", lectureService.getLectureByCourseId(courseId));
                     return "student/lectureStudy/lecturePage";
                 }
+            } else if(accountService.getCurrentAccount().getRole().equals("admin")){
+                model.addAttribute("fullname", studentProfileService.getFullname());
+                model.addAttribute("course", courseService.getCourseById(courseId));
+                model.addAttribute("lecture", lectureService.getLectureById(lectureId));
+                model.addAttribute("listQuiz", quizService.getQuizByLectureId(lectureId));
+                model.addAttribute("answers", new AnswerFormDto());
+                model.addAttribute("listLecture", lectureService.getLectureByCourseId(courseId));
+                return "student/lectureStudy/lecturePage";
             }
         }
         return "redirect:/course/" + courseId;
@@ -62,7 +70,7 @@ public class LectureStudyController {
                 }
             }
         }
-        return "redirect:/course/" + courseId;
+        return "redirect:/course/" + courseId + "/lecture/" + lectureId;
 
     }
 
@@ -79,6 +87,12 @@ public class LectureStudyController {
                     }
                     return null;
                 }
+            } else if(accountService.getCurrentAccount().getRole().equals("admin")){
+                LectureFormDto lecture = lectureService.getLectureById(lectureId);
+                if(!lecture.getUrlVideo().equals("")){
+                    return new FileSystemResource(new File(lecture.getUrlVideo()));
+                }
+                return null;
             }
         }
         response.sendRedirect("/homepage");

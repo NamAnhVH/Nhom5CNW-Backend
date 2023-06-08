@@ -17,7 +17,7 @@
         <div>
             <ul class="action-tool">
                 <li class="btn"><a href="/homepage">Trang chủ</a></li>
-                <li class="btn"><a href="/admin/listCourse">Tiến độ học</a></li>
+                <li class="btn"><a href="/student/progress">Tiến độ học</a></li>
                 <li class="btn"><a href="/student/listCourse">Các khoá học</a></li>
                 <li class="btn"><a href="/student/profile?edit=false">Thông tin cá nhân</a></li>
                 <li class="btn"><a href="/account">Thông tin tài khoản</a></li>
@@ -33,11 +33,12 @@
         <div id="left-side-main">
             <div id="left-side-content">
                 <ul>
-                    <li><a href="/student/listCourse">Danh sách khoá học</a></li>
+                    <li><a href="/student/listCourse" th:if="${listCoursePage}">Danh sách khoá học</a></li>
+                    <li><a href="/student/progress" th:if="${progressPage}">Tiến độ học</a></li>
                 </ul>
             </div>
         </div>
-        <div class="right-side-main">
+        <div class="right-side-main" th:if="${listCoursePage}">
             <table class="content-table">
                 <tr>
                     <th style="width:18%;">Tên khoá học</th>
@@ -57,6 +58,34 @@
                     </td>
                     <td>
                         <p th:text="${course.courseType}"></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="right-side-main" th:if="${progressPage}">
+            <table class="content-table">
+                <tr>
+                    <th style="width:20%;">Tên khoá học</th>
+                    <th style="width:20%;">Tên bài giảng</th>
+                    <th style="width:20%;">Số lần làm</th>
+                    <th style="width:20%;">Điểm số cao nhất</th>
+                    <th style="width:20%;">Thời gian nộp</th>
+                </tr>
+                <tr th:each="progress: ${listProgress}">
+                    <td>
+                        <p th:text="${progress.course}"></p>
+                    </td>
+                    <td>
+                        <p th:text="${progress.lecture}"></p>
+                    </td>
+                    <td>
+                        <p th:text="${progress.number}"></p>
+                    </td>
+                    <td>
+                        <p th:text="${progress.grade}"></p>
+                    </td>
+                    <td>
+                        <p th:text="${progress.time}"></p>
                     </td>
                 </tr>
             </table>

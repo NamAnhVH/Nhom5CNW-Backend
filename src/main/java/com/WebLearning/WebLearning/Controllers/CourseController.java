@@ -89,6 +89,7 @@ public class CourseController {
                 model.addAttribute("averageRate", courseCommentService.calAverageRate(id));
                 model.addAttribute("listComment", courseCommentService.getAllCommentByCourseId(id));
                 model.addAttribute("listRelatedCourse", courseService.getTop3CourseBySameType(id));
+                model.addAttribute("isEnrolled", true);
                 return "allUser/coursePage";
             }
         }

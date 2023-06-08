@@ -2,13 +2,16 @@ package com.WebLearning.WebLearning.Service;
 
 import com.WebLearning.WebLearning.FormData.AnswerFormDto;
 import com.WebLearning.WebLearning.FormData.QuizFormDto;
-import com.WebLearning.WebLearning.Models.Lecture;
-import com.WebLearning.WebLearning.Models.Quiz;
+import com.WebLearning.WebLearning.Models.*;
 import com.WebLearning.WebLearning.Repository.LectureRepository;
 import com.WebLearning.WebLearning.Repository.QuizRepository;
+import com.WebLearning.WebLearning.Repository.StudentProfileRepository;
+import com.WebLearning.WebLearning.Repository.StudentProgressRepository;
+import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +19,15 @@ import java.util.List;
 public class QuizService {
 
     @Autowired
+    private AuthenticationFacade authenticationFacade;
+    @Autowired
     private LectureRepository lectureRepository;
     @Autowired
     private QuizRepository quizRepository;
+    @Autowired
+    private StudentProgressRepository studentProgressRepository;
+    @Autowired
+    private StudentProfileRepository studentProfileRepository;
 
     public List<QuizFormDto> getQuizByLectureId(Long lectureId) {
         List<Quiz> listQuiz = quizRepository.findByLectureId(lectureId);
@@ -77,6 +86,31 @@ public class QuizService {
                 grade++;
             }
         }
-        return String.valueOf(Math.round((grade*10/listAnswer.size()) * 100.0)/ 100.0);
+        grade = grade*10/listAnswer.size();
+        updateStudentProgress(lectureId, grade);
+        return String.valueOf(Math.round(grade * 100.0)/ 100.0);
+    }
+
+    private void updateStudentProgress(Long lectureId, float grade) {
+        Account account = authenticationFacade.getAccount();
+        StudentProfile student = studentProfileRepository.findByAccountId(account.getId());
+        StudentProgress progress = studentProgressRepository.findByStudentIdAndLectureId(student.getId(), lectureId);
+        if(progress == null){
+            Lecture lecture = lectureRepository.findById(lectureId).get();
+            progress = new StudentProgress();
+            progress.setStudent(student);
+            progress.setLecture(lecture);
+            progress.setNumber(1);
+            progress.setGrade(grade);
+            progress.setTime(LocalDateTime.now());
+            studentProgressRepository.save(progress);
+        } else {
+            progress.setNumber(progress.getNumber() + 1);
+            if(grade > progress.getGrade()){
+                progress.setGrade(grade);
+                progress.setTime(LocalDateTime.now());
+            }
+            studentProgressRepository.save(progress);
+        }
     }
 }
