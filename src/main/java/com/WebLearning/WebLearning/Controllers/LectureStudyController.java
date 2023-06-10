@@ -33,7 +33,7 @@ public class LectureStudyController {
         if(accountService.isAuthenticated()){
             if(accountService.getCurrentAccount().getRole().equals("học sinh")){
                 if(studentProfileService.isEnrolled(courseId)){
-                    model.addAttribute("fullname", studentProfileService.getFullname());
+                    model.addAttribute("user", studentProfileService.getFullnameAndAvatar());
                     model.addAttribute("course", courseService.getCourseById(courseId));
                     model.addAttribute("lecture", lectureService.getLectureById(lectureId));
                     model.addAttribute("listQuiz", quizService.getQuizByLectureId(lectureId));
@@ -42,7 +42,7 @@ public class LectureStudyController {
                     return "student/lectureStudy/lecturePage";
                 }
             } else if(accountService.getCurrentAccount().getRole().equals("admin")){
-                model.addAttribute("fullname", studentProfileService.getFullname());
+                model.addAttribute("user", studentProfileService.getFullnameAndAvatar());
                 model.addAttribute("course", courseService.getCourseById(courseId));
                 model.addAttribute("lecture", lectureService.getLectureById(lectureId));
                 model.addAttribute("listQuiz", quizService.getQuizByLectureId(lectureId));
@@ -60,7 +60,7 @@ public class LectureStudyController {
             if(accountService.getCurrentAccount().getRole().equals("học sinh")){
                 if(studentProfileService.isEnrolled(courseId)){
                     model.addAttribute("grade", quizService.calGrade(answerFormDto, lectureId));
-                    model.addAttribute("fullname", studentProfileService.getFullname());
+                    model.addAttribute("user", studentProfileService.getFullnameAndAvatar());
                     model.addAttribute("course", courseService.getCourseById(courseId));
                     model.addAttribute("lecture", lectureService.getLectureById(lectureId));
                     model.addAttribute("listQuiz", quizService.getQuizByLectureId(lectureId));

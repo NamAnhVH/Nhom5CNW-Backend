@@ -24,9 +24,10 @@ public class LectureManageController {
         if(!courseService.isAccessAllowed(id)){
             return "redirect:/teacher/course/listCourse";
         }
+        model.addAttribute("addLecturePage", true);
         model.addAttribute("newLecture", new LectureFormDto());
         model.addAttribute("id", id);
-        return "teacher/lectureManager/addLecturePage";
+        return "teacher/lectureManager/lectureManagePage";
     }
 
     @PostMapping("/addLecture")
@@ -53,9 +54,10 @@ public class LectureManageController {
         if(!courseService.isAccessAllowed(courseId)){
             return "redirect:/teacher/course/listCourse";
         }
+        model.addAttribute("editLecturePage", true);
         model.addAttribute("id", courseId);
         model.addAttribute("lecture", lectureService.getLectureById(lectureId));
-        return "teacher/lectureManager/editLecturePage";
+        return "teacher/lectureManager/lectureManagePage";
     }
 
     @PostMapping("/manageLecture/{lectureId}/editLecture")

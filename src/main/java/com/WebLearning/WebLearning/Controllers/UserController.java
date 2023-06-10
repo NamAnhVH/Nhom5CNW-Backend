@@ -29,9 +29,9 @@ public class UserController {
     public String homepageGuest(Model model){
         if(accountService.isAuthenticated()){
             if(accountService.getCurrentAccount().getRole().equals("giáo viên")){
-                model.addAttribute("fullname", teacherProfileService.getFullname());
+                model.addAttribute("user", teacherProfileService.getFullnameAndAvatar());
             } else {
-                model.addAttribute("fullname", studentProfileService.getFullname());
+                model.addAttribute("user", studentProfileService.getFullnameAndAvatar());
             }
         }
         model.addAttribute("findCourse", new String());

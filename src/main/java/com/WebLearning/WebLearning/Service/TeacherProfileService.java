@@ -115,4 +115,12 @@ public class TeacherProfileService {
         profileDto.setId(profile.getId());
         return profileDto;
     }
+
+    public TeacherProfileDto getFullnameAndAvatar() {
+        TeacherProfileDto profileDto = new TeacherProfileDto();
+        TeacherProfile profile = teacherProfileRepository.findByAccountId(authenticationFacade.getAccount().getId());
+        profileDto.setFullname(profile.getFullname());
+        profileDto.setBase64Avatar("data:image/png;base64," + Base64.encodeBase64String(profile.getAvatar()));
+        return  profileDto;
+    }
 }

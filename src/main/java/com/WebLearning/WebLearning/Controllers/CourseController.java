@@ -29,9 +29,9 @@ public class CourseController {
     public String coursePage(Model model){
         if(accountService.isAuthenticated()){
             if(accountService.getCurrentAccount().getRole().equals("giáo viên")){
-                model.addAttribute("fullname", teacherProfileService.getFullname());
+                model.addAttribute("user", teacherProfileService.getFullnameAndAvatar());
             } else {
-                model.addAttribute("fullname", studentProfileService.getFullname());
+                model.addAttribute("user", studentProfileService.getFullnameAndAvatar());
             }
         }
         model.addAttribute("findCourse", new String());
@@ -44,9 +44,9 @@ public class CourseController {
     public String findCourseAction(@ModelAttribute("findCourse") String findCourse, Model model){
         if(accountService.isAuthenticated()){
             if(accountService.getCurrentAccount().getRole().equals("giáo viên")){
-                model.addAttribute("fullname", teacherProfileService.getFullname());
+                model.addAttribute("user", teacherProfileService.getFullnameAndAvatar());
             } else {
-                model.addAttribute("fullname", studentProfileService.getFullname());
+                model.addAttribute("user", studentProfileService.getFullnameAndAvatar());
             }
         }
         model.addAttribute("findCourse", new String());
@@ -60,9 +60,9 @@ public class CourseController {
     public String courseTypePage(@RequestParam("type") String type, Model model){
         if(accountService.isAuthenticated()){
             if(accountService.getCurrentAccount().getRole().equals("giáo viên")){
-                model.addAttribute("fullname", teacherProfileService.getFullname());
+                model.addAttribute("user", teacherProfileService.getFullnameAndAvatar());
             } else {
-                model.addAttribute("fullname", studentProfileService.getFullname());
+                model.addAttribute("user", studentProfileService.getFullnameAndAvatar());
             }
         }
         model.addAttribute("findCourse", new String());
@@ -76,10 +76,12 @@ public class CourseController {
     //http://localhost:8080/course/{id}
     public String courseDetailPage(@PathVariable Long id, Model model) {
         if(accountService.isAuthenticated()){
-            if(accountService.getCurrentAccount().getRole().equals("giáo viên")){
-                model.addAttribute("fullname", teacherProfileService.getFullname());
-            } else {
-                model.addAttribute("fullname", studentProfileService.getFullname());
+            if(accountService.isAuthenticated()){
+                if(accountService.getCurrentAccount().getRole().equals("giáo viên")){
+                    model.addAttribute("user", teacherProfileService.getFullnameAndAvatar());
+                } else {
+                    model.addAttribute("user", studentProfileService.getFullnameAndAvatar());
+                }
             }
             if(accountService.getCurrentAccount().getRole().equals("admin")){
                 model.addAttribute("findCourse", new String());

@@ -75,13 +75,7 @@ public class AccountController {
             model.addAttribute("username", accountService.getCurrentAccount().getUsername());
             model.addAttribute("email", accountService.getEmailCurrentAccount());
             model.addAttribute("accountPage", "accountPage");
-            if(accountService.getCurrentAccount().getRole().equals("học sinh")){
-                return "student/accountManager/accountPage";
-            } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
-                return "teacher/accountManager/accountPage";
-            } else {
-                return "admin/accountManager/accountPage";
-            }
+            return "allUser/accountPage";
         }
         return "redirect:/homepage";
     }
@@ -91,13 +85,7 @@ public class AccountController {
         if(accountService.isAuthenticated()){
             model.addAttribute("email", new String());
             model.addAttribute("changeEmailPage", true);
-            if(accountService.getCurrentAccount().getRole().equals("học sinh")){
-                return "student/accountManager/accountPage";
-            } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
-                return "teacher/accountManager/accountPage";
-            } else {
-                return "admin/accountManager/accountPage";
-            }
+            return "allUser/accountPage";
         }
         return "redirect:/homepage";
     }
@@ -106,27 +94,14 @@ public class AccountController {
     public String changeEmailAction(@ModelAttribute("email") String email, Model model){
         if(!accountService.isExistedEmail(email)){
             emailService.sendNoticeChangeEmailTo(email);
-//            return "redirect:/account/changeEmail?waitEmail=true";
             model.addAttribute("changeEmailPage", true);
             model.addAttribute("waitEmail", true);
-            if(accountService.getCurrentAccount().getRole().equals("học sinh")){
-                return "student/accountManager/accountPage";
-            } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
-                return "teacher/accountManager/accountPage";
-            } else {
-                return "admin/accountManager/accountPage";
-            }
+            return "allUser/accountPage";
         }
         model.addAttribute("email", email);
         model.addAttribute("changeEmailPage", true);
         model.addAttribute("errorEmail", true);
-        if(accountService.getCurrentAccount().getRole().equals("học sinh")){
-            return "student/accountManager/accountPage";
-        } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
-            return "teacher/accountManager/accountPage";
-        } else {
-            return "admin/accountManager/accountPage";
-        }
+        return "allUser/accountPage";
     }
 
     @GetMapping("/account/changeEmail/verify")
@@ -140,13 +115,7 @@ public class AccountController {
         if(accountService.isAuthenticated()){
             model.addAttribute("checkPasswordPage", true);
             model.addAttribute("checkPassword", new String());
-            if(accountService.getCurrentAccount().getRole().equals("học sinh")){
-                return "student/accountManager/accountPage";
-            } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
-                return "teacher/accountManager/accountPage";
-            } else {
-                return "admin/accountManager/accountPage";
-            }
+            return "allUser/accountPage";
         }
         return "redirect:/homepage";
     }
@@ -161,26 +130,14 @@ public class AccountController {
             model.addAttribute("checkPassword", checkPassword);
             model.addAttribute("checkError", true);
         }
-        if(accountService.getCurrentAccount().getRole().equals("học sinh")){
-            return "student/accountManager/accountPage";
-        } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
-            return "teacher/accountManager/accountPage";
-        } else {
-            return "admin/accountManager/accountPage";
-        }
+        return "allUser/accountPage";
     }
 
     @PostMapping("/account/changePassword")
     public String changePasswordAction(@ModelAttribute("newPassword") String newPassword, Model model) {
         accountService.setNewPassword(newPassword);
         model.addAttribute("success", true);
-        if(accountService.getCurrentAccount().getRole().equals("học sinh")){
-            return "student/accountManager/accountPage";
-        } else if (accountService.getCurrentAccount().getRole().equals("giáo viên")) {
-            return "teacher/accountManager/accountPage";
-        } else {
-            return "admin/accountManager/accountPage";
-        }
+        return "allUser/accountPage";
     }
 
     @PostMapping("/account/deleteAccount")

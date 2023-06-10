@@ -1,10 +1,8 @@
 package com.WebLearning.WebLearning.Service;
 
 import com.WebLearning.WebLearning.FormData.StudentProfileDto;
-import com.WebLearning.WebLearning.Models.Account;
-import com.WebLearning.WebLearning.Models.Course;
-import com.WebLearning.WebLearning.Models.CourseComment;
-import com.WebLearning.WebLearning.Models.StudentProfile;
+import com.WebLearning.WebLearning.FormData.TeacherProfileDto;
+import com.WebLearning.WebLearning.Models.*;
 import com.WebLearning.WebLearning.Repository.CourseCommentRepository;
 import com.WebLearning.WebLearning.Repository.CourseRepository;
 import com.WebLearning.WebLearning.Repository.StudentProfileRepository;
@@ -48,7 +46,7 @@ public class StudentProfileService {
         profileDto.setFullname(currentProfile.getFullname());
         profileDto.setBase64Avatar("data:image/png;base64," + Base64.encodeBase64String(currentProfile.getAvatar()));
         profileDto.setGender(currentProfile.getGender());
-        if(currentProfile.getBirthDate() != null){
+        if (currentProfile.getBirthDate() != null) {
             profileDto.setBirthDate(dateToString(currentProfile.getBirthDate(), edit));
         }
         profileDto.setLiteracy(currentProfile.getLiteracy());
@@ -62,11 +60,11 @@ public class StudentProfileService {
         Account currentAccount = authenticationFacade.getAccount();
         StudentProfile profile = studentProfileRepository.findByAccountId(currentAccount.getId());
         profile.setFullname(profileDto.getFullname());
-        if(!profileDto.getAvatar().isEmpty()){
+        if (!profileDto.getAvatar().isEmpty()) {
             profile.setAvatar(profileDto.getAvatar().getBytes());
         }
         profile.setGender(profileDto.getGender());
-        if(!profileDto.getBirthDate().equals("")){
+        if (!profileDto.getBirthDate().equals("")) {
             profile.setBirthDate(stringToDate(profileDto.getBirthDate()));
         }
         profile.setLiteracy(profileDto.getLiteracy());
@@ -77,7 +75,7 @@ public class StudentProfileService {
     }
 
     public static String dateToString(Date date, String edit) {
-        if(edit.equals("true")){
+        if (edit.equals("true")) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             return dateFormat.format(date);
         } else {
@@ -94,7 +92,7 @@ public class StudentProfileService {
     public void enrollCourse(Long id) {
         Course course = courseRepository.findById(id).get();
         StudentProfile studentProfile = studentProfileRepository.findByAccountId(authenticationFacade.getAccount().getId());
-        if(!studentProfile.getCourses().contains(course)){
+        if (!studentProfile.getCourses().contains(course)) {
             studentProfile.getCourses().add(course);
             course.getStudents().add(studentProfile);
         }
@@ -110,9 +108,17 @@ public class StudentProfileService {
     public boolean isComment(Long id) {
         StudentProfile studentProfile = studentProfileRepository.findByAccountId(authenticationFacade.getAccount().getId());
         CourseComment comment = courseCommentRepository.findByStudentProfileIdAndCourseId(studentProfile.getId(), id);
-        if(comment != null){
+        if (comment != null) {
             return true;
         }
         return false;
+    }
+
+    public StudentProfileDto getFullnameAndAvatar() {
+        StudentProfileDto profileDto = new StudentProfileDto();
+        StudentProfile profile = studentProfileRepository.findByAccountId(authenticationFacade.getAccount().getId());
+        profileDto.setFullname(profile.getFullname());
+        profileDto.setBase64Avatar("data:image/png;base64," + Base64.encodeBase64String(profile.getAvatar()));
+        return profileDto;
     }
 }

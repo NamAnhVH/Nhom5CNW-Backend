@@ -25,20 +25,28 @@
         <li><a href="/course">Khoá học</a></li>
         <li><a href="/teacherProfile">Giảng viên</a></li>
         <li><a href="">Thư viện</a></li>
-        <li><a href="">Hỗ trợ</a></li>
     </ul>
     <div id="login-button" sec:authorize="!isAuthenticated()">
         <a th:href="@{/login/loginForm}">Đăng nhập</a>
     </div>
     <div sec:authorize="isAuthenticated()" id="isLogin">
         <div sec:authorize="hasRole('ROLE_admin')">
-            <a th:href="@{/admin}" th:text="${fullname}" class="username-login"></a>
+            <a th:href="@{/admin}" class="username-login" th:object="${user}">
+                <img th:src="*{base64Avatar}">
+                <p th:text="*{fullname}"></p>
+            </a>
         </div>
         <div sec:authorize="hasRole('ROLE_giáo viên')">
-            <a th:href="@{/teacher}" th:text="${fullname}" class="username-login"></a>
+            <a th:href="@{/teacher}" th:object="${user}" class="username-login">
+                <img th:src="*{base64Avatar}">
+                <p th:text="*{fullname}"></p>
+            </a>
         </div>
         <div sec:authorize="hasRole('ROLE_học sinh')">
-            <a th:href="@{/student}" th:text="${fullname}" class="username-login"></a>
+            <a th:href="@{/student}" th:object="${user}" class="username-login">
+                <img th:src="*{base64Avatar}">
+                <p th:text="*{fullname}"></p>
+            </a>
         </div>
         <div id="logout-button">
             <a th:href="@{/logout}">Đăng xuất</a>

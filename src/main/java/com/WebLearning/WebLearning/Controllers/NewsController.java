@@ -27,7 +27,8 @@ public class NewsController {
     @GetMapping("/admin/addNews")
     public String addNewsPage(Model model){
         model.addAttribute("news", new NewsFormDto());
-        return "admin/newsManager/addNewsPage";
+        model.addAttribute("addNewsPage", true);
+        return "admin/newsManager/newsManagePage";
     }
 
     @PostMapping("/admin/addNews")
@@ -45,7 +46,8 @@ public class NewsController {
     @GetMapping("/admin/editNews/{id}")
     public String editNewsPage(@PathVariable Long id, Model model){
         model.addAttribute("news", newsService.getNewsById(id));
-        return "admin/newsManager/editNewsPage";
+        model.addAttribute("editNewsPage", true);
+        return "admin/newsManager/newsManagePage";
     }
 
     @PostMapping("/admin/editNews/{id}")
@@ -65,9 +67,9 @@ public class NewsController {
     public String newsPage(Model model){
         if(accountService.isAuthenticated()){
             if(accountService.getCurrentAccount().getRole().equals("giáo viên")){
-                model.addAttribute("fullname", teacherProfileService.getFullname());
+                model.addAttribute("user", teacherProfileService.getFullnameAndAvatar());
             } else {
-                model.addAttribute("fullname", studentProfileService.getFullname());
+                model.addAttribute("user", studentProfileService.getFullnameAndAvatar());
             }
         }
         model.addAttribute("findCourse", new String());
@@ -81,9 +83,9 @@ public class NewsController {
     public String newsDetailPage(@PathVariable Long id, Model model) {
         if(accountService.isAuthenticated()){
             if(accountService.getCurrentAccount().getRole().equals("giáo viên")){
-                model.addAttribute("fullname", teacherProfileService.getFullname());
+                model.addAttribute("user", teacherProfileService.getFullnameAndAvatar());
             } else {
-                model.addAttribute("fullname", studentProfileService.getFullname());
+                model.addAttribute("user", studentProfileService.getFullnameAndAvatar());
             }
         }
         model.addAttribute("news", newsService.getNewsById(id));
