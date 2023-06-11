@@ -24,7 +24,7 @@
         <li><a href="/news">Tin tức</a></li>
         <li><a href="/course">Khoá học</a></li>
         <li><a href="/teacherProfile">Giảng viên</a></li>
-        <li><a href="">Thư viện</a></li>
+        <li><a href="/reference">Thư viện</a></li>
     </ul>
     <div id="login-button" sec:authorize="!isAuthenticated()">
         <a th:href="@{/login/loginForm}">Đăng nhập</a>
@@ -151,16 +151,7 @@
                 <p th:utext="${comment.comment ?: ''}"></p>
             </div>
         </div>
-        <script>
-            function toggleDiv() {
-                var div = document.getElementById('myDiv');
-                if (div.style.display === 'none') {
-                    div.style.display = 'block';
-                } else {
-                    div.style.display = 'none';
-                }
-            }
-        </script>
+        <script src="/javascript/editComment.js"></script>
         <div sec:authorize="hasRole('ROLE_học sinh')" th:if="${isEnrolled}">
             <form th:action="'/course/' + ${course.id} + '/comment'" method="post" th:object="${newComment}" th:unless="${isComment}">
                 <label for="rate">Đánh giá khoá học: </label>
@@ -202,9 +193,5 @@
     <h1>Thông tin liên hệ</h1>
 </section>
 </body>
-    <script>
-        CKEDITOR.replace('comment', {
-            height: 200,
-        });
-    </script>
+<script src="/javascript/ckeditorComment.js"></script>
 </html>

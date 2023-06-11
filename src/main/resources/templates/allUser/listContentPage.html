@@ -25,7 +25,7 @@
             <li><a href="/news">Tin tức</a></li>
             <li><a href="/course">Khoá học</a></li>
             <li><a href="/teacherProfile">Giảng viên</a></li>
-            <li><a href="">Thư viện</a></li>
+            <li><a href="/reference">Thư viện</a></li>
         </ul>
         <div id="login-button" sec:authorize="!isAuthenticated()">
             <a th:href="@{/login/loginForm}">Đăng nhập</a>
@@ -76,6 +76,14 @@
         </div>
         <div>
             <h1>Danh sách khoá học</h1>
+        </div>
+    </section>
+    <section class="mainpage-title" th:if="${referencePage}">
+        <div class="topPage" >
+            <a href="/homepage"><p>Trang chủ</p></a><p>/</p><p>Thư viện</p>
+        </div>
+        <div>
+            <h1>Tài liệu tham khảo</h1>
         </div>
     </section>
     <section th:if="${newsPage}" class="content-section">
@@ -167,35 +175,21 @@
                 </div>
             </div>
         </div>
-
+    </section>
+    <section th:if="${referencePage}" class="content-section">
+        <h1>Danh sách tài liệu</h1>
+        <div class="list">
+            <div th:each="reference: ${listReference}" class="items">
+                <a th:href="${'/reference/' + reference.id}" target="_self">
+                    <h1 th:text="${reference.title}"></h1>
+                    <span th:text="${'Ngày đăng tải: ' + reference.time}"></span>
+                </a>
+            </div>
+        </div>
     </section>
     <section id="contact-section">
         <h1>Thông tin liên hệ</h1>
     </section>
 </body>
-    <script th:if="${coursePage}">
-        let buttons = document.getElementsByClassName('button-courses-filter');
-        let contents = document.getElementsByClassName('tab-content');
-        function showContent(id){
-            for (let i = 0; i < contents.length; i++) {
-                contents[i].style.display = 'none';
-            }
-            let content = document.getElementsByClassName(id);
-            for(let i = 0; i < content.length; i++){
-                content[i].style.display = 'block';
-            }
-        }
-        for (let i = 0; i < buttons.length; i++) {
-            buttons[i].addEventListener("click", function(){
-                let id = this.name;
-                for (let i = 0; i < buttons.length; i++) {
-                    buttons[i].classList.remove("active");
-                }
-                this.className += " active";
-                console.log(id);
-                showContent(id);
-            });
-        }
-        showContent('');
-    </script>
+    <script th:if="${coursePage}" src="/javascript/listCoursePage.js"></script>
 </html>

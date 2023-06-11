@@ -1,5 +1,6 @@
 package com.WebLearning.WebLearning.Controllers;
 
+import com.WebLearning.WebLearning.Repository.ReferenceRepository;
 import com.WebLearning.WebLearning.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,8 @@ public class UserController {
     private NewsService newsService;
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private ReferenceService referenceService;
 
     @GetMapping(value = {"/", "/homepage", "/homepage/null"})
     //http://localhost:8080/
@@ -38,21 +41,31 @@ public class UserController {
         model.addAttribute("listNews", newsService.getTopSixNews());
         model.addAttribute("listTeacherProfile", teacherProfileService.getTopSixTeacherApprovedAndUnlocked());
         model.addAttribute("listCourse", courseService.getTopSixCourseApprovedAndUnlockedAndTeacherProfileUnlocked());
+        model.addAttribute("listReference", referenceService.getTopSixReferenceAndAccountUnlocked());
         return "allUser/homepage";
     }
 
     @GetMapping("/admin")
-    public String adminPage(){
-        return "admin/adminPage";
+    public String adminPage(Model model){
+        model.addAttribute("username", accountService.getCurrentAccount().getUsername());
+        model.addAttribute("email", accountService.getEmailCurrentAccount());
+        model.addAttribute("accountPage", "accountPage");
+        return "allUser/accountPage";
     }
 
     @GetMapping("/student")
-    public String studentPage(){
-        return "student/studentPage";
+    public String studentPage(Model model){
+        model.addAttribute("username", accountService.getCurrentAccount().getUsername());
+        model.addAttribute("email", accountService.getEmailCurrentAccount());
+        model.addAttribute("accountPage", "accountPage");
+        return "allUser/accountPage";
     }
 
     @GetMapping("/teacher")
-    public String teacherPage() {
-        return "teacher/teacherPage";
+    public String teacherPage(Model model) {
+        model.addAttribute("username", accountService.getCurrentAccount().getUsername());
+        model.addAttribute("email", accountService.getEmailCurrentAccount());
+        model.addAttribute("accountPage", "accountPage");
+        return "allUser/accountPage";
     }
 }

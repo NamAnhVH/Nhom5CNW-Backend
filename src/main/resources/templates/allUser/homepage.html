@@ -24,7 +24,7 @@
             <li><a href="/news">Tin tức</a></li>
             <li><a href="/course">Khoá học</a></li>
             <li><a href="/teacherProfile">Giảng viên</a></li>
-            <li><a href="">Thư viện</a></li>
+            <li><a href="/reference">Thư viện</a></li>
         </ul>
         <div id="login-button" sec:authorize="!isAuthenticated()">
             <a th:href="@{/login/loginForm}">Đăng nhập</a>
@@ -113,43 +113,19 @@
                 </a>
             </div>
         </div>
-        <a href="/teacherProfile" class="btn-link">Tất cả giảng viên</a>
+        <a href="/teacherProfile" class="btn-link">Tất cả Giảng viên</a>
     </section>
-    <section id="reference-section">
+    <section class="content-section">
         <h1>Tài liệu tham khảo</h1>
-        <div>
-            <a href="" target="_blank">
-                <img src="" class="reference-tile-image" alt="Tài liệu 1">
-                <p>Tài liệu 1</p>
-                <p>Mô tả Tài liệu</p>
-            </a>
-            <a href="" target="_blank">
-                <img src="" class="reference-tile-image" alt="Tài liệu 2">
-                <p>Tài liệu 2</p>
-                <p>Mô tả Tài liệu</p>
-            </a>
-            <a href="" target="_blank">
-                <img src="" class="reference-tile-image" alt="Tài liệu 3">
-                <p>Tài liệu 3</p>
-                <p>Mô tả Giảng viên</p>
-            </a>
-            <a href="" target="_blank">
-                <img src="" class="reference-tile-image" alt="Tài liệu 4">
-                <p>Tài liệu 4</p>
-                <p>Mô tả Tài liệu</p>
-            </a>
-            <a href="" target="_blank">
-                <img src="" class="reference-tile-image" alt="Tài liệu 5">
-                <p>Tài liệu 5</p>
-                <p>Mô tả Tài liệu</p>
-            </a>
-            <a href="" target="_blank">
-                <img src="" class="reference-tile-image" alt="Tài liệu 6">
-                <p>Tài liệu 6</p>
-                <p>Mô tả Tài liệu</p>
-            </a>
+        <div class="list">
+           <div th:each="reference: ${listReference}" class="items">
+               <a th:href="${'/reference/' + reference.id}">
+                   <h1 th:text="${reference.title}"></h1>
+                   <span th:text="${'Ngày đăng tải: ' + reference.time}"></span>
+               </a>
+           </div>
         </div>
-        <a href="" id="reference-link">Tất cả Tài liệu</a>
+        <a href="/reference" class="btn-link">Tất cả Tài liệu</a>
     </section>
     <section id="contact-section">
         <h1>Thông tin liên hệ</h1>

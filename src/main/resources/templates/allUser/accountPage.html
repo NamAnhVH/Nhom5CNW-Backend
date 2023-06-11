@@ -52,15 +52,7 @@
                     <li><a href="/account/changeEmail">Thay đổi tài khoản email</a></li>
                     <li><a href="/account/checkPassword">Thay đổi mật khẩu</a></li>
                     <li><a onclick="event.preventDefault(); submitForm()" style="cursor: pointer;">Xoá tài khoản</a></li>
-                    <script>
-                        function submitForm() {
-                            var form = document.createElement("form");
-                            form.method = "POST";
-                            form.action = "/account/deleteAccount";
-                            document.body.appendChild(form);
-                            form.submit();
-                        }
-                    </script>
+                    <script src="/javascript/deleteAccount.js"></script>
                 </ul>
             </div>
         </div>
@@ -125,27 +117,7 @@
                     <button type="submit">Kiểm tra</button>
                 </div>
             </form>
-            <script>
-                function validateForm() {
-                    var password = document.getElementById("newPassword").value;
-                    var confirmPassword = document.getElementById("checkNewPassword").value;
-                    var errorMessage = document.getElementById("error-message");
-
-                    if (password.length < 8 || !/^[a-zA-Z0-9]+$/.test(password)) {
-                        errorMessage.innerText = "Mật khẩu phải gồm ít nhất 8 ký tự và không có ký tự đặc biệt.";
-                        errorMessage.style.display = "block";
-                        return false;
-                    }
-
-                    if (password !== confirmPassword) {
-                        errorMessage.innerText = "Mật khẩu xác nhận không khớp.";
-                        errorMessage.style.display = "block";
-                        return false;
-                    }
-
-                    errorMessage.style.display = "none";
-                }
-            </script>
+            <script src="/javascript/changeAccountPassword.js"></script>
         </div>
         <div th:if="${success}" class="right-side-main">
             <div style="margin-top: 60px;">
@@ -154,17 +126,4 @@
         </div>
     </section>
 </body>
-    <script>
-        document.getElementById("files").onchange = function () {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                // get loaded data and render thumbnail.
-                document.getElementById("avatar").src = e.target.result;
-            };
-
-            // read the image file as a data URL.
-            reader.readAsDataURL(this.files[0]);
-        };
-    </script>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${profile.fullname}"></title>
+    <title th:text="${reference.title}"></title>
     <link rel="stylesheet" href="/css/contentPage.css">
 
 </head>
@@ -55,44 +55,17 @@
     </section>
     <section class="mainpage-title">
         <div class="topPage">
-            <a href="/homepage"><p>Trang chủ</p></a><p>/</p><a href="/teacherProfile"><p>Danh sách giảng viên</p></a><p>/</p><p th:text="${profile.fullname}"></p>
+            <a href="/homepage"><p>Trang chủ</p></a><p>/</p><a href="/news"><p>Thư viện</p></a><p>/</p><p th:text="${reference.title}"></p>
         </div>
         <div>
-            <h1 th:text="${profile.fullname}"></h1>
+            <h1>Tài liệu tham khảo</h1>
         </div>
     </section>
-    <section id="profile-section" th:object="${profile}">
-        <div id="profile">
-            <div id="avatar-profile">
-                <img th:src="*{base64Avatar}">
-            </div>
-            <div id="main-profile">
-                <div>
-                    <h1 th:text="*{fullname}"></h1>
-                </div>
-                <br>
-                <div>
-                    <p th:text="*{description}"></p>
-                </div>
-                <div th:utext="*{detail}"></div>
-            </div>
-        </div>
-    </section>
-    <section id="related-course">
-        <h1>Danh sách khoá học giảng dạy</h1>
-        <div class="list">
-            <div th:each="course: ${listCourse}" class="items">
-                <a th:href="${'/course/' + course.id}" target="_self">
-                    <div class="image">
-                        <img th:src="${course.base64Image}">
-                    </div>
-                    <br>
-                    <span th:text="${course.time}"></span>
-                    <h1 th:text="${course.name}"></h1>
-                    <p th:text="${course.introduction}"></p>
-                </a>
-            </div>
-        </div>
+    <section id="reference-section" th:object="${reference}">
+        <h1 th:text="*{title}"></h1>
+        <p id="date" th:text="*{time}"></p>
+        <iframe th:src="*{urlFile}" th:unless="*{urlFile == ''}"></iframe>
+        <p th:utext="*{description}" class="description"></p>
     </section>
     <section id="contact-section">
         <h1>Thông tin liên hệ</h1>

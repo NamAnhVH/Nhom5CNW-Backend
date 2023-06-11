@@ -91,22 +91,6 @@
         </div>
     </section>
 </body>
-<script>
-    document.getElementById("files").onchange = function () {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            // get loaded data and render thumbnail.
-            document.getElementById("avatar").src = e.target.result;
-        };
-
-        // read the image file as a data URL.
-        reader.readAsDataURL(this.files[0]);
-    };
-</script>
-<script>
-    CKEDITOR.replace('detail', {
-        height: 1000,
-    });
-</script>
+<script src="/javascript/showAvatar.js"></script>
+<script src="/javascript/ckeditorDetail.js"></script>
 </html>

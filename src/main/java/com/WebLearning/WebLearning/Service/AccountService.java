@@ -35,6 +35,8 @@ public class AccountService {
 
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private ReferenceRepository referenceRepository;
 
     @Autowired
     private CourseCommentRepository courseCommentRepository;
@@ -47,6 +49,7 @@ public class AccountService {
         Account account = authenticationFacade.getAccount();
         StudentProfile studentProfile = studentProfileRepository.findByAccountId(account.getId());
         courseCommentRepository.deleteByStudentProfileId(studentProfile.getId());
+        referenceRepository.deleteByAccountId(account.getId());
         studentProfile.getCourses().clear();
         studentProfileRepository.delete(studentProfile);
         accountRepository.deleteById(account.getId());
@@ -61,6 +64,7 @@ public class AccountService {
             courseCommentRepository.deleteByCourseId(course.getId());
             courseRepository.delete(course);
         }
+        referenceRepository.deleteByAccountId(account.getId());
         teacherProfileRepository.delete(teacherProfile);
         accountRepository.deleteById(account.getId());
     }

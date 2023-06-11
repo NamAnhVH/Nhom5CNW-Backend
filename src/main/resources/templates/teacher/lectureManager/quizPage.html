@@ -80,16 +80,7 @@
                     <button type="submit">Lưu câu hỏi</button>
                 </form>
             </div>
-            <script>
-                function editQuiz(id) {
-                    var editQuiz = document.getElementById('editQuiz' + id)
-                    if (editQuiz.style.display === 'none') {
-                        editQuiz.style.display = 'block';
-                    } else {
-                        editQuiz.style.display = 'none';
-                    }
-                }
-            </script>
+            <script src="/javascript/editQuiz.js"></script>
         </div>
         <button onclick="toggleDiv()" class="addQuiz-btn">Thêm câu hỏi</button>
         <div id="myDiv" style="display:none;" class="quiz">
@@ -115,16 +106,7 @@
                 <button type="submit">Lưu câu hỏi</button>
             </form>
         </div>
-        <script>
-            function toggleDiv() {
-                var div = document.getElementById('myDiv');
-                if (div.style.display === 'none') {
-                    div.style.display = 'block';
-                } else {
-                    div.style.display = 'none';
-                }
-            }
-        </script>
+        <script src="/javascript/editComment.js"></script>
     </div>
 </section>
 </body>

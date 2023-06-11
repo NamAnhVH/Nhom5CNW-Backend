@@ -107,22 +107,5 @@
         </div>
     </section>
 </body>
-<script>
-    document.getElementById("files").onchange = function () {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            // get loaded data and render thumbnail.
-            document.getElementById("image-course").src = e.target.result;
-        };
-
-        // read the image file as a data URL.
-        reader.readAsDataURL(this.files[0]);
-    };
-</script>
-<script>
-    CKEDITOR.replace('description', {
-        height: 560,
-    });
-</script>
+<script src="/javascript/courseManage.js"></script>
 </html>
