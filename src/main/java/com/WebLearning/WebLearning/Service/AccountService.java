@@ -9,6 +9,7 @@ import com.WebLearning.WebLearning.Repository.*;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import com.WebLearning.WebLearning.FormData.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,7 +100,7 @@ public class AccountService {
         return listAccount;
     }
 
-    public void addAccount(UserRegistrationDto newUser) {
+    public void addAccount(UserRegistrationDto newUser) throws IOException {
         Account newAccount = new Account();
         newAccount.setUsername(newUser.getUsername());
         newAccount.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
@@ -112,11 +117,13 @@ public class AccountService {
         if(newAccount.getRole().equals("học sinh")){
             StudentProfile studentProfile = new StudentProfile();
             studentProfile.setFullname(newUser.getFullname());
+            studentProfile.setAvatar(readFileToBytes(new File("src/main/resources/static/image/standard-avatar.jpg")));
             studentProfile.setAccount(newAccount);
             studentProfileRepository.save(studentProfile);
         } else {
             TeacherProfile teacherProfile = new TeacherProfile();
             teacherProfile.setFullname(newUser.getFullname());
+            teacherProfile.setAvatar(readFileToBytes(new File("src/main/resources/static/image/standard-avatar.jpg")));
             teacherProfile.setAccount(newAccount);
             teacherProfileRepository.save(teacherProfile);
         }
@@ -320,5 +327,18 @@ public class AccountService {
         accountRepository.save(account);
     }
 
+    public byte[] readFileToBytes(File file) throws IOException {
+        try (FileInputStream fis = new FileInputStream(file);
+             ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
 
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                bos.write(buffer, 0, bytesRead);
+            }
+
+            return bos.toByteArray();
+        }
+    }
 }
