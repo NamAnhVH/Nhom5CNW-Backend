@@ -59,7 +59,7 @@
                 <label>Video bài giảng: </label>
                 <input type="file" name="video" id="files" accept="image/*" th:field="*{video}">
                 <div class="btn-form">
-                    <button type="submit" id="submit">Đăng tải</button>
+                    <button type="submit" id="submit" onclick="return confirm('Bạn có chắc chắn muốn đăng tải bài giảng này?')">Đăng tải</button>
                 </div>
             </form>
         </div>
@@ -78,8 +78,8 @@
                 <label>Video bài giảng: </label>
                 <input type="file" name="video" id="files" accept="image/*" th:field="*{video}">
                 <div class="btn-form">
-                    <button type="submit" id="submit">Chỉnh sửa</button>
-                    <button type="submit" th:formaction="${'/teacher/course/' + id + '/manageLecture/' + lecture.id + '/deleteLecture'}">Xoá bài giảng</button>
+                    <button type="submit" id="submit" onclick="return confirm('Bạn có chắc chắn muốn chỉnh sửa bài giảng này?')">Chỉnh sửa</button>
+                    <button type="submit" th:formaction="${'/teacher/course/' + id + '/manageLecture/' + lecture.id + '/deleteLecture'}" onclick="return confirm('Bạn có chắc chắn muốn xoá bài giảng này?')">Xoá bài giảng</button>
                 </div>
             </form>
             <form method="get" th:action="'/teacher/course/'+ ${id} +'/manageLecture/' + ${lecture.id} + '/addQuiz'">

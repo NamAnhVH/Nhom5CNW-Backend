@@ -66,7 +66,7 @@
                     <input type="text" name="file" id="files" class="text-field-content" th:field="*{urlFile}">
                 </div>
                 <div class="btn-form">
-                    <button type="submit" id="submit">Đăng tải</button>
+                    <button type="submit" id="submit" onclick="return confirm('Bạn có chắc chắn muốn đăng tải tài liệu này?')">Đăng tải</button>
                 </div>
             </form>
         </div>
@@ -86,8 +86,8 @@
                     <input type="text" name="file" id="files" class="text-field-content" th:field="*{urlFile}">
                 </div>
                 <div class="btn-form">
-                    <button type="submit" id="submit">Chỉnh sửa</button>
-                    <button type="submit" th:formaction="${'/referenceManage/' + reference.id + '/deleteReference'}">Xoá tài liệu</button>
+                    <button type="submit" id="submit" onclick="return confirm('Bạn có chắc chắn muốn chỉnh sửa tài liệu này?')">Chỉnh sửa</button>
+                    <button type="submit" th:formaction="${'/referenceManage/' + reference.id + '/deleteReference'}" onclick="return confirm('Bạn có chắc chắn muốn xoá tài liệu này?')">Xoá tài liệu</button>
                 </div>
             </form>
         </div>

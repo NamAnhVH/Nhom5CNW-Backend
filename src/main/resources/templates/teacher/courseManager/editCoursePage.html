@@ -102,8 +102,8 @@
                 </select>
                 <br>
                 <div class="btn-form">
-                    <button type="submit" id="submit">Chỉnh sửa</button>
-                    <button type="submit" th:formaction="${'/teacher/course/' + course.id + '/deleteCourse'}">Xoá khoá học</button>
+                    <button type="submit" id="submit" onclick="return confirm('Bạn có chắc chắn chỉnh sửa khoá học này?')">Chỉnh sửa</button>
+                    <button type="submit" th:formaction="${'/teacher/course/' + course.id + '/deleteCourse'}" onclick="return confirm('Bạn có chắc chắn muốn xoá khoá học này?')">Xoá khoá học</button>
                 </div>
             </form>
         </div>

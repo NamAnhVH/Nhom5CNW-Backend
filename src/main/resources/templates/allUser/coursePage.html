@@ -65,7 +65,7 @@
             <p><strong>Ngày đăng tải khoá học:</strong> <em th:text="${course.time}"></em></p>
             <div sec:authorize="hasRole('ROLE_học sinh')">
                 <form method="post" th:action="'/course/' + ${course.id} + '/enrollCourse'" th:unless="${isEnrolled}">
-                    <button type="submit" value="submit">Đăng ký khoá học</button>
+                    <button type="submit" value="submit" onclick="return confirm('Bạn có chắc chắn muốn đăng ký khoá học này?')">Đăng ký khoá học</button>
                 </form>
             </div>
         </div>
@@ -135,7 +135,7 @@
                 <label>Bình luận khoá học: </label><br><br>
                 <textarea id="comment" name="comment" th:field="*{comment}"></textarea>
                 <div id="btn">
-                    <button type="submit" id="submit">Chỉnh sửa</button>
+                    <button type="submit" id="submit" onclick="return confirm('Bạn có chắc chắn thay đổi bình luận?')">Chỉnh sửa</button>
                 </div>
             </form>
         </div>
@@ -168,7 +168,7 @@
                 <label>Bình luận khoá học: </label><br><br>
                 <textarea id="comment" name="comment" th:field="*{comment}"></textarea>
                 <div id="btn">
-                    <button type="submit" id="submit">Bình luận</button>
+                    <button type="submit" id="submit" onclick="return confirm('Bạn có chắc chắn muốn bình luận khoá học này?')">Bình luận</button>
                 </div>
             </form>
         </div>
