@@ -3,6 +3,7 @@ package com.WebLearning.WebLearning.Controllers;
 import com.WebLearning.WebLearning.FormData.CourseFormDto;
 import com.WebLearning.WebLearning.Service.CourseService;
 import com.WebLearning.WebLearning.Service.LectureService;
+import com.WebLearning.WebLearning.Service.StudentProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,8 @@ public class CourseTeacherManageController {
     private CourseService courseService;
     @Autowired
     private LectureService lectureService;
+    @Autowired
+    private StudentProfileService studentProfileService;
 
     @GetMapping("/course/listCourse")
     public String listCoursePage(Model model){
@@ -72,5 +75,14 @@ public class CourseTeacherManageController {
     public String deleteCourseAction(@PathVariable Long id){
         courseService.deleteCourse(id);
         return "redirect:/teacher/course/listCourse";
+    }
+
+    @GetMapping("/course/{id}/listStudent")
+    public String listStudentEnroll(@PathVariable Long id, Model model){
+        if(!courseService.isAccessAllowed(id)){
+            return "redirect:/teacher/course/listCourse";
+        }
+        model.addAttribute("listStudent", studentProfileService.getStudentEnrollCourse(id));
+        return "teacher/courseManager/listStudentEnrollPage";
     }
 }

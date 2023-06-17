@@ -18,7 +18,7 @@ public class News {
     private String title;
     @Column
     private LocalDateTime time;
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String imagePage;
     @Column(columnDefinition = "TEXT")
     private String description;

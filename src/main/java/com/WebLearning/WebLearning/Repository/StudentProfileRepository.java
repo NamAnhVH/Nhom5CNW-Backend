@@ -15,4 +15,6 @@ public interface StudentProfileRepository extends JpaRepository<StudentProfile, 
 
     @Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM StudentProfile s JOIN s.courses c WHERE s.id = :studentProfileId AND c.id = :courseId")
     boolean isEnrolled(Long studentProfileId, Long courseId);
+
+    List<StudentProfile> findByCoursesId(Long id);
 }

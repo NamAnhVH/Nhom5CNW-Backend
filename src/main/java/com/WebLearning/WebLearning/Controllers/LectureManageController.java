@@ -77,4 +77,5 @@ public class LectureManageController {
         lectureService.deleteLecture(lectureId);
         return "redirect:/teacher/course/" + courseId + "/manageLecture";
     }
+
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -120,5 +121,22 @@ public class StudentProfileService {
         profileDto.setFullname(profile.getFullname());
         profileDto.setBase64Avatar("data:image/png;base64," + Base64.encodeBase64String(profile.getAvatar()));
         return profileDto;
+    }
+
+    public List<StudentProfileDto> getStudentEnrollCourse(Long id) {
+        List<StudentProfileDto> listStudentDto = new ArrayList<>();
+        List<StudentProfile> listStudent = studentProfileRepository.findByCoursesId(id);
+        int i = 1;
+        for(StudentProfile student: listStudent){
+            StudentProfileDto studentDto = new StudentProfileDto();
+            studentDto.setNumber(i);
+            studentDto.setFullname(student.getFullname());
+            studentDto.setBirthDate(dateToString(student.getBirthDate(), "false"));
+            studentDto.setAddress(student.getAddress());
+            studentDto.setEmail(student.getAccount().getEmail());
+            i++;
+            listStudentDto.add(studentDto);
+        }
+        return listStudentDto;
     }
 }

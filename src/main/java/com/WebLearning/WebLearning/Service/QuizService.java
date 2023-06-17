@@ -10,6 +10,7 @@ import com.WebLearning.WebLearning.Repository.StudentProgressRepository;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class QuizService {
         }
         return listQuizDto;
     }
-
+    @Transactional
     public void addQuiz(Long lectureId, QuizFormDto quizDto) {
         Lecture lecture = lectureRepository.findById(lectureId).get();
         Quiz quiz = new Quiz();
@@ -59,9 +60,10 @@ public class QuizService {
         quiz.setAnswer4(quizDto.getAnswer4());
         quiz.setCorrectAnswer(quizDto.getCorrectAnswer());
         quiz.setLecture(lecture);
+        studentProgressRepository.deleteByLectureId(lectureId);
         quizRepository.save(quiz);
     }
-
+    @Transactional
     public void updateQuiz(Long quizId, QuizFormDto quizDto) {
         Quiz quiz = quizRepository.findById(quizId).get();
         quiz.setQuestion(quizDto.getQuestion());
@@ -70,10 +72,13 @@ public class QuizService {
         quiz.setAnswer3(quizDto.getAnswer3());
         quiz.setAnswer4(quizDto.getAnswer4());
         quiz.setCorrectAnswer(quizDto.getCorrectAnswer());
+        studentProgressRepository.deleteByLectureId(quiz.getLecture().getId());
         quizRepository.save(quiz);
     }
-
+    @Transactional
     public void deleteQuiz(Long quizId) {
+        Quiz quiz = quizRepository.findById(quizId).get();
+        studentProgressRepository.deleteByLectureId(quiz.getLecture().getId());
         quizRepository.deleteById(quizId);
     }
 

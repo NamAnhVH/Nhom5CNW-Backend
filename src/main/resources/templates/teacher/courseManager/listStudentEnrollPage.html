@@ -45,19 +45,26 @@
         <div class="right-side-main">
             <table>
                 <tr>
-                    <th style="width:15%;">STT</th>
-                    <th style="width:50%;">Tên bài giảng</th>
-                    <th style="width:9%;"></th>
+                    <th style="width:5%"></th>
+                    <th style="width:25%;">Tên học sinh</th>
+                    <th style="width:15%;">Ngày sinh</th>
+                    <th style="width:25%;">Email</th>
                 </tr>
-                <tr th:each="lecture: ${listLecture}">
+                <tr th:each="student: ${listStudent}">
                     <td style="text-align:center;">
-                        <p th:text="'Bài ' + ${lecture.number}"></p>
+                        <p th:text="${student.number}"></p>
                     </td>
                     <td>
-                        <p th:text="${lecture.title}"></p>
+                        <p th:text="${student.fullname}"></p>
                     </td>
                     <td>
-                        <a th:href="${'/teacher/course/' + id + '/manageLecture/' + lecture.id}">Chỉnh sửa</a>
+                        <p th:text="${student.birthDate}"></p>
+                    </td>
+                    <td>
+                        <p th:text="${student.email}"></p>
+                    </td>
+                    <td>
+                        <p th:text="${student.address}"></p>
                     </td>
                 </tr>
             </table>

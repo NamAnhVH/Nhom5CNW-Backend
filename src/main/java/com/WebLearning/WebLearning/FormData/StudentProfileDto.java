@@ -20,5 +20,10 @@ public class StudentProfileDto {
     private String hobby;
     private String achivement;
 
+    private String enrollDate;
+    private int number;
+
+    private String email;
+
     private Long id;
 }

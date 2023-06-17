@@ -64,7 +64,7 @@
     </section>
     <section id="reference-section" th:object="${reference}">
         <h1 th:text="*{title}"></h1>
-        <p id="date" th:text="*{time}"></p>
+        <p id="date" th:text="*{time + ' - ' + author}"></p>
         <iframe th:src="*{urlFile}" th:unless="*{urlFile == ''}"></iframe>
         <p th:utext="*{description}" class="description"></p>
     </section>

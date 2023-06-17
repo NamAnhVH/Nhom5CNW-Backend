@@ -3,6 +3,8 @@ package com.WebLearning.WebLearning.Models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Data

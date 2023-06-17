@@ -4,6 +4,8 @@ import com.WebLearning.WebLearning.FormData.ReferenceFormDto;
 import com.WebLearning.WebLearning.Models.Account;
 import com.WebLearning.WebLearning.Models.Reference;
 import com.WebLearning.WebLearning.Repository.ReferenceRepository;
+import com.WebLearning.WebLearning.Repository.StudentProfileRepository;
+import com.WebLearning.WebLearning.Repository.TeacherProfileRepository;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,10 @@ public class ReferenceService {
 
     @Autowired
     private ReferenceRepository referenceRepository;
+    @Autowired
+    private StudentProfileRepository studentProfileRepository;
+    @Autowired
+    private TeacherProfileRepository teacherProfileRepository;
     @Autowired
     private AuthenticationFacade authenticationFacade;
 
@@ -109,6 +115,13 @@ public class ReferenceService {
     public ReferenceFormDto getReferenceById(Long id) {
         Reference reference = referenceRepository.findById(id).get();
         ReferenceFormDto referenceDto = new ReferenceFormDto();
+        Account account = reference.getAccount();
+
+        if(studentProfileRepository.findByAccountId(account.getId()) != null){
+            referenceDto.setAuthor(studentProfileRepository.findByAccountId(account.getId()).getFullname());
+        } else {
+            referenceDto.setAuthor(teacherProfileRepository.findByAccountId(account.getId()).getFullname());
+        }
         referenceDto.setTitle(reference.getTitle());
         referenceDto.setUrlFile(reference.getUrlFile());
         referenceDto.setTime(formatLocalDateTimeToString(reference.getTime()));

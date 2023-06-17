@@ -12,4 +12,5 @@ public class ReferenceFormDto {
     private String time;
     private String urlFile;
     private Long id;
+    private String author;
 }
