@@ -68,13 +68,12 @@ public class CourseCommentService {
             return null;
         }
         float amount = 0;
-        int totalRate = 0;
+        float totalRate = 0;
         for(CourseComment comment : listComment){
             totalRate += comment.getRate();
             amount += 1;
         }
-        float averageRate = Math.round(totalRate/amount);
-        return String.valueOf(averageRate);
+        return String.valueOf(Math.round(totalRate * 10.0/ amount) / 10.0);
     }
 
     public CourseCommentDto getCommentByCurrentUser(Long courseId) {

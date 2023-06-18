@@ -33,6 +33,20 @@ public class LectureStudyController {
         if(accountService.isAuthenticated()){
             if(accountService.getCurrentAccount().getRole().equals("học sinh")){
                 if(studentProfileService.isEnrolled(courseId)){
+                    if(courseService.isApprovedAndUnlockedAndTeacherUnlocked(courseId)){
+                        if(lectureService.checkLectureInCourse(lectureId, courseId)){
+                            model.addAttribute("user", studentProfileService.getFullnameAndAvatar());
+                            model.addAttribute("course", courseService.getCourseById(courseId));
+                            model.addAttribute("lecture", lectureService.getLectureById(lectureId));
+                            model.addAttribute("listQuiz", quizService.getQuizByLectureId(lectureId));
+                            model.addAttribute("answers", new AnswerFormDto());
+                            model.addAttribute("listLecture", lectureService.getLectureByCourseId(courseId));
+                            return "student/lectureStudy/lecturePage";
+                        }
+                    }
+                }
+            } else if(accountService.getCurrentAccount().getRole().equals("admin")){
+                if(lectureService.checkLectureInCourse(lectureId, courseId)) {
                     model.addAttribute("user", studentProfileService.getFullnameAndAvatar());
                     model.addAttribute("course", courseService.getCourseById(courseId));
                     model.addAttribute("lecture", lectureService.getLectureById(lectureId));
@@ -41,14 +55,6 @@ public class LectureStudyController {
                     model.addAttribute("listLecture", lectureService.getLectureByCourseId(courseId));
                     return "student/lectureStudy/lecturePage";
                 }
-            } else if(accountService.getCurrentAccount().getRole().equals("admin")){
-                model.addAttribute("user", studentProfileService.getFullnameAndAvatar());
-                model.addAttribute("course", courseService.getCourseById(courseId));
-                model.addAttribute("lecture", lectureService.getLectureById(lectureId));
-                model.addAttribute("listQuiz", quizService.getQuizByLectureId(lectureId));
-                model.addAttribute("answers", new AnswerFormDto());
-                model.addAttribute("listLecture", lectureService.getLectureByCourseId(courseId));
-                return "student/lectureStudy/lecturePage";
             }
         }
         return "redirect:/course/" + courseId;

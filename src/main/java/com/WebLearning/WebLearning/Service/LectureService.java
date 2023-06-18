@@ -118,4 +118,9 @@ public class LectureService {
         LocalDateTime roundedTime = time.withNano(0);
         return roundedTime.format(formatter);
     }
+
+    public boolean checkLectureInCourse(Long lectureId, Long courseId) {
+        Lecture lecture = lectureRepository.findById(lectureId).get();
+        return lecture.getCourse().getId() == courseId;
+    }
 }

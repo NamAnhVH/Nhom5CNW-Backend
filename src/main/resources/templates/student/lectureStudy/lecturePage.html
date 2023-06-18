@@ -87,7 +87,7 @@
                     </div>
                     <input type="hidden" th:field="*{answers[__${quizStat.index}__]}" th:value="${''}">
                 </div>
-                <button type="submit" class="btn-submit" th:unless="${listQuiz.size == 0}" onclick="return confirm('Bạn có chắc chắn muốn nộp bài?')">Nộp bài</button>
+                <button sec:authorize="hasRole('ROLE_học sinh')" type="submit" class="btn-submit" th:unless="${listQuiz.size == 0}" onclick="return confirm('Bạn có chắc chắn muốn nộp bài?')">Nộp bài</button>
             </form>
             <script src="/javascript/quizChoice.js"></script>
             <div th:if="${isSubmit}">

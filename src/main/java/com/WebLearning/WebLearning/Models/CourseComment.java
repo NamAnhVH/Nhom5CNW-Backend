@@ -25,7 +25,7 @@ public class CourseComment {
     private String comment;
 
     @Column
-    private int rate;
+    private float rate;
 
     @Column
     private LocalDateTime time;
