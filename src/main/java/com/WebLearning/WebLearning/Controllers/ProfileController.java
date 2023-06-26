@@ -28,7 +28,7 @@ public class ProfileController {
     private CourseService courseService;
 
     @GetMapping("/teacherProfile")
-    public String teacherDetailPage(Model model){
+    public String listTeacherPage(Model model){
         if(accountService.isAuthenticated()){
             if(accountService.getCurrentAccount().getRole().equals("giáo viên")){
                 model.addAttribute("user", teacherProfileService.getFullnameAndAvatar());

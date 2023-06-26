@@ -166,14 +166,14 @@ public class EmailService {
             String content = null;
             if(mainContent.equals("approveCourse")){
                 message.setSubject("Khoá học được phê duyệt");
-                content = "Khoá học <strong>" + course.getName() +  "<strong> của bạn đã được phê duyệt, khoá học đã có thể được truy cập trên hệ thống." +
+                content = "Khoá học <strong>" + course.getName() +  "</strong> của bạn đã được phê duyệt, khoá học đã có thể được truy cập trên hệ thống." +
                         "<br>" +
                         "<br>" +
                         "Chúng tôi chân thành cảm ơn sự hợp tác của bạn.";
             }
             if(mainContent.equals("lockCourse")){
                 message.setSubject("Khoá học đã bị khoá");
-                content = "Khoá học <strong>" + course.getName() +  "<strong> của bạn đã bị khoá do vi phạm quy định của hệ thống, khoá học tạm thời không được truy cập trên hệ thống." +
+                content = "Khoá học <strong>" + course.getName() +  "</strong> của bạn đã bị khoá do vi phạm quy định của hệ thống, khoá học tạm thời không được truy cập trên hệ thống." +
                         "<br>" +
                         "Nếu có gì sai sót, xin vui lòng liên hệ với bên quản trị hệ thống." +
                         "<br>" +
@@ -182,7 +182,7 @@ public class EmailService {
             }
             if(mainContent.equals("unlockCourse")){
                 message.setSubject("Khoá học được mở khoá");
-                content = "Khoá học <strong>" + course.getName() +  "<strong> của bạn đã mở khoá, khoá học đã có thể được truy cập trên hệ thống." +
+                content = "Khoá học <strong>" + course.getName() +  "</strong> của bạn đã mở khoá, khoá học đã có thể được truy cập trên hệ thống." +
                         "<br>" +
                         "<br>" +
                         "Chúng tôi chân thành cảm ơn sự hợp tác của bạn.";
