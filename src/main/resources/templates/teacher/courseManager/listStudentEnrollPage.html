@@ -45,10 +45,13 @@
         <div class="right-side-main">
             <table>
                 <tr>
-                    <th style="width:5%"></th>
-                    <th style="width:25%;">Tên học sinh</th>
-                    <th style="width:15%;">Ngày sinh</th>
+                    <th style="width:3%"></th>
+                    <th style="width:17%;">Tên học sinh</th>
+                    <th style="width:10%;">Ngày sinh</th>
                     <th style="width:25%;">Email</th>
+                    <th style="width:25%;">Địa chỉ</th>
+                    <th>Trạng thái</th>
+                    <th></th>
                 </tr>
                 <tr th:each="student: ${listStudent}">
                     <td style="text-align:center;">
@@ -65,6 +68,16 @@
                     </td>
                     <td>
                         <p th:text="${student.address}"></p>
+                    </td>
+                    <td>
+                        <p th:if="${student.allowed}">Đã cấp duyệt</p>
+                        <p th:unless="${student.allowed}">Chưa cấp duyệt</p>
+                    </td>
+                    <td>
+                        <form method="post">
+                            <button th:formaction="${'/teacher/course/' + id + '/disallowStudent/' + student.id}" th:if="${student.allowed}" class="action-btn">Huỷ cấp duyệt</button>
+                            <button th:formaction="${'/teacher/course/' + id + '/allowStudent/' + student.id}" th:unless="${student.allowed}" class="action-btn">Cấp duyệt</button>
+                        </form>
                     </td>
                 </tr>
             </table>

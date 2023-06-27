@@ -46,6 +46,8 @@ public class AccountService {
     @Autowired
     private CourseCommentRepository courseCommentRepository;
     @Autowired
+    private StudentCourseRepository studentCourseRepository;
+    @Autowired
     private AuthenticationFacade authenticationFacade;
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -55,7 +57,7 @@ public class AccountService {
         StudentProfile studentProfile = studentProfileRepository.findByAccountId(account.getId());
         courseCommentRepository.deleteByStudentProfileId(studentProfile.getId());
         referenceRepository.deleteByAccountId(account.getId());
-        studentProfile.getCourses().clear();
+        studentCourseRepository.deleteByStudentId(account.getId());
         studentProfileRepository.delete(studentProfile);
         accountRepository.deleteById(account.getId());
     }
@@ -74,11 +76,6 @@ public class AccountService {
         accountRepository.deleteById(account.getId());
     }
 
-
-    public Account findByUsername(String username) {
-        return accountRepository.findByUsername(username);
-    }
-
     public boolean isExistedAccount(String username){
         Account account = accountRepository.findByUsername(username);
         if(account != null){
@@ -86,20 +83,6 @@ public class AccountService {
         }
         return false;
     }
-
-    public Account findById(Long id) {
-        return accountRepository.findById(id).get();
-    }
-
-    public Account save(Account account) {
-        return accountRepository.saveAndFlush(account);
-    }
-
-    public List<Account> findAll(){
-        List<Account> listAccount = accountRepository.findAll();
-        return listAccount;
-    }
-
     public void addAccount(UserRegistrationDto newUser) throws IOException {
         Account newAccount = new Account();
         newAccount.setUsername(newUser.getUsername());

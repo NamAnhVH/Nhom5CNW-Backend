@@ -67,6 +67,7 @@
                 <form method="post" th:action="'/course/' + ${course.id} + '/enrollCourse'" th:unless="${isEnrolled}">
                     <button type="submit" value="submit" onclick="return confirm('Bạn có chắc chắn muốn đăng ký khoá học này?')">Đăng ký khoá học</button>
                 </form>
+                <button th:if="${isEnrolled}" th:unless="${isAllowed}">Chờ cấp phép</button>
             </div>
         </div>
         <div id="image-course">
@@ -89,11 +90,11 @@
     </div>
     <div id="list-lecture">
         <h1>Đề cương khoá học</h1>
-        <div th:each="lecture: ${listLecture}" class="lecture" th:unless="${isEnrolled}">
+        <div th:each="lecture: ${listLecture}" class="lecture" th:unless="${isAllowed}">
             <strong th:text="'Bài ' + ${lecture.number} + ': '"></strong>
             <em th:text="${lecture.title}"></em>
         </div>
-        <div th:each="lecture: ${listLecture}" class="lecture" th:if="${isEnrolled}">
+        <div th:each="lecture: ${listLecture}" class="lecture" th:if="${isAllowed}">
             <a th:href="'/course/' + ${course.id} + '/lecture/' + ${lecture.id}">
                 <strong th:text="'Bài ' + ${lecture.number} + ': '"></strong>
                 <em th:text="${lecture.title}"></em>
@@ -120,7 +121,7 @@
             <p class="averageRate">Đánh giá chung: <em th:text="${averageRate ?: 'Chưa có đánh giá nào'}"></em></p>
         </div>
         <button onclick="toggleDiv()" th:if="${isComment}" id="edit-btn">Chỉnh sửa bình luận</button>
-        <div id="myDiv" style="display:none;" th:if="${isEnrolled}">
+        <div id="myDiv" style="display:none;" th:if="${isAllowed}">
             <form th:action="'/course/' + ${course.id} + '/editComment'" method="post" th:object="${userComment}" th:if="${isComment}">
                 <label for="rate">Đánh giá khoá học: </label>
                 <select name="rate" id="rate" th:field="*{rate}">
@@ -153,7 +154,7 @@
             </div>
         </div>
         <script src="/javascript/editComment.js"></script>
-        <div sec:authorize="hasRole('ROLE_học sinh')" th:if="${isEnrolled}">
+        <div sec:authorize="hasRole('ROLE_học sinh')" th:if="${isAllowed}">
             <form th:action="'/course/' + ${course.id} + '/comment'" method="post" th:object="${newComment}" th:unless="${isComment}">
                 <label for="rate">Đánh giá khoá học: </label>
                 <select name="rate" id="rate" th:field="*{rate}">

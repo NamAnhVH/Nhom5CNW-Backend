@@ -85,4 +85,26 @@ public class CourseTeacherManageController {
         model.addAttribute("listStudent", studentProfileService.getStudentEnrollCourse(id));
         return "teacher/courseManager/listStudentEnrollPage";
     }
+
+    @PostMapping("/course/{courseId}/allowStudent/{studentId}")
+    public String allowStudentAction(@PathVariable Long courseId, @PathVariable Long studentId, Model model){
+        studentProfileService.allowCourse(courseId, studentId);
+        if(!courseService.isAccessAllowed(courseId)){
+            return "redirect:/teacher/course/listCourse";
+        }
+        model.addAttribute("id", courseId);
+        model.addAttribute("listStudent", studentProfileService.getStudentEnrollCourse(courseId));
+        return "teacher/courseManager/listStudentEnrollPage";
+    }
+
+    @PostMapping("/course/{courseId}/disallowStudent/{studentId}")
+    public String disallowStudentAction(@PathVariable Long courseId, @PathVariable Long studentId, Model model){
+        studentProfileService.disallowCourse(courseId, studentId);
+        if(!courseService.isAccessAllowed(courseId)){
+            return "redirect:/teacher/course/listCourse";
+        }
+        model.addAttribute("id", courseId);
+        model.addAttribute("listStudent", studentProfileService.getStudentEnrollCourse(courseId));
+        return "teacher/courseManager/listStudentEnrollPage";
+    }
 }

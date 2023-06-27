@@ -92,6 +92,17 @@ button{
     border-radius: 40px;
 }
 
+.action-btn{
+    font-size: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.action-btn:hover{
+    text-decoration: underline;
+}
+
 .btn {
     /* color: aliceblue; */
     font-size: 20px;

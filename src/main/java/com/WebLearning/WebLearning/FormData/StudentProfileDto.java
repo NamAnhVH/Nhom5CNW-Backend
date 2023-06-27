@@ -25,5 +25,7 @@ public class StudentProfileDto {
 
     private String email;
 
+    private boolean allowed;
+
     private Long id;
 }

@@ -102,6 +102,9 @@ public class CourseController {
             if(accountService.getCurrentAccount().getRole().equals("học sinh")){
                 if(studentProfileService.isEnrolled(id)){
                     model.addAttribute("isEnrolled", true);
+                    if(studentProfileService.isAllowed(id)){
+                        model.addAttribute("isAllowed", true);
+                    }
                     if(studentProfileService.isComment(id)){
                         model.addAttribute("isComment", true);
                         model.addAttribute("userComment", courseCommentService.getCommentByCurrentUser(id));

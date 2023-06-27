@@ -5,6 +5,7 @@ import com.WebLearning.WebLearning.FormData.TeacherProfileDto;
 import com.WebLearning.WebLearning.Models.*;
 import com.WebLearning.WebLearning.Repository.CourseCommentRepository;
 import com.WebLearning.WebLearning.Repository.CourseRepository;
+import com.WebLearning.WebLearning.Repository.StudentCourseRepository;
 import com.WebLearning.WebLearning.Repository.StudentProfileRepository;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.text.ParseException;
@@ -25,6 +27,8 @@ public class StudentProfileService {
     private AuthenticationFacade authenticationFacade;
     @Autowired
     private StudentProfileRepository studentProfileRepository;
+    @Autowired
+    private StudentCourseRepository studentCourseRepository;
     @Autowired
     private CourseRepository courseRepository;
     @Autowired
@@ -76,6 +80,9 @@ public class StudentProfileService {
     }
 
     public static String dateToString(Date date, String edit) {
+        if(date == null){
+            return null;
+        }
         if (edit.equals("true")) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             return dateFormat.format(date);
@@ -93,17 +100,18 @@ public class StudentProfileService {
     public void enrollCourse(Long id) {
         Course course = courseRepository.findById(id).get();
         StudentProfile studentProfile = studentProfileRepository.findByAccountId(authenticationFacade.getAccount().getId());
-        if (!studentProfile.getCourses().contains(course)) {
-            studentProfile.getCourses().add(course);
-            course.getStudents().add(studentProfile);
+        if(studentCourseRepository.findByStudentIdAndCourseId(studentProfile.getId(), id) == null){
+            StudentCourse studentCourse = new StudentCourse();
+            studentCourse.setStudent(studentProfile);
+            studentCourse.setCourse(course);
+            studentCourse.setTime(LocalDateTime.now());
+            studentCourseRepository.save(studentCourse);
         }
-        courseRepository.save(course);
-        studentProfileRepository.save(studentProfile);
     }
 
     public boolean isEnrolled(Long id) {
         StudentProfile studentProfile = studentProfileRepository.findByAccountId(authenticationFacade.getAccount().getId());
-        return studentProfileRepository.isEnrolled(studentProfile.getId(), id);
+        return studentCourseRepository.findByStudentIdAndCourseId(studentProfile.getId(), id) != null;
     }
 
     public boolean isComment(Long id) {
@@ -125,7 +133,11 @@ public class StudentProfileService {
 
     public List<StudentProfileDto> getStudentEnrollCourse(Long id) {
         List<StudentProfileDto> listStudentDto = new ArrayList<>();
-        List<StudentProfile> listStudent = studentProfileRepository.findByCoursesId(id);
+        List<StudentCourse> listStudentCourse = studentCourseRepository.findByCourseId(id);
+        List<StudentProfile> listStudent = new ArrayList<>();
+        for(StudentCourse studentCourse: listStudentCourse){
+            listStudent.add(studentCourse.getStudent());
+        }
         int i = 1;
         for(StudentProfile student: listStudent){
             StudentProfileDto studentDto = new StudentProfileDto();
@@ -134,9 +146,31 @@ public class StudentProfileService {
             studentDto.setBirthDate(dateToString(student.getBirthDate(), "false"));
             studentDto.setAddress(student.getAddress());
             studentDto.setEmail(student.getAccount().getEmail());
+            studentDto.setId(student.getId());
+            StudentCourse studentCourse = studentCourseRepository.findByStudentIdAndCourseId(student.getId(), id);
+            studentDto.setAllowed(studentCourse.isAllowed());
             i++;
             listStudentDto.add(studentDto);
         }
         return listStudentDto;
+    }
+
+    public boolean isAllowed(Long id) {
+        Account currentAccount = authenticationFacade.getAccount();
+        StudentProfile studentProfile = studentProfileRepository.getById(currentAccount.getId());
+        StudentCourse studentCourse = studentCourseRepository.findByStudentIdAndCourseId(studentProfile.getId(), id);
+        return studentCourse.isAllowed();
+    }
+
+    public void allowCourse(Long courseId, Long studentId) {
+        StudentCourse studentCourse = studentCourseRepository.findByStudentIdAndCourseId(studentId, courseId);
+        studentCourse.setAllowed(true);
+        studentCourseRepository.save(studentCourse);
+    }
+
+    public void disallowCourse(Long courseId, Long studentId) {
+        StudentCourse studentCourse = studentCourseRepository.findByStudentIdAndCourseId(studentId, courseId);
+        studentCourse.setAllowed(false);
+        studentCourseRepository.save(studentCourse);
     }
 }

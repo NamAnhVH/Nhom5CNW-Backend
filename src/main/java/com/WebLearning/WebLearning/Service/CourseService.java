@@ -2,11 +2,9 @@ package com.WebLearning.WebLearning.Service;
 
 import com.WebLearning.WebLearning.FormData.CourseCommentDto;
 import com.WebLearning.WebLearning.FormData.CourseFormDto;
-import com.WebLearning.WebLearning.Models.Account;
-import com.WebLearning.WebLearning.Models.Course;
-import com.WebLearning.WebLearning.Models.StudentProfile;
-import com.WebLearning.WebLearning.Models.TeacherProfile;
+import com.WebLearning.WebLearning.Models.*;
 import com.WebLearning.WebLearning.Repository.CourseRepository;
+import com.WebLearning.WebLearning.Repository.StudentCourseRepository;
 import com.WebLearning.WebLearning.Repository.StudentProfileRepository;
 import com.WebLearning.WebLearning.Repository.TeacherProfileRepository;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
@@ -29,6 +27,8 @@ public class CourseService {
     private CourseRepository courseRepository;
     @Autowired
     private TeacherProfileRepository teacherProfileRepository;
+    @Autowired
+    private StudentCourseRepository studentCourseRepository;
     @Autowired
     private StudentProfileRepository studentProfileRepository;
 
@@ -319,7 +319,11 @@ public class CourseService {
     public List<CourseFormDto> getCourseByStudent() {
         Account account = authenticationFacade.getAccount();
         StudentProfile studentProfile = studentProfileRepository.findByAccountId(account.getId());
-        List<Course> listCourse = courseRepository.findByStudentsIdAndApprovedTrueAndLockedFalseAndTeacherAccountLockedFalse(studentProfile.getId());
+        List<StudentCourse> listStudentCourse = studentCourseRepository.findByStudentIdAndCourseApprovedTrueAndCourseLockedFalseAndCourseTeacherAccountLockedFalse(studentProfile.getId());
+        List<Course> listCourse = new ArrayList<>();
+        for(StudentCourse studentCourse: listStudentCourse){
+            listCourse.add(studentCourse.getCourse());
+        }
         List<CourseFormDto> listCourseDto = new ArrayList<>();
         for(Course course: listCourse){
             CourseFormDto courseDto = new CourseFormDto();

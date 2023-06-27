@@ -39,7 +39,7 @@ public class Course {
     @JoinColumn(name = "teacherProfileId", nullable = false)
     private TeacherProfile teacher;
 
-    @ManyToMany(mappedBy = "courses")
-    private List<StudentProfile> students = new ArrayList<>();
+//    @ManyToMany(mappedBy = "courses")
+//    private List<StudentProfile> students = new ArrayList<>();
 
 }
