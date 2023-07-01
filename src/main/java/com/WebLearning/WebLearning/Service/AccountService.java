@@ -1,10 +1,7 @@
 package com.WebLearning.WebLearning.Service;
 
 import com.WebLearning.WebLearning.FormData.ForgetPasswordDto;
-import com.WebLearning.WebLearning.Models.Account;
-import com.WebLearning.WebLearning.Models.Course;
-import com.WebLearning.WebLearning.Models.StudentProfile;
-import com.WebLearning.WebLearning.Models.TeacherProfile;
+import com.WebLearning.WebLearning.Models.*;
 import com.WebLearning.WebLearning.Repository.*;
 import com.WebLearning.WebLearning.Security.AuthenticationFacade;
 import com.WebLearning.WebLearning.FormData.UserRegistrationDto;
@@ -48,6 +45,12 @@ public class AccountService {
     @Autowired
     private StudentCourseRepository studentCourseRepository;
     @Autowired
+    private StudentProgressRepository studentProgressRepository;
+    @Autowired
+    private LectureRepository lectureRepository;
+    @Autowired
+    private LectureService lectureService;
+    @Autowired
     private AuthenticationFacade authenticationFacade;
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -56,8 +59,9 @@ public class AccountService {
         Account account = authenticationFacade.getAccount();
         StudentProfile studentProfile = studentProfileRepository.findByAccountId(account.getId());
         courseCommentRepository.deleteByStudentProfileId(studentProfile.getId());
+        studentProgressRepository.deleteByStudentId(studentProfile.getId());
         referenceRepository.deleteByAccountId(account.getId());
-        studentCourseRepository.deleteByStudentId(account.getId());
+        studentCourseRepository.deleteByStudentId(studentProfile.getId());
         studentProfileRepository.delete(studentProfile);
         accountRepository.deleteById(account.getId());
     }
@@ -69,6 +73,11 @@ public class AccountService {
         List<Course> listCourse = courseRepository.findByTeacherId(teacherProfile.getId());
         for(Course course : listCourse){
             courseCommentRepository.deleteByCourseId(course.getId());
+            List<Lecture> listLecture = lectureRepository.findByCourseId(course.getId());
+            for(Lecture lecture: listLecture){
+                lectureService.deleteLecture(lecture.getId());
+            }
+            studentCourseRepository.deleteByCourseId(course.getId());
             courseRepository.delete(course);
         }
         referenceRepository.deleteByAccountId(account.getId());

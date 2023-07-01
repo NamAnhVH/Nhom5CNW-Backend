@@ -13,4 +13,6 @@ public interface StudentProgressRepository extends JpaRepository<StudentProgress
     List<StudentProgress> findByStudentId(Long id);
 
     void deleteByLectureId(Long lectureId);
+
+    void deleteByStudentId(Long id);
 }

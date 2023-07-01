@@ -157,7 +157,7 @@ public class StudentProfileService {
 
     public boolean isAllowed(Long id) {
         Account currentAccount = authenticationFacade.getAccount();
-        StudentProfile studentProfile = studentProfileRepository.getById(currentAccount.getId());
+        StudentProfile studentProfile = studentProfileRepository.findByAccountId(currentAccount.getId());
         StudentCourse studentCourse = studentCourseRepository.findByStudentIdAndCourseId(studentProfile.getId(), id);
         return studentCourse.isAllowed();
     }

@@ -18,5 +18,7 @@ public class CourseFormDto {
     private boolean locked;
     private TeacherProfile teacher;
 
+    private boolean allowed;
+
     private Long id;
 }

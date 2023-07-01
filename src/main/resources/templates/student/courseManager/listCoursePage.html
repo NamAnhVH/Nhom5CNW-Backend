@@ -43,10 +43,11 @@
         <div class="right-side-main" th:if="${listCoursePage}">
             <table class="content-table">
                 <tr>
-                    <th style="width:18%;">Tên khoá học</th>
-                    <th style="width:15%;">Tên giáo viên</th>
+                    <th style="width:20%;">Tên khoá học</th>
+                    <th style="width:20%;">Tên giáo viên</th>
                     <th style="width:12%;">Ngày đăng tải</th>
-                    <th style="width:11%">Phân loại</th>
+                    <th style="width:20%">Phân loại</th>
+                    <th style="width:20%">Tình trạng</th>
                 </tr>
                 <tr th:each="course: ${listCourse}">
                     <td>
@@ -60,6 +61,10 @@
                     </td>
                     <td>
                         <p th:text="${course.courseType}"></p>
+                    </td>
+                    <td>
+                        <p th:if="${course.allowed}">Đã cấp duyệt</p>
+                        <p th:unless="${course.allowed}">Chưa cấp duyệt</p>
                     </td>
                 </tr>
             </table>

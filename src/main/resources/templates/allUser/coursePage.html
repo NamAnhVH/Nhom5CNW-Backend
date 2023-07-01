@@ -177,7 +177,7 @@
     <div id="related-course">
         <h1>Danh sách khoá học liên quan</h1>
         <div class="list">
-            <div th:each="relatedCourse: ${listRelatedCourse}" class="items">
+            <div th:each="relatedCourse: ${listRelatedCourse}" class="items" style="margin: 11px;">
                 <a th:href="${'/course/' + relatedCourse.id}" target="_self">
                     <div class="image">
                         <img th:src="${relatedCourse.base64Image}">

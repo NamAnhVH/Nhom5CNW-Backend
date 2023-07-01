@@ -332,6 +332,7 @@ public class CourseService {
             courseDto.setTime(formatLocalDateTimeToString(course.getTime()));
             courseDto.setCourseType(course.getCourseType());
             courseDto.setTeacher(course.getTeacher());
+            courseDto.setAllowed(studentCourseRepository.findByStudentIdAndCourseId(studentProfile.getId(), course.getId()).isAllowed());
             listCourseDto.add(courseDto);
         }
         return listCourseDto;

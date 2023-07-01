@@ -15,4 +15,6 @@ public interface StudentCourseRepository extends JpaRepository<StudentCourse, Lo
     List<StudentCourse> findByCourseId(Long id);
 
     List<StudentCourse> findByStudentIdAndCourseApprovedTrueAndCourseLockedFalseAndCourseTeacherAccountLockedFalse(Long id);
+
+    void deleteByCourseId(Long id);
 }
