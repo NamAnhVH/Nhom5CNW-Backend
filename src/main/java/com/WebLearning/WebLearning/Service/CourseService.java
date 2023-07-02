@@ -213,7 +213,7 @@ public class CourseService {
 
     public List<CourseFormDto> getTopSixCourseApprovedAndUnlockedAndTeacherProfileUnlocked() {
         List<CourseFormDto> listCourseDto = new ArrayList<>();
-        List<Course> listCourse = courseRepository.findTop6ByApprovedTrueAndLockedFalseAndTeacherAccountLockedFalseOrderByTimeDesc();
+        List<Course> listCourse = courseRepository.findTop6CoursesWithMostStudents();
         for (Course course: listCourse){
             CourseFormDto courseDto = new CourseFormDto();
             courseDto.setName(course.getName());

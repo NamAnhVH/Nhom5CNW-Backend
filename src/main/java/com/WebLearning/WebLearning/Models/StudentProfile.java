@@ -38,12 +38,5 @@ public class StudentProfile {
     @JoinColumn(name = "accountId", nullable = false)
     private Account account;
 
-//    @ManyToMany
-//    @JoinTable(name = "student_courses",
-//            joinColumns = @JoinColumn(name = "student_id"),
-//            inverseJoinColumns = @JoinColumn(name = "course_id"))
-//    private List<Course> courses = new ArrayList<>();
-
-
 
 }
